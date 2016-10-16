@@ -1,0 +1,7 @@
+# run "pip install -r requirements.txt -t lib" to install dependencies
+# in case this will install everything but flask-restful,
+#    1) create a venv
+#    2) install flask-restful there
+#    3) copy the flask-restful sources to the lib dir
+
+flask-restful
