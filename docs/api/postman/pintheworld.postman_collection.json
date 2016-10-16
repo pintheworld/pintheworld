@@ -1,0 +1,67 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Pin the World",
+		"_postman_id": "62d528d9-6c97-b949-17b2-1454deecb463",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get games",
+			"request": {
+				"url": "{{url}}/api/games",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create game",
+			"request": {
+				"url": "{{url}}/api/games",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete all games",
+			"request": {
+				"url": "{{url}}/api/games",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete all cities",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
