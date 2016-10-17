@@ -5,16 +5,18 @@ from flask_restful import Resource
 import random
 
 
+# TODO: write proper json handler for Models
+# needed because of .to_dict() doesnt work with referenced Entities
 def json_handler(obj):
     return dict([(p, unicode(getattr(obj, p))) for p in obj._properties])
 
 
 class GameResource(Resource):
-    def get(self, game_id):
-        if game_id:
-            return Game.get_by_id(int(game_id)).to_dict()
-        else:
-            return [dict(p.to_dict(), **dict(id=p.key.id())) for p in Game.query()]
+    def get(self):
+        # if game_id:
+        #     return Game.get_by_id(int(game_id)).to_dict()
+        # else:
+        return [dict(p.to_dict(), **dict(id=p.key.id())) for p in Game.query()]
 
     def post(self):
         game = Game()
