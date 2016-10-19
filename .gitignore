@@ -2,3 +2,6 @@
 python-src/lib/
 
 *.pyc
+js-src/node_modules/
+js-src/typings/
+js-src/dist/
