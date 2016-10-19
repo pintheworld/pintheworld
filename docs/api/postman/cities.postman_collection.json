@@ -1,0 +1,171 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Pin the World - Cities",
+		"_postman_id": "fdd81241-99a7-4fc5-5fb5-1414ed7d6d1e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create London",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"London\",\n\t\"lat\": 51.509865,\n\t\"long\": -0.118092\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create New York",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New York\",\n\t\"lat\": 40.730610, \n\t\"long\": -73.935242\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Paris",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Paris\",\n\t\"lat\": 48.864716,\n\t\"long\": 2.349014\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Singapore",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Singapore\",\n\t\"lat\": 1.3521,\n\t\"long\": 103.8198\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Dubai",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Dubai\",\n\t\"lat\": 25.2048, \n\t\"long\": 55.2708\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Hong-Kong",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Hong-Kong\",\n\t\"lat\": 22.3964, \n\t\"long\": 114.1095\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Istanbul",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"London\",\n\t\"lat\": 51.509865,\n\t\"long\": -0.118092\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Bankok",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Bankok\",\n\t\"lat\": 13.7563,\n\t\"long\": 100.5018\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

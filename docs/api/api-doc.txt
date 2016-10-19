@@ -1,0 +1,53 @@
+/player
+	POST - create player
+		param
+			name
+	GET - get info about player
+		params
+			q={player name}
+			sort={FIELD} (for highscore)
+			count={NUMBER} (default = 10) (to limit number of returned items)
+
+/games
+	POST - create new game
+		params
+			playerId (required)
+			players (default 1)
+		returns
+			201 created + ID
+	GET - retrieve info about games
+		params
+			sort={score?}
+
+/games/{id}
+	GET - get info about game
+		returns
+			players
+			cities
+			guesses + score
+
+/games/{id}/guesses
+	POST - submit guess
+		params
+			playerId (required)
+			cityId (required)
+			guess long/lat (required)
+		returns
+			201 created + ID (and score?)
+
+	GET - get info about guesses in game
+		returns
+			all guesses from a game
+
+
+/player/{id}
+	GET - get Info about player
+		returns
+			?  (his games/score maybe)
+
+/city
+	POST - create city
+		params
+			name (required)
+			lat (required)
+			long (required)
