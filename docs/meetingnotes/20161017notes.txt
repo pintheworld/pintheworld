@@ -1,0 +1,57 @@
+20161017
+
+Rihards and Aytac left the project
+we will continue with 5 project members
+
+tasks completed from last week:
+	xin:
+		google maps looks good
+			key below 15000 clicks 
+			we get the clicks
+			we can set multiple clicks
+
+	andreas & xuan:
+		looked at angular
+		type script
+			documentation and core features are in TS
+			we should go with that
+				(if we are allowed to, andreas sent a mail)
+		tools
+			need library management for typescript
+			and compile to javascript
+			webpack does all that
+
+			karma
+				unit testing
+
+		we now have a skeleton with all dependencies to get app up and running
+
+	jane
+		scoring function
+		everything documented in issue #6
+
+	lukas
+		defined API (see issue #4)
+			we go though a sample implementation of some API calls in GAE
+		for data storage we use Datastore
+			only free data storage method, but sufficient for our project
+			object store
+			we go through some examples on the model an how to access/store data
+
+andreas is going to be in charge of front end dependencies
+lukas is going to be in charge of the backend stuff
+
+
+tasks for next week:
+	everyone:
+		complete GAE tutorial and angular and type tutorial
+		review stuff which is open (see pull requests)
+		everyone should get the app up and running
+		close completed issues
+
+	xuan: implement map prototype in skeleton
+	andreas & lukas: enhance API
+	jane: implement scoring function
+xin: create page/modules 
+
+next meeting on the 24/10/2016 1800 in the library
