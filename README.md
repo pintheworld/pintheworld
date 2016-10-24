@@ -10,7 +10,7 @@
 
 ## How to get the backend up and running
 
-1. make sure you have postman, python 2.6, pip and the app engine python dev kit installed
+1. make sure you have postman, python 2.7, pip and the app engine python dev kit installed (https://cloud.google.com/appengine/docs/python/download - WARNING: you have to click "Optionally, you can also download the original App Engine SDK for Python.")
 2. open a terminal window and go the python-src directory
 3. install dependencies by running `pip install -r requirements.txt -t lib`
 4. start local development server `dev_appserver.py .`
