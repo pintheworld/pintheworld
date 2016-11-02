@@ -6,4 +6,4 @@
 2. `cd` into `js-src/`
 3. Run `npm install` (this might take a while the first time)
 4. Run `npm start` (this will start the local webpack server)
-5. Navigate to `localhost:3000` in your favorite browser
+5. Navigate to `localhost:8080` in your favorite browser
