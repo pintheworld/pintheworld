@@ -5,18 +5,18 @@
 
 import {Component} from '@angular/core';
 
-import MapTemplate from './map.component.html';
+import mapTemplate from './map.component.html';
 
 import '../../public/css/styles.css';
 import '../main.js';
-import MapStyle from './map.component.css';
+import mapStyling from './map.component.css';
 
 import {GOOGLE_MAPS_DIRECTIVES,GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/esm/core';
 
 let MapComponent = Component({
     selector: 'my-map',
-    template: MapTemplate,
-    styles: [MapStyle],
+    template: mapTemplate,
+    styles: [mapStyling],
     directives: [GOOGLE_MAPS_DIRECTIVES],
     provider: [GOOGLE_MAPS_PROVIDERS]
 })
