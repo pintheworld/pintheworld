@@ -2,28 +2,56 @@ import {Component} from '@angular/core';
 
 import homeTemplate from './home.component.html'
 
-import {CountryService} from './country.service';
+import {CityService} from './services/city.service';
 
 let HomeComponent = Component({
     template: homeTemplate,
-    viewProviders: [CountryService]
+    viewProviders: [CityService]
 })
     .Class({
-        constructor: [CountryService, function (CountryService) {
-            this.CountryService = CountryService;
+        constructor: [CityService, function (cityService) {
+            this.cityService = cityService;
+            this.error = '';
+            this.cities = [];
+
+            this.myName = 'Southampton';
+            this.myLat = 16;
+            this.myLong = 32;
         }],
-        getCountriesByRegion: function () {
+        getCities: function () {
             var self = this;
-            self.countries = [];
-            self.error = '';
-            var region = 'oceania';
-            this.CountryService.getCountriesByRegion(region).subscribe(
-                function(data) {
+            this.cityService.getCities().subscribe(
+                function (data) {
                     console.log(data);
-                    self.countries = data;
+                    self.cities = data;
                 },
                 function (err) {
-                    self.error = 'we have an error';
+                    console.error(err);
+                    this.error = 'we have an error';
+                }
+            );
+        },
+        createCity: function () {
+            var self = this;
+            this.cityService.createCity(this.myName, this.myLat, this.myLong).subscribe(
+                function (data) {
+                    console.log(data);
+                    self.getCities();
+                },
+                function (err) {
+                    console.error(err);
+                }
+            );
+        },
+        deleteCities: function () {
+            var self = this;
+            this.cityService.deleteCities().subscribe(
+                function (data) {
+                    console.log(data);
+                    self.getCities();
+                },
+                function (err) {
+                    console.error(err);
                 }
             );
         }
