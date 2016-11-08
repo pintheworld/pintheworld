@@ -7,11 +7,13 @@ import {HomeComponent} from './home.component';
 import {MapComponent} from './map.component';
 import {HighscoresComponent} from './highscores.component';
 
+import { HttpModule } from '@angular/http';
+
 let AppModule = NgModule({
     imports: [BrowserModule, RouterModule.forRoot([
         {path: 'map', component: MapComponent},
         {path: 'highscores', component: HighscoresComponent},
-        {path: '', component: HomeComponent}])],
+        {path: '', component: HomeComponent}]), HttpModule],
     declarations: [AppComponent, MapComponent, HomeComponent, HighscoresComponent],
     bootstrap: [AppComponent]
 })
