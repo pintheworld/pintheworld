@@ -9,16 +9,13 @@ import {HomeComponent} from './home.component';
 import {MapComponent} from './map.component';
 import {HighscoresComponent} from './highscores.component';
 
-import {AgmCoreModule} from 'angular2-google-maps/core';
 
 let AppModule = NgModule({
     imports: [BrowserModule, FormsModule, HttpModule,
-              RouterModule.forRoot([
-        {path: 'map', component: MapComponent},
-        {path: 'highscores', component: HighscoresComponent},
-        {path: '', component: HomeComponent}]), 
-              AgmCoreModule.forRoot(
-        {apiKey: 'AIzaSyAgOrFWDMyp4XFYQRlY1a-cNxKNPz56ZQ4'})],
+        RouterModule.forRoot([
+            {path: 'map', component: MapComponent},
+            {path: 'highscores', component: HighscoresComponent},
+            {path: '', component: HomeComponent}])],
     declarations: [AppComponent, MapComponent, HomeComponent, HighscoresComponent],
     bootstrap: [AppComponent]
 })

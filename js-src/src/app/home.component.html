@@ -1,3 +1,18 @@
-<main>
-  <h2>Home Component</h2>
-</main>
+<h2>Home Component</h2>
+<div>
+    City Service<br>
+    <button type="button" (click)="getCities()">Get cities</button>
+    <button type="button" (click)="deleteCities()">Delete all cities</button>
+    <br><br>
+    <label>name:</label><input [(ngModel)]="myName" type="text"><br>
+    <label>long:</label><input [(ngModel)]="myLong" type="number"><br>
+    <label>lat:</label><input [(ngModel)]="myLat" type="number"><br>
+    <button type="button" (click)="createCity()">Create new city</button>
+    <br><br>
+    <div>
+        <h3>Cities in Database:</h3><br>
+        <div *ngFor="let city of cities">
+            {{ city.name }}: {{ city.lat }}/{{ city.long }}
+        </div>
+    </div>
+</div>
