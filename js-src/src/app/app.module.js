@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
+import {FormsModule}   from '@angular/forms';
+import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home.component';
@@ -10,10 +12,12 @@ import {HighscoresComponent} from './highscores.component';
 import {AgmCoreModule} from 'angular2-google-maps/core';
 
 let AppModule = NgModule({
-    imports: [BrowserModule, RouterModule.forRoot([
+    imports: [BrowserModule, FormsModule, HttpModule,
+              RouterModule.forRoot([
         {path: 'map', component: MapComponent},
         {path: 'highscores', component: HighscoresComponent},
-        {path: '', component: HomeComponent}]), AgmCoreModule.forRoot(
+        {path: '', component: HomeComponent}]), 
+              AgmCoreModule.forRoot(
         {apiKey: 'AIzaSyAgOrFWDMyp4XFYQRlY1a-cNxKNPz56ZQ4'})],
     declarations: [AppComponent, MapComponent, HomeComponent, HighscoresComponent],
     bootstrap: [AppComponent]
