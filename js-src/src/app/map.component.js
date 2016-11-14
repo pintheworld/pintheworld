@@ -9,17 +9,6 @@ import mapTemplate from './map.component.html';
 
 import '../../public/css/styles.css';
 import mapStyling from './map.component.css';
-/* 'app' is the global namespace for this application. 
-    We'll add all the code artifacts to this one global object.
-    Most application files export one thing by adding that thing to the app namespace. Our app.component.js file exports the AppComponent.
-*/
-
-import {Component} from '@angular/core';
-
-import mapTemplate from './map.component.html';
-
-import '../../public/css/styles.css';
-import mapStyling from './map.component.css';
 import {CityService} from './services/city.service';
 
 import {GOOGLE_MAPS_DIRECTIVES,GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/esm/core';
