@@ -64,18 +64,6 @@ let MapComponent = Component({
             }
         );
     },
-    createCity: function () {
-        var self = this;
-        this.cityService.createCity(this.myName, this.myLat, this.myLong).subscribe(
-            function (data) {
-                console.log(data);
-                self.getCities();
-            },
-            function (err) {
-                console.error(err);
-            }
-        );
-    },
     submitGuess: function(cityName, userLat, userLng){
         console.log('user guess: city: '+cityName+', userLat: '+userLat+', userlng: '+userLng);
     }
