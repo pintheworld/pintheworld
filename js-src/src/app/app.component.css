@@ -1,6 +1,9 @@
 main {
   padding: 1em;
-  font-family: sans-serif;
-  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
   margin-top: 50px;
+  display: block;
+}
+nav, h1 {
+    text-align: center;
 }
