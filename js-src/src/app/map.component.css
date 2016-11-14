@@ -11,3 +11,8 @@ main {
     height: 550px;
     width: 900px;
 }
+p {
+    color: black;
+    font-size: 18px;
+    font-weight: 200;
+}
