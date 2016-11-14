@@ -1,0 +1,18 @@
+main {
+  padding: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  display: block;
+}
+.sebm-google-map-container{
+    position: absolute;
+    padding-left: 20px;
+    height: 550px;
+    width: 900px;
+}
+p {
+    color: black;
+    font-size: 18px;
+    font-weight: 200;
+}
