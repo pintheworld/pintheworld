@@ -1,6 +1,8 @@
 <h2>Home Component</h2>
-<div>
-    City Service<br>
+
+<div style="width:100%;">
+
+		City Service<br>
     <button type="button" (click)="getCities()">Get cities</button>
     <button type="button" (click)="deleteCities()">Delete all cities</button>
     <br><br>
@@ -9,10 +11,27 @@
     <label>lat:</label><input [(ngModel)]="myLat" type="number"><br>
     <button type="button" (click)="createCity()">Create new city</button>
     <br><br>
-    <div>
-        <h3>Cities in Database:</h3><br>
+
+	<br><br>
+	Player Service<br>
+	<button type="button" (click)="getPlayers()">Get players</button>
+	<button type="button" (click)="deletePlayers()">Delete all players</button>
+	<br><br>
+	<label>name:</label><input [(ngModel)]="myPlayerName" type="text"><br>
+	<button type="button" (click)="createPlayer()">Create new player</button>
+	<br><br>
+
+	<div>
+		<h3>Get result from Database:</h3><br>
+		<div *ngFor="let player of players">
+			Player: {{ player.name }}
+		</div>
+	</div>
+
+	<div>
         <div *ngFor="let city of cities">
-            {{ city.name }}: {{ city.lat }}/{{ city.long }}
+            City: {{ city.name }}: {{ city.lat }}/{{ city.long }}
         </div>
     </div>
+
 </div>
