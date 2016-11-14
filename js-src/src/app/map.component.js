@@ -20,40 +20,26 @@ let MapComponent = Component({
 })
 .Class({
     constructor: function() {
-        //this.alertshit();
-        this.markers = [
-            {
-                lat: 51.673858,
-                lng: 7.815982,
-                label: 'A',
-                draggable: true
-            },
-            {
-                lat: 51.373858,
-                lng: 7.215982,
-                label: 'B',
-                draggable: false
-            },
-            {
-                lat: 51.723858,
-                lng: 7.895982,
-                label: 'C',
-                draggable: true
-            }
-        ];
-        
-    },
-    alertshit: function(){
-        alert("this is an alert: ");
+        this.markers = [];
+        this.infoWindows = [];
     },
     mapClicked: function(e){
+        if(this.markers.length === 0){
+            this.markers.push({lat:e.coords.lat, lng:e.coords.lng});
+            this.infoWindows.push({isOpen: 'true', details: 'Latitude: '+e.coords.lat.toFixed(6) + ', longitude: ' + e.coords.lng.toFixed(6) + '.'});
+        }
         console.log('clicked');
     },
-    clickedMarker: function(label, index) {
-        console.log(`clicked the marker:` + label + index);
+    clickedMarker: function(lat, lng, index) {
+        console.log(`clicked the marker at: lat: ` + lat + ", lng: "+ lng + ". " + index);
     },
-    markerDragEnd: function(m, event) {
-        console.log('dragEnd', m, event);
+    getCity: function(city){
+        return [{
+            "lat": city.lat,
+            "name": city.name,
+            "lng": city.lng,
+            "id": city.id
+        }];
     }
 });
 
