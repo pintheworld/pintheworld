@@ -1,0 +1,21 @@
+meeting notes 2016-11-14
+everybody present
+
+quick recap of what everybody did last week
+	- services almost implemented
+		game service and guess service to be finished by xin and otku
+	- map using mock services implemented
+	 	next todo: implement workflow
+
+go through workflow of application
+	(see postman workflow)
+	city service
+		could be used to let user define collections he can play on 
+
+coding session / github session
+
+next week tasks:
+- fix async calls (see map component, where cities are expected but not there yet)
+- create guess service (xin)
+- wire up map with services (everyone)
+- implement workflow
