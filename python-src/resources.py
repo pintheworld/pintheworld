@@ -24,7 +24,7 @@ class GamesResource(Resource):
         game.cities = Util.get_cities(int(request_data.get('number_of_cities', 3)))
         game.noOfPlayers = 1
         game.put()
-        return {"id": game.key.urlsafe()}, 201
+        return Util.to_json(game), 201
 
     def delete(self):
         ndb.delete_multi(Game.query().fetch(keys_only=True))
