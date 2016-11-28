@@ -1,0 +1,19 @@
+notes from meeting with ed zaluska
+2016-11-01
+
+simple game is not enough
+	have to have some interesting component
+		e.g. implement async multiplayer
+
+presentation is important
+	commercial competition
+		workflow, planning and collaboration
+	show of technical skills
+	architecture
+	
+
+show that we can work with libraries / apis
+show that we can organize / plan within our team
+
+order of presentation
+FJMHECDGAXBK
