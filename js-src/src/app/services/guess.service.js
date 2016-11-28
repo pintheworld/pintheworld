@@ -8,7 +8,7 @@ var GuessService = Class({
         // using GAE
         // this.baseUrl = "https://pintheworld-146615.appspot.com/api/games/";
         // using local development
-        this.baseUrl = "http://localhost:8081/api/games/";
+        this.baseUrl = "http://localhost:8081/api/games";
     }],
     submitGuess: function (game_id, player_id, city_id, lat, long) {
         return this.http.post(this.getServiceUrl(game_id), {player_id, city_id, long, lat}).map(
@@ -18,7 +18,7 @@ var GuessService = Class({
         )
     },
     getServiceUrl: function (game_id) {
-        return this.baseUrl + game_id + "/guesses";
+        return this.baseUrl + "/" + game_id + "/guesses";
     }
 });
 

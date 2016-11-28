@@ -8,7 +8,7 @@ var GameService = Class({
         // using GAE
         // this.baseUrl = "https://pintheworld-146615.appspot.com/api/games";
         // using local development
-        this.baseUrl = "http://localhost:8081/api/games/";
+        this.baseUrl = "http://localhost:8081/api/games";
     }],
     getAllGames: function () {
         return this.http.get(this.baseUrl).map(
@@ -17,8 +17,8 @@ var GameService = Class({
             }
         )
     },
-	getGame: function (game_id) {
-        return this.http.get(this.baseUrl + game_id).map(
+    getGame: function (game_id) {
+        return this.http.get(this.baseUrl + "/" + game_id).map(
             function (res) {
                 return res.json()
             }
