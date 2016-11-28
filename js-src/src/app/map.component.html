@@ -1,0 +1,18 @@
+<sebm-google-map
+                 [latitude]='0' 
+                 [longitude]='0'
+                 [zoom]='2' 
+                 [disableDefaultUI]="false"
+                 [zoomControl]="false"
+                 [streetViewControl] = "false"
+                 (mapClick)="mapClicked($event)">
+    <sebm-google-map-marker 
+                        *ngFor="let m of markers; let i = index"
+                        [latitude]="m.lat"
+                        [longitude]="m.lng"
+                        [label]="m.label">
+        <sebm-google-map-info-window id='info_window'
+                        *ngFor="let info of infoWindows; let i = index"
+                        [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p></sebm-google-map-info-window>
+    </sebm-google-map-marker>
+</sebm-google-map>

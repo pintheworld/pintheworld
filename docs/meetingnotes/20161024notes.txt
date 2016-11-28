@@ -1,0 +1,24 @@
+20161024
+
+Otku joined our group as a new member, he just changed modules to cloud appl dev
+
+review tasks from last week
+	- lukas gives an overview of the new features in the Python API and the Postman test collection
+	- xuan implemented the map prototype in JS 
+		we can set points on the map
+		retreiying points from the map not implemented yet
+		prototype just has to be implemented in the skeleton
+	- jane implemented the scoring functions and explains the implementation again to everybody
+	- andreas gives an introduction of the new skeleton implemented in JS
+		in a new pull request he is using webpack to bundle out files and provide a dev-server
+
+tasks for next week
+ - implement map into skeleton (jane and xuan, otku)
+ 	- implement retreive points the user clickted on 
+ - wire up webservice with angular / define a service (andreas)
+ - create modules and componets (lukas & xin)
+ 	- highscore
+ 	- map
+ 	- sign-in
+ 	- optional: basic workflow?
+ 
