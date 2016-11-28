@@ -16,8 +16,7 @@ class Guess(ndb.Model):
     player = ndb.KeyProperty(kind=Player)
     long = ndb.FloatProperty()
     lat = ndb.FloatProperty()
-    # TODO: Float or Integer?
-    score = ndb.FloatProperty
+    score = ndb.FloatProperty()
 
 
 class Game(ndb.Model):

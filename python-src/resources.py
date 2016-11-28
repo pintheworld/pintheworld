@@ -4,6 +4,7 @@ import random
 from flask import request
 from flask_restful import Resource
 from model import *
+from scoring import calc_score
 
 
 class GameResource(Resource):
@@ -57,19 +58,21 @@ class GuessResource(Resource):
     def post(self, game_id):
         # TODO: is the submitted city part of the game?
         # TODO: did the player already submit a guess for this city?
-        # TODO: calulate score
         request_data = request.get_json()
         game_key = ndb.Key(urlsafe=game_id)
+        city_key = ndb.Key(urlsafe=request_data['city_id'])
+        city = city_key.get()
 
         guess = Guess(parent=game_key)
         guess.game = game_key
         guess.player = ndb.Key(urlsafe=request_data['player_id'])
-        guess.city = ndb.Key(urlsafe=request_data['city_id'])
+        guess.city = city_key
         guess.long = request_data['long']
         guess.lat = request_data['lat']
+        guess.score = calc_score("easy", city.lat, city.long, 1, guess.lat, guess.long)
         guess.put()
 
-        return {"id": guess.key.urlsafe()}, 201
+        return Util.to_json(guess, False), 201
 
 
 class PlayerResource(Resource):
@@ -101,21 +104,21 @@ class Util:
     @staticmethod
     def to_json(obj, resolve_keys=True):
         if isinstance(obj, list):
-            return [Util.to_json(l) for l in obj]
+            return [Util.to_json(l, resolve_keys) for l in obj]
         if isinstance(obj, dict):
             x = {}
             for l in obj:
-                x[l] = Util.to_json(obj[l])
+                x[l] = Util.to_json(obj[l], resolve_keys)
             return x
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
         if isinstance(obj, ndb.Key):
             if resolve_keys:
-                return Util.to_json(obj.get())
+                return Util.to_json(obj.get(), resolve_keys)
             else:
                 return obj.urlsafe()
         if isinstance(obj, ndb.Model):
             dct = obj.to_dict()
             dct['id'] = obj.key.urlsafe()
-            return Util.to_json(dct)
+            return Util.to_json(dct, resolve_keys)
         return obj
