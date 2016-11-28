@@ -9,7 +9,9 @@ import mapTemplate from './map.component.html';
 
 import '../../public/css/styles.css';
 import mapStyling from './map.component.css';
-import {CityService} from './services/city.service';
+import {GameService} from './services/game.service';
+import {PlayerService} from './services/player.service';
+import {GuessService} from './services/guess.service';
 
 import {GOOGLE_MAPS_DIRECTIVES, GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/esm/core';
 
@@ -18,50 +20,71 @@ let MapComponent = Component({
     styles: [mapStyling],
     directives: GOOGLE_MAPS_DIRECTIVES,
     provider: GOOGLE_MAPS_PROVIDERS,
-    viewProviders: [CityService]
+    viewProviders: [GameService, PlayerService, GuessService]
 })
     .Class({
-        constructor: [CityService, function (cityService) {
-            this.cityService = cityService;
+        constructor: [GameService, PlayerService, GuessService, function (gameService, playerService, guessService) {
+            this.gameService = gameService;
+            this.playerService = playerService;
+            this.guessService = guessService;
+
             this.error = '';
             this.cities = [];
             this.markers = [];
             this.infoWindows = [];
 
-            this.myName = 'Southampton';
-            this.myLat = 16;
-            this.myLong = 32;
+            this.currentRound = -1;
+            this.currentScore = 0;
+            this.game = null;
+            this.player = null;
         }],
         mapClicked: function (e) {
-            if (this.markers.length === 0) {
-                var self = this;
-                this.markers.push({lat: e.coords.lat, lng: e.coords.lng});
-                this.infoWindows.push({
-                    isOpen: 'true',
-                    details: 'Latitude: ' + e.coords.lat.toFixed(6) + ', longitude: ' + e.coords.lng.toFixed(6) + '.'
-                });
-                this.getCities(function (cities) {
-                    console.log("i have now finished loading the cities");
-                    self.submitGuess(self.cities[0].name, e.coords.lat, e.coords.lng);
-                });
-            }
-        },
-        getCities: function (cb) {
+            // TODO: user should only be able to click when he is allowed to
+            // (not between rounds, not without or after the game)
+
             var self = this;
-            this.cityService.getCities().subscribe(
-                function (data) {
-                    console.log(data);
-                    self.cities = data;
-                    cb(self.cities);
-                },
-                function (err) {
-                    console.error(err);
-                    this.error = 'we have an error';
-                }
-            );
+            // TODO: push different colored markers
+            this.markers.push({lat: e.coords.lat, lng: e.coords.lng});
+            // this.infoWindows.push({
+            //     isOpen: 'true',
+            //     details: 'Latitude: ' + e.coords.lat.toFixed(6) + ', longitude: ' + e.coords.lng.toFixed(6) + '.'
+            // });
+            var currentCity = this.game.cities[this.currentRound];
+            this.guessService
+                .submitGuess(this.game.id, this.player.id, currentCity.id, e.coords.lat, e.coords.lng)
+                .subscribe(function (guess) {
+                    self.guessResponse(self, currentCity, guess);
+                });
         },
-        submitGuess: function (cityName, userLat, userLng) {
-            console.log('user guess: city: ' + cityName + ', userLat: ' + userLat + ', userlng: ' + userLng);
+        newGame: function () {
+            var self = this;
+            // TODO player should be created and injected by the module
+            this.playerService.createPlayer("Wastl").subscribe(
+                function (player) {
+                    self.player = player;
+                    self.gameService.createGame(player.id).subscribe(function (game) {
+                        self.initGame(self, game)
+                    });
+                });
+        },
+        initGame: function (self, game) {
+            self.game = game;
+            self.markers = [];
+            self.currentRound = 0;
+            self.currentScore = 0;
+        },
+        guessResponse: function (self, currentCity, guess) {
+            self.currentScore += guess.score;
+            // TODO: push different colored markers
+            self.markers.push({lat: currentCity.lat, lng: currentCity.long});
+            if (self.currentRound < self.markers.length) {
+                setTimeout(function () {
+                    self.markers = [];
+                    self.currentRound++;
+                }, 3000);
+            } else {
+                alert("Total Score: " + self.currentScore);
+            }
         }
     });
 
