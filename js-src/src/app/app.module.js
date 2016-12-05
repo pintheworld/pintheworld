@@ -4,6 +4,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule}   from '@angular/forms';
 import {CommonModule}   from '@angular/common';
 import {HttpModule} from '@angular/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
@@ -17,6 +18,7 @@ let AppModule = NgModule({
         FormsModule,
         HttpModule,
         CommonModule,
+        NgbModule.forRoot(),
         RouterModule.forRoot([
             {path: 'map', component: MapComponent},
             {path: 'highscores', component: HighscoresComponent},
