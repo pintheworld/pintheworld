@@ -2,7 +2,7 @@
  We'll add all the code artifacts to this one global object.
  Most application files export one thing by adding that thing to the app namespace. Our app.component.js file exports the AppComponent.
  */
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 
 import mapTemplate from './map.component.html';
 
@@ -58,23 +58,7 @@ let MapComponent = Component({
         newGame: function () {
             var self = this;
             // TODO player should be created and injected by the module
-            // this.playerService.createPlayer("Wastl").subscribe(
-            //     function (player) {
-            //         self.player = player;
-            //         self.gameService.createGame(player.id).subscribe(function (game) {
-            //             self.initGame(self, game)
-            //         });
-            //     });
-            var url = location.search;
-            var player_id;
-            var strs = [];
-            if (url.indexOf("?") !=-1) {
-                var str = url.substr(1);
-                strs = str.split("=");
-                player_id = strs[1];
-            }
-            console.log(player_id)
-            this.playerService.getPlayer(player_id).subscribe(
+            this.playerService.createPlayer("Wastl").subscribe(
                 function (player) {
                     self.player = player;
                     self.gameService.createGame(player.id).subscribe(function (game) {
