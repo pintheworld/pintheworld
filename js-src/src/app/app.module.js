@@ -24,7 +24,7 @@ let AppModule = NgModule({
             {path: 'map', component: MapComponent},
             {path: 'highscores', component: HighscoresComponent},
             {path: '', component: HomeComponent},
-            {path: 'player', component: PlayerComponent}]),
+            {path: 'player/:id', component: PlayerComponent}]),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAgOrFWDMyp4XFYQRlY1a-cNxKNPz56ZQ4'
         })
