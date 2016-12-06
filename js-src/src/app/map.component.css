@@ -1,18 +1,11 @@
-main {
-  padding: 1em;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  margin-top: 50px;
-  display: block;
-}
-.sebm-google-map-container{
-    position: absolute;
-    padding-left: 20px;
+.map-wrapper {
+    margin-top: 10px;
+    margin: auto;
     height: 550px;
-    width: 900px;
+    width: 100%;
 }
-p {
-    color: black;
-    font-size: 18px;
-    font-weight: 200;
+
+.sebm-google-map-container {
+    height: 100%;
+    width: 100%;
 }

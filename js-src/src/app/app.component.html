@@ -1,9 +1,22 @@
 <main>
-    <nav>
-        <a routerLink="/" routerLinkActive="active">Home</a>
-        <a routerLink="/map" routerLinkActive="active">Map</a>
-        <a routerLink="/highscores" routerLinkActive="active">Highscores</a>
-    </nav>
-    <h1>Pin the World</h1>
-    <router-outlet></router-outlet>
+
+    <div class="container">
+        <nav class="navbar navbar-light">
+            <h1 class="navbar-brand" href="#">Pin the World <img src="/public/img/pin.png" height="32"></h1>
+            <ul class="nav navbar-nav">
+                <li class="nav-item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="nav-link">Home</a>
+                </li>
+                <li class="nav-item" routerLink="/map" routerLinkActive="active">
+                    <a class="nav-link">Map</a>
+                </li>
+                <li class="nav-item" routerLink="/highscores" routerLinkActive="active">
+                    <a class="nav-link">Highscores</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
 </main>
