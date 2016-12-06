@@ -7,26 +7,13 @@ let PlayerComponent = Component({
     template: playerTemplate,
     viewProviders: [GameService, PlayerService]
 })
-
     .Class({
         constructor: [GameService, PlayerService, function (gameService, playerService) {
             this.gameService = gameService;
             this.playerService = playerService;
-
-            this.player = null;
         }],
 
-        createplayer: function () {
-            var self = this;
-            this.playerService.createPlayer(this.myPlayerName).subscribe (
-                function (player) {
-                    self.player = player;
-                    console.log(player.id)
-                    window.location.href="http://localhost:8080/map?playid="+ player.id;
-                    });
-
-        }
-
+        // I guess this where we create a new game?
     });
 
 export {PlayerComponent};
