@@ -78,6 +78,7 @@ let MapComponent = Component({
             // TODO: push different colored markers
             self.markers.push({lat: currentCity.lat, lng: currentCity.long});
             if (self.currentRound < self.markers.length) {
+                self.startCountdown();
                 setTimeout(function () {
                     self.markers = [];
                     self.currentRound++;
@@ -85,6 +86,21 @@ let MapComponent = Component({
             } else {
                 alert("Total Score: " + self.currentScore);
             }
+        },
+        handleCountdown: function (count) {
+            var self = this;
+            if(count === 0) {
+                clearInterval(self.timer);
+            } else {
+                self.countDown--;
+            }
+        },
+        startCountdown: function () {
+            var self = this;
+            self.countDown = 3;
+            self.timer = setInterval(function () {
+                self.handleCountdown(self.countDown);
+            }, 1000)
         }
     });
 
