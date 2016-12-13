@@ -19,7 +19,7 @@ let AppModule = NgModule({
         HttpModule,
         CommonModule,
         RouterModule.forRoot([
-            {path: 'map', component: MapComponent},
+            {path: 'map/:id', component: MapComponent},
             {path: 'highscores', component: HighscoresComponent},
             {path: '', component: HomeComponent},
             {path: 'player', component: PlayerComponent}]),

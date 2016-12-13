@@ -58,19 +58,12 @@ let MapComponent = Component({
         newGame: function () {
             var self = this;
             // TODO player should be created and injected by the module
-            // this.playerService.createPlayer("Wastl").subscribe(
-            //     function (player) {
-            //         self.player = player;
-            //         self.gameService.createGame(player.id).subscribe(function (game) {
-            //             self.initGame(self, game)
-            //         });
-            //     });
             var url = location.search;
             var player_id;
             var strs = [];
-            if (url.indexOf("?") !=-1) {
+            if (url.indexOf("map") !=-1) {
                 var str = url.substr(1);
-                strs = str.split("=");
+                strs = str.split("/");
                 player_id = strs[1];
             }
             console.log(player_id)

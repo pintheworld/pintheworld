@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PlayerService } from './services/player.service';
 import { GameService } from './services/game.service';
+import {Router} from '@angular/router';
 import playerTemplate from './player.component.html';
 
 let PlayerComponent = Component({
@@ -9,10 +10,11 @@ let PlayerComponent = Component({
 })
 
     .Class({
-        constructor: [GameService, PlayerService, function (gameService, playerService) {
+        constructor: [GameService, PlayerService, Router ,function (gameService, playerService, router) {
             this.gameService = gameService;
             this.playerService = playerService;
 
+            this.router = router;
             this.player = null;
         }],
 
@@ -22,7 +24,7 @@ let PlayerComponent = Component({
                 function (player) {
                     self.player = player;
                     console.log(player.id)
-                    window.location.href="http://localhost:8080/map?playid="+ player.id;
+                    self.router.navigate(['/map', player.id]);
                     });
 
         }
