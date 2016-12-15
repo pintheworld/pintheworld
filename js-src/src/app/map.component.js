@@ -7,11 +7,12 @@ import {Component, Inject} from '@angular/core';
 import mapTemplate from './map.component.html';
 
 import '../../public/css/styles.css';
+import 'rxjs/add/operator/switchMap';
 import mapStyling from './map.component.css';
 import {GameService} from './services/game.service';
 import {PlayerService} from './services/player.service';
 import {GuessService} from './services/guess.service';
-
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import {GOOGLE_MAPS_DIRECTIVES, GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/esm/core';
 
 let MapComponent = Component({
@@ -22,7 +23,7 @@ let MapComponent = Component({
     viewProviders: [GameService, PlayerService, GuessService]
 })
     .Class({
-        constructor: [GameService, PlayerService, GuessService, function (gameService, playerService, guessService) {
+        constructor: [GameService, PlayerService, GuessService, Router, ActivatedRoute, function (gameService, playerService, guessService, router, activatedroute) {
             this.gameService = gameService;
             this.playerService = playerService;
             this.guessService = guessService;
@@ -34,6 +35,8 @@ let MapComponent = Component({
 
             this.currentRound = -1;
             this.currentScore = 0;
+            this.router = router;
+            this.route = activatedroute;
             this.game = null;
             this.player = null;
         }],
@@ -58,15 +61,12 @@ let MapComponent = Component({
         newGame: function () {
             var self = this;
             // TODO player should be created and injected by the module
-            var url = location.search;
-            var player_id;
-            var strs = [];
-            if (url.indexOf("map") !=-1) {
-                var str = url.substr(1);
-                strs = str.split("/");
-                player_id = strs[1];
-            }
+
+            // console.log(this.route.params);
+
+            var player_id = this.route.snapshot.params['id'];
             console.log(player_id)
+
             this.playerService.getPlayer(player_id).subscribe(
                 function (player) {
                     self.player = player;
@@ -75,6 +75,7 @@ let MapComponent = Component({
                     });
                 });
         },
+
         initGame: function (self, game) {
             self.game = game;
             self.markers = [];
