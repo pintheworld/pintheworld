@@ -6,6 +6,8 @@ import {CityService} from './services/city.service';
 
 import {PlayerService} from './services/player.service';
 
+import {Router} from '@angular/router';
+
 //import {GameService} from './services/game.service';
 
 let HomeComponent = Component({
@@ -14,7 +16,7 @@ let HomeComponent = Component({
 })
     .Class({
 		//City***
-        constructor: [PlayerService,CityService, function (playerService,cityService) {
+        constructor: [PlayerService, CityService, Router, function (playerService, cityService, router) {
             this.cityService = cityService;
 			this.playerService = playerService;
             this.error = '';
@@ -26,6 +28,7 @@ let HomeComponent = Component({
 			//Players
 			this.players = [];
             this.myPlayerName = 'Utku Doe';
+            this.router = router;
         }],
 
 		getPlayers: function () {
@@ -45,9 +48,9 @@ let HomeComponent = Component({
         createPlayer: function () {
             var self = this;
             this.playerService.createPlayer(this.myPlayerName).subscribe(
-                function (data) {
-                    console.log(data);
+                function (player) {
                     self.getPlayers();
+                    self.router.navigate(['/player', player.id]);
                 },
                 function (err) {
                     console.error(err);
