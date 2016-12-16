@@ -2,7 +2,11 @@
  We'll add all the code artifacts to this one global object.
  Most application files export one thing by adding that thing to the app namespace. Our app.component.js file exports the AppComponent.
  */
+<<<<<<< HEAD
 import {Component, Inject} from '@angular/core';
+=======
+import {Component} from '@angular/core';
+>>>>>>> 25c54a7a8ff38ff99fef4e1a4c790df65d8de431
 
 import mapTemplate from './map.component.html';
 
