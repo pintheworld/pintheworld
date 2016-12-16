@@ -5,3 +5,5 @@ python-src/lib/
 js-src/node_modules/
 js-src/typings/
 js-src/dist/
+
+node_modules
