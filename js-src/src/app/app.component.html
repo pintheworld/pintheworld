@@ -1,15 +1,4 @@
 <main>
-<<<<<<< HEAD
-    <nav>
-        <a routerLink="/" routerLinkActive="active">Home</a>
-        <a routerLink="/map" routerLinkActive="active">Map</a>
-        <a routerLink="/highscores" routerLinkActive="active">Highscores</a>
-        <a routerLink="/player" routerLinkActive="active">Player</a>
-    </nav>
-    <h1>Pin the World</h1>
-    <router-outlet></router-outlet>
-=======
-
     <div class="container">
         <nav class="navbar navbar-light">
             <h1 class="navbar-brand" href="#">Pin the World <img src="/public/img/pin.png" height="32"></h1>
@@ -23,11 +12,13 @@
                 <li class="nav-item" routerLink="/highscores" routerLinkActive="active">
                     <a class="nav-link">Highscores</a>
                 </li>
+                <li class="nav-item" routerLink="/player" routerLinkActive="active">
+                    <a class="nav-link">Player</a>
+                </li>
             </ul>
         </nav>
     </div>
     <div class="container">
         <router-outlet></router-outlet>
     </div>
->>>>>>> d1df2911c873c024b459fe6e75c6af886dfb0995
 </main>
