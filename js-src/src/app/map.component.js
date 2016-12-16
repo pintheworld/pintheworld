@@ -1,17 +1,18 @@
-/* 'app' is the global namespace for this application. 
+/* 'app' is the global namespace for this application.
  We'll add all the code artifacts to this one global object.
  Most application files export one thing by adding that thing to the app namespace. Our app.component.js file exports the AppComponent.
  */
-
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 
 import mapTemplate from './map.component.html';
 
 import '../../public/css/styles.css';
 import mapStyling from './map.component.css';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import {GameService} from './services/game.service';
 import {PlayerService} from './services/player.service';
 import {GuessService} from './services/guess.service';
+
 
 import {GOOGLE_MAPS_DIRECTIVES, GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/esm/core';
 
@@ -23,7 +24,7 @@ let MapComponent = Component({
     viewProviders: [GameService, PlayerService, GuessService]
 })
     .Class({
-        constructor: [GameService, PlayerService, GuessService, function (gameService, playerService, guessService) {
+        constructor: [GameService, PlayerService, GuessService,  Router, ActivatedRoute, function (gameService, playerService, guessService, router, activatedroute) {
             this.gameService = gameService;
             this.playerService = playerService;
             this.guessService = guessService;
@@ -37,6 +38,8 @@ let MapComponent = Component({
             this.currentScore = 0;
             this.game = null;
             this.player = null;
+            this.router = router;
+            this.route = activatedroute;
         }],
         mapClicked: function (e) {
             // TODO: user should only be able to click when he is allowed to
@@ -59,7 +62,15 @@ let MapComponent = Component({
         newGame: function () {
             var self = this;
             // TODO player should be created and injected by the module
-            this.playerService.createPlayer("Wastl").subscribe(
+            // this.playerService.createPlayer("Wastl").subscribe(
+            //     function (player) {
+            //         self.player = player;
+            //         self.gameService.createGame(player.id).subscribe(function (game) {
+            //             self.initGame(self, game)
+            //         });
+            //     });
+            var player_id = this.route.snapshot.params['id'];
+            this.playerService.getPlayer(player_id).subscribe(
                 function (player) {
                     self.player = player;
                     self.gameService.createGame(player.id).subscribe(function (game) {

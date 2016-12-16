@@ -18,6 +18,13 @@ var PlayerService = Class({
             }
         )
     },
+    getPlayer: function (player_id) {
+        return this.http.get(this.baseUrl + "/" + player_id).map(
+            function (res) {
+                return res.json()
+            }
+        )
+    },
     createPlayer: function (name) {
         return this.http.post(this.baseUrl, {name}).map(
             function (res) {
