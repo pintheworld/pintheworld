@@ -11,6 +11,13 @@ class City(ndb.Model):
     lat = ndb.FloatProperty()
 
 
+# linked to game via ancestor/parent
+class Highscore(ndb.Model):
+    player = ndb.KeyProperty(kind=Player)
+    score = ndb.FloatProperty()
+
+
+# linked to game via ancestor/parent
 class Guess(ndb.Model):
     city = ndb.KeyProperty(kind=City)
     player = ndb.KeyProperty(kind=Player)
