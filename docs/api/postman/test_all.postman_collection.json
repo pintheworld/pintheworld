@@ -14,7 +14,11 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var jsonData = JSON.parse(responseBody);\ntests[\"Cities in Database\"] = jsonData.length > 3;\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Cities in Database\"] = jsonData.length > 3;",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -22,10 +26,7 @@
 				"url": "{{url}}/api/cities",
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -37,7 +38,13 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"created_player\", jsonData.id);\n\n\ntests[\"Status code is 200\"] = responseCode.code === 201;"
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"created_player\", jsonData.id);",
+							"",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 201;"
+						]
 					}
 				}
 			],
@@ -66,7 +73,9 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -74,10 +83,7 @@
 				"url": "{{url}}/api/players",
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -89,7 +95,13 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"created_game\", jsonData.id);\n\n\ntests[\"Status code is 200\"] = responseCode.code === 201;"
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"created_game\", jsonData.id);",
+							"",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 201;"
+						]
 					}
 				}
 			],
@@ -118,7 +130,9 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -126,10 +140,7 @@
 				"url": "{{url}}/api/games",
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -141,7 +152,14 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"game_city1\", jsonData.cities[0].id);\npostman.setEnvironmentVariable(\"game_city2\", jsonData.cities[1].id);\npostman.setEnvironmentVariable(\"game_city3\", jsonData.cities[2].id);\n\ntests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"game_city1\", jsonData.cities[0].id);",
+							"postman.setEnvironmentVariable(\"game_city2\", jsonData.cities[1].id);",
+							"postman.setEnvironmentVariable(\"game_city3\", jsonData.cities[2].id);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -149,10 +167,7 @@
 				"url": "{{url}}/api/games/{{created_game}}",
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -164,7 +179,9 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 201;"
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 201;"
+						]
 					}
 				}
 			],
@@ -193,7 +210,9 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
 					}
 				}
 			],
@@ -201,10 +220,29 @@
 				"url": "{{url}}/api/games/{{created_game}}/guesses",
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get highscores",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/highscores",
+				"method": "GET",
+				"header": [],
+				"body": {},
 				"description": ""
 			},
 			"response": []

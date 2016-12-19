@@ -8,29 +8,124 @@
 	},
 	"item": [
 		{
-			"name": "get games",
+			"name": "create player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"created_player\", jsonData.id);",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "{{url}}/api/games",
-				"method": "GET",
-				"header": [],
+				"url": "{{url}}/api/players",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
 				"body": {
-					"mode": "formdata",
-					"formdata": []
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"John Doe\"\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
+			"name": "get all players",
+			"request": {
+				"url": "{{url}}/api/players",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete all players",
+			"request": {
+				"url": "{{url}}/api/players",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "create game",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"created_game\", jsonData.id);"
+						]
+					}
+				}
+			],
 			"request": {
 				"url": "{{url}}/api/games",
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"player_id\": \"{{created_player}}\"\n}"
 				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get all games",
+			"request": {
+				"url": "{{url}}/api/games",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get game",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"game_city1\", jsonData.cities[0].id);",
+							"postman.setEnvironmentVariable(\"game_city2\", jsonData.cities[1].id);",
+							"postman.setEnvironmentVariable(\"game_city3\", jsonData.cities[2].id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/games/{{created_game}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -41,10 +136,30 @@
 				"url": "{{url}}/api/games",
 				"method": "DELETE",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get all cities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Cities in Database\"] = jsonData.length > 3;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "GET",
+				"header": [],
+				"body": {},
 				"description": ""
 			},
 			"response": []
@@ -55,10 +170,49 @@
 				"url": "{{url}}/api/cities",
 				"method": "DELETE",
 				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "make a guess",
+			"request": {
+				"url": "{{url}}/api/games/{{created_game}}/guesses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
 				"body": {
-					"mode": "formdata",
-					"formdata": []
+					"mode": "raw",
+					"raw": "{\n\t\"city_id\": \"{{game_city1}}\",\n\t\"player_id\": \"{{created_player}}\",\n\t\"long\": 2,\n\t\"lat\": 1\n}"
 				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get guesses of game",
+			"request": {
+				"url": "{{url}}/api/games/{{created_game}}/guesses",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get highscores",
+			"request": {
+				"url": "{{url}}/api/highscores",
+				"method": "GET",
+				"header": [],
+				"body": {},
 				"description": ""
 			},
 			"response": []
