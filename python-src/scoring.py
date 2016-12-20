@@ -1,4 +1,4 @@
-import math
+from math import radians, cos, sin, asin, sqrt
 
 def calculate_distance_between_points(player_longtitude, player_latitude, city_longtitude, city_latitude):#Calculates spherical distance between points
     player_longtitude, player_latitude, city_longtitude, city_latitude = map(radians, [player_longtitude, player_latitude, city_longtitude, city_latitude])
