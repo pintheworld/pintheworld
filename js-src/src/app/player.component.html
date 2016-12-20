@@ -1,5 +1,15 @@
-<div style="width:100%;">
-  <label>name:</label><input [(ngModel)]="myPlayerName" type="text" ><br>
-	<button type="button" (click)="createplayer()">start</button>
-
+<div>
+    <div class="row">
+        <p class="col-lg-4">Single Player</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="name..." [(ngModel)]="myPlayerName">
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary" (click)="createplayer()">Start</button>
+        </div>
+    </div>
 </div>

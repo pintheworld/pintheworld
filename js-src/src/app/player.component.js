@@ -5,6 +5,7 @@ import playerTemplate from './player.component.html';
 import {Router} from '@angular/router';
 
 let PlayerComponent = Component({
+    selector: 'player-component',
     template: playerTemplate,
     viewProviders: [GameService, PlayerService]
 })
