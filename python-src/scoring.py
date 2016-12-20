@@ -20,4 +20,6 @@ def calc_score(difficulty, city_lat, city_long, remaining_time, player_lat, play
 		distance_score = 1000
 	
 	player_score = distance_score * modified_sigmoid_function(remaining_time)#distance score is multiplied with sigmoided time to get rid of linear multiplication
+	if player_lat == 200 or player_long == 200:#If played didnt click anything and timer ran out, lat and long are sent as 200(out of boundary for actual lat long, which is 90,180)
+		player_score = 0
 	return player_score
