@@ -12,8 +12,8 @@ var GuessService = Class({
 		this.guessLink = "http://localhost:8081/api/games/{{ahZkZXZ-cGludGhld29ybGQtMTQ2NjE1chELEgRHYW1lGICAgICAiNwIDA}}/guesses"//To check if it works for a single game
 
     }],
-    submitGuess: function (game_id, player_id, city_id, lat, long) {
-        return this.http.post(this.getServiceUrl(game_id), {player_id, city_id, long, lat}).map(
+    submitGuess: function (game_id, player_id, city_id, lat, long, remaining_time) {
+        return this.http.post(this.getServiceUrl(game_id), {player_id, city_id, long, lat, remaining_time}).map(
             function (res) {
                 return res.json()
             }
