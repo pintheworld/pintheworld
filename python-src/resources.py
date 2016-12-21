@@ -83,8 +83,8 @@ class GuessResource(Resource):
         guess.city = city_key
         guess.long = request_data['long']
         guess.lat = request_data['lat']
-        guess.remaining_time = request_data['remaining_time']
-        guess.score = calc_score("easy", city.lat, city.long, guess.remaining_time, guess.lat, guess.long)
+        remaining_time = request_data['remaining_time']
+        guess.score = calc_score("easy", city.lat, city.long, remaining_time, guess.lat, guess.long)
         guess.put()
 
         # TODO this is not stable yet - we have to make sure only one guess per city/player pair can be submitted

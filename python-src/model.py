@@ -24,7 +24,6 @@ class Guess(ndb.Model):
     long = ndb.FloatProperty()
     lat = ndb.FloatProperty()
     score = ndb.FloatProperty()
-    remaining_time = ndb.IntegerProperty()
 
 
 class Game(ndb.Model):
