@@ -1,3 +1,19 @@
 <main>
-  <h2>Highscores Component</h2>
+	<h2>Highscores Component</h2>
+	<button type="button" (click)="getGames()">Get Games</button>
+	<div>
+		<h3>Games from database:</h3><br>
+		<div *ngFor="let game of gamesList">
+			Game: {{ game.id }}
+		</div>
+	</div>
+	<button type="button" (click)="getGuesses()">Get Highscores</button><!-- Implement this to sum for all games, its only returning for one -->
+	<div>
+		<h3>Highscores from database:</h3><br>
+		<div *ngFor="let guess of guessList">
+			Game: {{ guess.id }}
+			Name: {{ guess.player.name }}
+			Score: {{ guess.score }}
+		</div>
+	</div>
 </main>

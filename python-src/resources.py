@@ -50,7 +50,7 @@ class CityResource(Resource):
 
 def save_score(game_key, player_id, guesses):
     total_score = 0
-    for guess in guesses.fetch():
+    for guess in guesses:#removed .fetch() from guesses, causing error: list object has no attribute 'fetch'
         total_score += guess.score
     highscore = Highscore(parent=game_key)
     highscore.player = ndb.Key(urlsafe=player_id)
@@ -83,7 +83,8 @@ class GuessResource(Resource):
         guess.city = city_key
         guess.long = request_data['long']
         guess.lat = request_data['lat']
-        guess.score = calc_score("easy", city.lat, city.long, 1, guess.lat, guess.long)
+        remaining_time = request_data['remaining_time']
+        guess.score = calc_score("easy", city.lat, city.long, remaining_time, guess.lat, guess.long)
         guess.put()
 
         # TODO this is not stable yet - we have to make sure only one guess per city/player pair can be submitted
