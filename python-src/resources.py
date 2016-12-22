@@ -48,6 +48,16 @@ class CityResource(Resource):
         ndb.delete_multi(City.query().fetch(keys_only=True))
 
 
+def save_score(game_key, player_id, guesses):
+    total_score = 0
+    for guess in guesses:#removed .fetch() from guesses, causing error: list object has no attribute 'fetch'
+        total_score += guess.score
+    highscore = Highscore(parent=game_key)
+    highscore.player = ndb.Key(urlsafe=player_id)
+    highscore.score = total_score
+    highscore.put()
+
+
 class GuessResource(Resource):
     def get(self, game_id):
         # game = Game.get_by_id(int(game_id))
@@ -59,18 +69,28 @@ class GuessResource(Resource):
         # TODO: is the submitted city part of the game?
         # TODO: did the player already submit a guess for this city?
         request_data = request.get_json()
+        player_id = request_data['player_id']
+        player_key = ndb.Key(urlsafe=player_id)
+        city_id = request_data['city_id']
         game_key = ndb.Key(urlsafe=game_id)
-        city_key = ndb.Key(urlsafe=request_data['city_id'])
+        game = game_key.get()
+        city_key = ndb.Key(urlsafe=city_id)
         city = city_key.get()
 
         guess = Guess(parent=game_key)
         guess.game = game_key
-        guess.player = ndb.Key(urlsafe=request_data['player_id'])
+        guess.player = player_key
         guess.city = city_key
         guess.long = request_data['long']
         guess.lat = request_data['lat']
-        guess.score = calc_score("easy", city.lat, city.long, 1, guess.lat, guess.long)
+        remaining_time = request_data['remaining_time']
+        guess.score = calc_score("easy", city.lat, city.long, remaining_time, guess.lat, guess.long)
         guess.put()
+
+        # TODO this is not stable yet - we have to make sure only one guess per city/player pair can be submitted
+        guess_query = Guess.query(Guess.player == player_key, ancestor=game_key)
+        if guess_query.count() == len(game.cities):
+            save_score(game_key, player_id, guess_query.fetch())
 
         return Util.to_json(guess, False), 201
 
@@ -93,6 +113,11 @@ class PlayersResource(Resource):
 
     def delete(self):
         ndb.delete_multi(Player.query().fetch(keys_only=True))
+
+
+class HighscoreResource(Resource):
+    def get(self):
+        return Util.to_json(Highscore.query().order(-Highscore.score).fetch(limit=10))
 
 
 class Util:

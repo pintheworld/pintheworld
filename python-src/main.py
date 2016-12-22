@@ -18,6 +18,9 @@ api.add_resource(GameResource, '/games/<game_id>')
 api.add_resource(GuessResource, '/games/<game_id>/guesses')
 
 
+api.add_resource(HighscoreResource, '/highscores')
+
+
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
