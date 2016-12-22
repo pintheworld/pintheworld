@@ -109,7 +109,7 @@ let MapComponent = Component({
 				} else {
 					this.gameEnded = true;//Game ended, do not initialize the counter for rounds
 					alert("Total Score: " + self.currentScore);
-					self.router.navigate(['/highscores'])//Move to highscores when the game ends
+					self.router.navigate(['/highscores', self.game.id, self.player.id ])//Move to highscores when the game ends
 				}
 			}
         },

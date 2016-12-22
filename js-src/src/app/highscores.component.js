@@ -1,31 +1,31 @@
-import { Component } from '@angular/core';
-//import { GuessService } from './services/guess.service';
+import { Component, AfterViewInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HighscoreService } from './services/highscore.service';
 
 import highscoresTemplate from './highscores.component.html'
+import highscoresStyling from './highscores.component.css';
 
 let HighscoresComponent = Component({
     template: highscoresTemplate,
-	viewProviders: [HighscoreService]
+	viewProviders: [HighscoreService],
+	styles: [highscoresStyling]
 })
     .Class({
-        constructor: [HighscoreService, function (highscoreService) {
-			//this.guessService = guessService;
+        constructor: [HighscoreService, Router, ActivatedRoute, function (highscoreService, router, activatedroute) {
 			this.highscoreService = highscoreService;
+			this.router = router;
+			this.route = activatedroute;
 			
 			this.highscores = [];
 			this.gamescores = [];
 			this.error = '';
 		}],
-		getScores: function (game_id) {
+		getScores: function () {
 			var self = this;
+			var game_id = this.route.snapshot.params['id1'];
 			this.highscoreService.getGameScores(game_id).subscribe (
 				function (scores) {
 					self.gamescores =scores;
-				},
-				function (err) {
-					console.error(err);
-					this.error = 'we have an error with game scores';
 				}
 			);
 		},
@@ -34,12 +34,12 @@ let HighscoresComponent = Component({
 			this.highscoreService.getHighscores().subscribe (
 				function (highscore) {
 					self.highscores = highscore;
-				},
-				function (err) {
-					console.error(err);
-					this.error = 'we have an error with highscores';
 				}
 			);
+		},
+		startNewGame: function () {
+			var player_id = this.route.snapshot.params['id2'];
+			this.router.navigate(['/map', player_id]);
 		}
     });
 
