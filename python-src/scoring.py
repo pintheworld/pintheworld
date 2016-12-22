@@ -1,25 +1,48 @@
-from math import radians, cos, sin, asin, sqrt, exp
+import math
+from math import radians, cos, sin, asin, sqrt
+# Some constants we need to define for timeScoring
+timeScoreBase = 100
+# Some constants we need to define for distanceScoring
+distanceScoreBase = 100
+roundNum = 10
 
-def calculate_distance_between_points(player_longtitude, player_latitude, city_longtitude, city_latitude):#Calculates spherical distance between points
-    player_longtitude, player_latitude, city_longtitude, city_latitude = map(radians, [player_longtitude, player_latitude, city_longtitude, city_latitude])
-    distance_long = city_longtitude - player_longtitude
-    distanceLat = city_latitude - player_latitude
-    a = sin(distanceLat/2)**2 + cos(player_latitude) * cos(city_latitude) * sin(distance_long/2)**2
+def CalculateDistanceBetweenPoints(playerLong, playerLat, cityLong, cityLat):
+    playerLong, playerLat, cityLong, cityLat = map(radians, [playerLong, playerLat, cityLong, cityLat])
+    distanceLong = cityLong - playerLong 
+    distanceLat = cityLat - playerLat 
+    a = sin(distanceLat/2)**2 + cos(playerLat) * cos(cityLat) * sin(distanceLong/2)**2
     c = 2 * asin(sqrt(a)) 
-    distance_as_km = int(6367 * c)
-    return distance_as_km
+    distanceAsKM = int(6367 * c)
+    return distanceAsKM
 	
-def modified_sigmoid_function(x):#Used a modified sigmoid function, normalizes after 6~, check below link for detailed graph
-	return 1 / (1 + exp((1/3)*(-x)))#https://www.wolframalpha.com/input/?i=1%2F+(1%2B+e%5E(-1%2F3*x))
+def sigmoidFunction(x):
+	return 1 / (1 + math.exp(-x))
 
-def calc_score(difficulty, city_lat, city_long, remaining_time, player_lat, player_long):
-	distance_as_km = calculate_distance_between_points(player_long, player_lat,city_long, city_lat)
+def calc_score(difficulty, city_lat, city_long, player_time, player_lat, player_long): 
+	#Assumes player_time is remaining time 
 	
-	distance_score = 40030 / distance_as_km
-	if(distance_score > 1000):#Maximum distance score a player can get is 1000
-		distance_score = 1000
+	#timeMultiplier = sigmoid(player_time)
+	distanceAsKM = CalculateDistanceBetweenPoints(player_long, player_lat,city_long, city_lat)
+    
+	#if difficulty == 'easy':
+    #    best_play_time = 2
+    #    # A is how much we expect the score to decrease for each additional second spent by player
+    #    time_penalty = 0.9
+    #    # B is the rate we reduce the score according to the distance between player's click
+    #    # and the city's central point
+    #    distance_penalty = 0.95
+    #elif difficulty == 'hard':
+    #    best_play_time = 1
+    #    time_penalty = 0.85
+    #    distance_penalty = 0.9
+    #time_score = timeScoreBase * math.pow(time_penalty, (player_time - best_play_time))
+    #distance_score = distanceScoreBase * math.pow(distance_penalty, math.sqrt(
+    #    math.pow(player_lat - city_lat, 2) + math.pow(player_long - city_long, 2)))
+	#"""
+	distanceScore = 40030 / distanceAsKM
+	#40KM diameter per city is correct
+	if(distanceScore > 1000):
+		distanceScore = 1000
 	
-	player_score = distance_score * modified_sigmoid_function(remaining_time)#distance score is multiplied with sigmoided time to get rid of linear multiplication
-	if player_lat == 200 or player_long == 200:#If played didnt click anything and timer ran out, lat and long are sent as 200(out of boundary for actual lat long, which is 90,180)
-		player_score = 0
-	return player_score
+	#playerScore = distanceAsKM #timeMultiplier * 
+	return distanceScore

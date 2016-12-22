@@ -32,7 +32,14 @@ let MapComponent = Component({
             this.error = '';
             this.cities = [];
             this.markers = [];
+			this.cityMarkers = [];//Cities' marker (different from player guess markers - markers)
             this.infoWindows = [];
+			this.styleOfMap = [];
+			
+			// TODO: determine the style of each level and add more styles here
+			this.noLabel = [{"elementType": 'labels',"stylers": [{"visibility": 'off'}]}];
+			this.noLabelAndBorder = [{"elementType": "geometry.stroke","stylers": [{"visibility": "off"}]},
+									 {"elementType": "labels","stylers": [{"visibility": "off"}]}];
 
             this.currentRound = -1;
             this.currentScore = 0;
@@ -40,14 +47,13 @@ let MapComponent = Component({
             this.player = null;
             this.router = router;
             this.route = activatedroute;
-			
 			this.roundTimer = 10;//Timer in the round
 			this.breakTimer = 3;//Breaks between rounds
 			this.responseTaken = false;//Used this variable to not let user click more than once between rounds, that messes around timer and markers
 			this.gameEnded = false;//Used this variable to see if the game ended, e.g: move to highscore page and stop initiating timers
         }],
         mapClicked: function (e) {
-			if(!this.responseTaken){
+            if(!this.responseTaken){
 				//^Ut,Done: TODO: user should only be able to click when he is allowed to
 				//^Ut,Done: (not between rounds, not without or after the game)
 
@@ -56,9 +62,31 @@ let MapComponent = Component({
 				this.markers.push({lat: e == null ? 200:e.coords.lat, lng: e == null ? 200:e.coords.lng});
 				// this.infoWindows.push({
 				//     isOpen: 'true',
-				//     details: 'Latitude: ' + e.coords.lat.toFixed(6) + ', longitude: ' + e.coords.lng.toFixed(6) + '.'
+				//     details: 'Your pin'
 				// });
 				var currentCity = this.game.cities[this.currentRound];
+				
+				// Changed the code from guessResponse to here for showing the city marker
+				// and infowindow before the total mark alert appears
+				// TODO: push different colored markers
+				// Currently choose a random color to show city marker
+				// Also shows an infowindow for each city
+				var r = Math.floor((Math.random() * 10) + 1);
+				if (r==1){
+					self.cityMarkers.push({lat: currentCity.lat, lng: currentCity.long,
+					 img: '../../public/img/pin.png'});
+				}else if (r==4){
+					self.cityMarkers.push({lat: currentCity.lat, lng: currentCity.long,
+					 img: '../../public/img/yellow_MarkerC.png'});
+				}else {
+					self.cityMarkers.push({lat: currentCity.lat, lng: currentCity.long,
+					 img: '../../public/img/blue_MarkerC.png'});
+				}
+				self.infoWindows.push({
+					 isOpen: 'true',
+					 details: 'It\'s here'
+				 });
+				
 				this.guessService
 					.submitGuess(this.game.id, this.player.id, currentCity.id, e == null ? 200:e.coords.lat, e == null ? 200:e.coords.lng, this.roundTimer)
 					.subscribe(function (guess) {
@@ -87,23 +115,29 @@ let MapComponent = Component({
         },
         initGame: function (self, game) {
             self.game = game;
+			self.styleOfMap = self.noLabelAndBorder;
             self.markers = [];
+			self.cityMarkers = [];
+			self.infoWindows = [];
             self.currentRound = 0;
             self.currentScore = 0;
 			self.startCountdown(0);//Initialize Round timer
         },
         guessResponse: function (self, currentCity, guess) {
+            self.currentScore += guess.score;
 			if(!this.responseTaken){//If map is already clicked, dont let it be clicked again
 				this.roundTimer  = 0;//Set round timer to 0, round ended
 				self.currentScore += guess.score;
-				// TODO: push different colored markers
-				self.markers.push({lat: currentCity.lat, lng: currentCity.long});
-				if (self.currentRound < self.markers.length) {
+				
+				// Changed self.markers.length to 2 as seperated markers and cityMarkers
+				if (self.currentRound < 2) {
 					this.responseTaken = true;
 					self.startCountdown(1);//Initialize Break timer
 					setTimeout(function () {
 						self.startCountdown(0);//Initialize Round timer
 						self.markers = [];
+						self.cityMarkers = [];
+						self.infoWindows = [];
 						self.currentRound++;
 					}, 3000);
 				} else {
