@@ -119,6 +119,10 @@ class HighscoreResource(Resource):
     def get(self):
         return Util.to_json(Highscore.query().order(-Highscore.score).fetch(limit=10))
 
+class GameScoreResource(Resource):
+	def get(self, game_id):
+		return Util.to_json(Highscore.query(ancestor=ndb.Key(urlsafe=game_id)).order(-Highscore.score).fetch())
+
 
 class Util:
     @staticmethod

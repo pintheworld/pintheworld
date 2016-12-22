@@ -23,8 +23,8 @@ var GuessService = Class({
         return this.baseUrl + "/" + game_id + "/guesses";
     },
 	
-	getAllGuesses: function () {//TODO: Generalize this for all games, not only one
-		return this.http.get(this.guessLink).map(
+	getAllGuesses: function (game_id) {//TODO: Generalize this for all games, not only one
+		return this.http.get(this.getServiceUrl(game_id)).map(
             function (res) {
                 return res.json()
             }
