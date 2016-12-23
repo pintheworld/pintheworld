@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HighscoreService } from './services/highscore.service';
 
@@ -15,7 +15,7 @@ let HighscoresComponent = Component({
 			this.highscoreService = highscoreService;
 			this.router = router;
 			this.route = activatedroute;
-			
+
 			this.highscores = [];
 			this.gamescores = [];
 			this.error = '';
@@ -37,6 +37,10 @@ let HighscoresComponent = Component({
 				}
 			);
 		},
+        ngOnInit: function() {
+            this.getScores();
+            this.getHighscores();
+        },
 		startNewGame: function () {
 			var player_id = this.route.snapshot.params['id2'];
 			this.router.navigate(['/map', player_id]);
