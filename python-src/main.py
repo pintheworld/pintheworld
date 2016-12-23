@@ -17,8 +17,8 @@ api.add_resource(GameResource, '/games/<game_id>')
 
 api.add_resource(GuessResource, '/games/<game_id>/guesses')
 
-
 api.add_resource(HighscoreResource, '/highscores')
+api.add_resource(GameScoreResource, '/highscores/<game_id>')
 
 
 @app.after_request

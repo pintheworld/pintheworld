@@ -22,7 +22,7 @@ let AppModule = NgModule({
         NgbModule.forRoot(),
         RouterModule.forRoot([
             {path: 'map/:id', component: MapComponent},
-            {path: 'highscores', component: HighscoresComponent},
+            {path: 'highscores/:id1/:id2', component: HighscoresComponent},
             {path: '', component: HomeComponent},
             {path: 'player', component: PlayerComponent}]),
         AgmCoreModule.forRoot({
