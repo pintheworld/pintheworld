@@ -1,6 +1,8 @@
 import datetime
 import random
 
+from google.appengine.api.channel import channel
+
 from flask import request
 from flask_restful import Resource
 from model import *
@@ -50,7 +52,7 @@ class CityResource(Resource):
 
 def save_score(game_key, player_id, guesses):
     total_score = 0
-    for guess in guesses:#removed .fetch() from guesses, causing error: list object has no attribute 'fetch'
+    for guess in guesses:  # removed .fetch() from guesses, causing error: list object has no attribute 'fetch'
         total_score += guess.score
     highscore = Highscore(parent=game_key)
     highscore.player = ndb.Key(urlsafe=player_id)
@@ -87,6 +89,8 @@ class GuessResource(Resource):
         guess.score = calc_score("easy", city.lat, city.long, remaining_time, guess.lat, guess.long)
         guess.put()
 
+        channel.send_message(player_id, "SAMPLE MESSAGE: you just scored " + str(guess.score))
+
         # TODO this is not stable yet - we have to make sure only one guess per city/player pair can be submitted
         guess_query = Guess.query(Guess.player == player_key, ancestor=game_key)
         if guess_query.count() == len(game.cities):
@@ -119,9 +123,17 @@ class HighscoreResource(Resource):
     def get(self):
         return Util.to_json(Highscore.query().order(-Highscore.score).fetch(limit=10))
 
+
 class GameScoreResource(Resource):
-	def get(self, game_id):
-		return Util.to_json(Highscore.query(ancestor=ndb.Key(urlsafe=game_id)).order(-Highscore.score).fetch())
+    def get(self, game_id):
+        return Util.to_json(Highscore.query(ancestor=ndb.Key(urlsafe=game_id)).order(-Highscore.score).fetch())
+
+
+class ChannelResource(Resource):
+    def post(self):
+        request_data = request.get_json()
+        token = channel.create_channel(request_data['channel_id'])
+        return {'token': token}, 201
 
 
 class Util:
