@@ -17,9 +17,7 @@
 	<button type="button" (click)="getPlayers()">Get players</button>
 	<button type="button" (click)="deletePlayers()">Delete all players</button>
 	<br><br>
-	<label>name:</label><input [(ngModel)]="myPlayerName" type="text"><br>
-	<button type="button" (click)="createPlayer()">Create new player</button>
-	<br><br>
+	<player-component></player-component>
 
 	<div>
 		<h3>Get result from Database:</h3><br>

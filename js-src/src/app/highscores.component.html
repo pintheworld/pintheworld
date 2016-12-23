@@ -1,3 +1,24 @@
 <main>
-  <h2>Highscores Component</h2>
+	<h2>Highscores Component</h2>
+	<button type="button" class="btn btn-primary"  (click)="getScores();getHighscores();">Get Scores</button>
+	<button type="button" class="btn btn-primary" id="newGame" (click)="startNewGame()">Start Game Again</button>
+	<div>
+		<h3>Scores For The Game:</h3><br/>
+		<ul class="list-group">
+		<li class="list-group-item" *ngFor="let gamescore of gamescores">
+			 {{ gamescore.player.name }}
+			<span class="badge">{{ gamescore.score }}</span>
+		</li>
+		</ul>
+	</div>
+	<br/>
+	<div>
+		<h3>Top 10 Highscores</h3><br/>
+		<ul class="list-group">
+		<li class="list-group-item" *ngFor="let highscore of highscores">
+			 {{highscore.player.name}}
+			<span class="badge">{{highscore.score}}</span>
+		</li>
+		</ul>
+	</div>
 </main>

@@ -9,9 +9,11 @@ var GuessService = Class({
         // this.baseUrl = "https://pintheworld-146615.appspot.com/api/games/";
         // using local development
         this.baseUrl = "http://localhost:8081/api/games";
+		this.guessLink = "http://localhost:8081/api/games/{{ahZkZXZ-cGludGhld29ybGQtMTQ2NjE1chELEgRHYW1lGICAgICAiNwIDA}}/guesses"//To check if it works for a single game
+
     }],
-    submitGuess: function (game_id, player_id, city_id, lat, long) {
-        return this.http.post(this.getServiceUrl(game_id), {player_id, city_id, long, lat}).map(
+    submitGuess: function (game_id, player_id, city_id, lat, long, remaining_time) {
+        return this.http.post(this.getServiceUrl(game_id), {player_id, city_id, long, lat, remaining_time}).map(
             function (res) {
                 return res.json()
             }
@@ -19,6 +21,14 @@ var GuessService = Class({
     },
     getServiceUrl: function (game_id) {
         return this.baseUrl + "/" + game_id + "/guesses";
+    },
+	
+	getAllGuesses: function (game_id) {//TODO: Generalize this for all games, not only one
+		return this.http.get(this.getServiceUrl(game_id)).map(
+            function (res) {
+                return res.json()
+            }
+        )
     }
 });
 

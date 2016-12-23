@@ -1,26 +1,42 @@
-<div>
-    <input type="button" value="New Game" (click)="newGame()">
-    <span *ngIf="currentRound >= 0">
-        Guess: {{game.cities[currentRound].name}} Score: {{currentScore}}
-    </span>
+<div class="row" style="height: 43px">
+    <div class="col-sm-2">
+        <h4><span class="tag tag-default">Score</span> {{currentScore.toFixed(2)}}</h4>
+    </div>
+    <div class="col-sm-2 countdown">
+        <p [hidden]="!countDown" >Next city in {{breakTimer}}..</p>
+    </div>
+	
+    <div class="col-sm-2 city-label">
+        <h2 *ngIf="currentRound >= 0">{{game.cities[currentRound].name}}</h2>
+    </div>
+		<div class="col-sm-2 gametimer">
+        <p [hidden]="!countDown" >Remaining Time: {{roundTimer}}</p>
+	</div>
+    <div class="col-sm-4">
+        <input type="button" class="btn btn-primary" style="float: right;" value="New Game" (click)="newGame()">
+    </div>
+
 </div>
-<div>
-<sebm-google-map
-                 [latitude]='0'
-                 [longitude]='0'
-                 [zoom]='2'
-                 [disableDefaultUI]="false"
-                 [zoomControl]="false"
-                 [streetViewControl] = "false"
-                 (mapClick)="mapClicked($event)">
-    <sebm-google-map-marker
-                        *ngFor="let m of markers; let i = index"
-                        [latitude]="m.lat"
-                        [longitude]="m.lng"
-                        [label]="m.label">
-        <sebm-google-map-info-window id='info_window'
-                        *ngFor="let info of infoWindows; let i = index"
-                        [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p></sebm-google-map-info-window>
-    </sebm-google-map-marker>
-</sebm-google-map>
+
+<div class="map-wrapper">
+    <sebm-google-map
+            [latitude]='0'
+            [longitude]='0'
+            [zoom]='2'
+            [disableDefaultUI]="false"
+            [zoomControl]="false"
+            [streetViewControl]="false"
+            (mapClick)="mapClicked($event)">
+        <sebm-google-map-marker
+                *ngFor="let m of markers; let i = index"
+                [latitude]="m.lat"
+                [longitude]="m.lng"
+                [label]="m.label">
+            <sebm-google-map-info-window id='info_window'
+                                         *ngFor="let info of infoWindows; let i = index"
+                                         [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
+            </sebm-google-map-info-window>
+        </sebm-google-map-marker>
+    </sebm-google-map>
+
 </div>
