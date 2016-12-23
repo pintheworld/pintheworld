@@ -4,12 +4,17 @@
     height: 550px;
     width: 100%;
 }
-
-.sebm-google-map-container {
-    height: 100%;
-    width: 100%;
-}
-
 .countdown {
     color: darkred;
+}
+.sebm-google-map-container {
+    position: absolute;
+    padding-left: 20px;
+    height: 550px;
+    width: 900px;
+}
+p {
+    color: black;
+    font-size: 18px;
+    font-weight: 600;
 }
