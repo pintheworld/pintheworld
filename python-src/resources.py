@@ -11,18 +11,36 @@ from scoring import calc_score
 
 class GameResource(Resource):
     def get(self, game_id):
-        return Util.to_json(ndb.Key(urlsafe=game_id).get())
+        get = ndb.Key(urlsafe=game_id).get()
+        return Util.to_json(get)
+
+    def post(self, game_id):
+        request_data = request.get_json()
+        if 'state' in request_data and request_data['state'] in GameState.states:
+            game = ndb.Key(urlsafe=game_id).get()
+            game.state = request_data['state']
+            game.put()
+        if 'player_id' in request_data:
+            game = ndb.Key(urlsafe=game_id).get()
+            game.players.append(ndb.Key(urlsafe=request_data['player_id']))
+            game.put()
 
 
 class GamesResource(Resource):
     def get(self):
-        return Util.to_json(Game.query().fetch())
+        args = request.args
+        if 'state' in args:
+            query = Game.query(Game.state == args['state'])
+        else:
+            query = Game.query()
+        return Util.to_json(query.fetch())
 
     def post(self):
         game = Game()
         request_data = request.get_json()
         game.players = [ndb.Key(urlsafe=request_data['player_id'])]
         game.cities = Util.get_cities(int(request_data.get('number_of_cities', 3)))
+        game.state = GameState.waitingForPlayers
         game.put()
         return Util.to_json(game), 201
 
@@ -46,7 +64,6 @@ class CityResource(Resource):
 
     def delete(self):
         ndb.delete_multi(City.query().fetch(keys_only=True))
-
 
 
 def save_score(game_key, player_id, guesses):
@@ -78,6 +95,10 @@ class GuessResource(Resource):
         city_key = ndb.Key(urlsafe=city_id)
         city = city_key.get()
 
+        if game.state == GameState.waitingForPlayers:
+            game.state = GameState.running
+            game.put()
+
         guess = Guess(parent=game_key)
         guess.game = game_key
         guess.player = player_key
@@ -88,11 +109,14 @@ class GuessResource(Resource):
         guess.score = calc_score("easy", city.lat, city.long, remaining_time, guess.lat, guess.long)
         guess.put()
 
-        channel.send_message(player_id, "SAMPLE MESSAGE: you just scored " + str(guess.score))
+        for player in game.players:
+            channel.send_message(player.urlsafe(), str(Util.to_json(guess, False, False)))
 
         # TODO this is not stable yet - we have to make sure only one guess per city/player pair can be submitted
         guess_query = Guess.query(Guess.player == player_key, ancestor=game_key)
         if guess_query.count() == len(game.cities):
+            game.state = GameState.done
+            game.put()
             save_score(game_key, player_id, guess_query.fetch())
 
         return Util.to_json(guess, False), 201
@@ -142,7 +166,7 @@ class Util:
 
     # based on https://stackoverflow.com/a/25871759/1136534
     @staticmethod
-    def to_json(obj, resolve_keys=True):
+    def to_json(obj, resolve_keys=True, include_ids=True):
         if isinstance(obj, list):
             return [Util.to_json(l, resolve_keys) for l in obj]
         if isinstance(obj, dict):
@@ -159,6 +183,7 @@ class Util:
                 return obj.urlsafe()
         if isinstance(obj, ndb.Model):
             dct = obj.to_dict()
-            dct['id'] = obj.key.urlsafe()
+            if include_ids:
+                dct['id'] = obj.key.urlsafe()
             return Util.to_json(dct, resolve_keys)
         return obj
