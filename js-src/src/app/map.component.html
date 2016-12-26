@@ -6,37 +6,42 @@
         <p [hidden]="!countDown" >Next city in {{breakTimer}}..</p>
     </div>
 	
-    <div class="col-sm-2 city-label">
+    <div class="col-md-3 city-label">
         <h2 *ngIf="currentRound >= 0">{{game.cities[currentRound].name}}</h2>
     </div>
 		<div class="col-sm-2 gametimer">
         <p [hidden]="!countDown" >Remaining Time: {{roundTimer}}</p>
 	</div>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
         <input type="button" class="btn btn-primary" style="float: right;" value="New Game" (click)="newGame()">
     </div>
 
 </div>
-
 <div class="map-wrapper">
     <sebm-google-map
             [latitude]='0'
             [longitude]='0'
             [zoom]='2'
-            [disableDefaultUI]="false"
+            [disableDoubleClickZoom]="true"
             [zoomControl]="false"
+			[scrollwheel]="false"
             [streetViewControl]="false"
+			[styles]="styleOfMap"
             (mapClick)="mapClicked($event)">
         <sebm-google-map-marker
                 *ngFor="let m of markers; let i = index"
                 [latitude]="m.lat"
-                [longitude]="m.lng"
-                [label]="m.label">
+                [longitude]="m.lng">
+        </sebm-google-map-marker>
+		<sebm-google-map-marker
+                *ngFor="let cm of cityMarkers; let i = index"
+                [latitude]="cm.lat"
+                [longitude]="cm.lng"
+				[iconUrl]="cm.img">
             <sebm-google-map-info-window id='info_window'
                                          *ngFor="let info of infoWindows; let i = index"
                                          [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
             </sebm-google-map-info-window>
         </sebm-google-map-marker>
     </sebm-google-map>
-
 </div>

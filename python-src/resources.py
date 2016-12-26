@@ -11,8 +11,7 @@ from scoring import calc_score
 
 class GameResource(Resource):
     def get(self, game_id):
-        get = ndb.Key(urlsafe=game_id).get()
-        return Util.to_json(get)
+        return Util.to_json(ndb.Key(urlsafe=game_id).get())
 
 
 class GamesResource(Resource):
@@ -24,7 +23,6 @@ class GamesResource(Resource):
         request_data = request.get_json()
         game.players = [ndb.Key(urlsafe=request_data['player_id'])]
         game.cities = Util.get_cities(int(request_data.get('number_of_cities', 3)))
-        game.noOfPlayers = 1
         game.put()
         return Util.to_json(game), 201
 
@@ -48,6 +46,7 @@ class CityResource(Resource):
 
     def delete(self):
         ndb.delete_multi(City.query().fetch(keys_only=True))
+
 
 
 def save_score(game_key, player_id, guesses):
