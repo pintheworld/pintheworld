@@ -17,3 +17,10 @@
 5. import postman collections from ./doc/postman/ into postman and set up a `url` environment variable (should probably be http://localhost:8080)
 6. run the "Pin the World - Cities" collection to create some cities
 7. run the "Pin the World - Test All" collection (all tests should succeed)
+
+## Multi-player
+For this to work, the game has to be deployed on the python server, as it will be in production.
+In js-src, run `npm run dev-build`, this will create the sources to /python-src/webapp and keep it up to date as with the dev server
+run the python server as usual, calling http://localhost:8081/ will then be the url of the frontend AND the backend (with /api/)
+
+If `npm run dev-build` fails, try removing the python-src/webapp dir, and run the command again (This should be fixed with PR 85).
