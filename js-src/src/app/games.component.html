@@ -1,0 +1,14 @@
+<div>
+    <div class="row">
+        <h4 class="col-lg-4">Games: </h4>
+    </div>
+    <div class="row">
+        <div *ngFor="let game of games">
+            <a href="#" (click)="join(game.id)">join</a> {{ game.id }}
+        </div>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn btn-primary" (click)="update()">Search for Games</button>
+    </div>
+</div>

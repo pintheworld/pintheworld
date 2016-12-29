@@ -30,3 +30,11 @@ class Game(ndb.Model):
     noOfPlayers = ndb.IntegerProperty()
     players = ndb.KeyProperty(kind=Player, repeated=True)
     cities = ndb.KeyProperty(kind=City, repeated=True)
+    state = ndb.StringProperty()
+
+
+class GameState():
+    waitingForPlayers = 'waitingForPlayers'
+    running = 'running'
+    done = 'done'
+    states = {waitingForPlayers, running, done}

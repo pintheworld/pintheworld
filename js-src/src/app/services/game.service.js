@@ -17,6 +17,20 @@ var GameService = Class({
             }
         )
     },
+    getWaitingGames: function () {
+        return this.http.get(this.baseUrl + '?state=waitingForPlayers').map(
+            function (res) {
+                return res.json()
+            }
+        )
+    },
+    join: function (player_id, game_id) {
+        return this.http.post(this.baseUrl + "/" + game_id, {player_id}).map(
+            function (res) {
+                return res.json()
+            }
+        )
+    },
     getGame: function (game_id) {
         return this.http.get(this.baseUrl + "/" + game_id).map(
             function (res) {
