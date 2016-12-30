@@ -28,13 +28,13 @@
         <sebm-google-map-marker
                 *ngFor="let m of markers; let i = index"
                 [latitude]="m.lat"
-                [longitude]="m.lng">
+                [longitude]="m.lng"
+				[iconUrl]="m.img">
         </sebm-google-map-marker>
         <sebm-google-map-marker
                 *ngFor="let cm of cityMarkers; let i = index"
                 [latitude]="cm.lat"
-                [longitude]="cm.lng"
-                [iconUrl]="cm.img">
+                [longitude]="cm.lng">
             <sebm-google-map-info-window id='info_window'
                                          *ngFor="let info of infoWindows; let i = index"
                                          [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>

@@ -38,6 +38,9 @@ let MapComponent = Component({
                 this.cityMarkers = [];//Cities' marker (different from player guess markers - markers)
                 this.infoWindows = [];
                 this.styleOfMap = [];
+				this.pinColors = ["FFFF00", "FFA500", "008000", "0000FF"];//colors used for markers: yellow, orange, green, blue
+				this.colorNames = ["Yellow", "Orange", "Green", "Blue"];
+				this.pinLetters = 'ABCDE';//letters used for each round's marker
 
                 // TODO: determine the style of each level and add more styles here
                 this.noLabel = [{"elementType": 'labels', "stylers": [{"visibility": 'off'}]}];
@@ -64,31 +67,27 @@ let MapComponent = Component({
                 //^Ut,Done: (not between rounds, not without or after the game)
 
                 var self = this;
-                // TODO: push different colored markers
-                this.markers.push({lat: e == null ? 200 : e.coords.lat, lng: e == null ? 200 : e.coords.lng});
-                // this.infoWindows.push({
-                //     isOpen: 'true',
-                //     details: 'Latitude: ' + e.coords.lat.toFixed(6) + ', longitude: ' + e.coords.lng.toFixed(6) + '.'
-                // });
+				var colorNo = null;
+				
+				if(this.player.id === this.game.players[0].id)
+				{
+					colorNo = 0;
+				} else if(this.player.id === this.game.players[1].id) {
+					colorNo = 1;
+				} else if(this.player.id === this.game.players[2].id) {
+					colorNo = 2;
+				} else if(this.player.id === this.game.players[3].id) {
+				    colorNo = 3;
+				}
+				var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + this.pinLetters[this.currentRound] + "|" + this.pinColors[colorNo],
+				new google.maps.Size(28, 40),
+				new google.maps.Point(0,0),
+				new google.maps.Point(14, 40));
+                this.markers.push({lat: e == null ? 200 : e.coords.lat, lng: e == null ? 200 : e.coords.lng, img: pinImage});
+				
                 var currentCity = this.game.cities[this.currentRound];
+				self.cityMarkers.push({lat: currentCity.lat, lng: currentCity.long});
 
-                var r = Math.floor((Math.random() * 10) + 1);
-                if (r == 1) {
-                    self.cityMarkers.push({
-                        lat: currentCity.lat, lng: currentCity.long,
-                        img: '../../public/img/pin.png'
-                    });
-                } else if (r == 4) {
-                    self.cityMarkers.push({
-                        lat: currentCity.lat, lng: currentCity.long,
-                        img: '../../public/img/yellow_MarkerC.png'
-                    });
-                } else {
-                    self.cityMarkers.push({
-                        lat: currentCity.lat, lng: currentCity.long,
-                        img: '../../public/img/blue_MarkerC.png'
-                    });
-                }
                 self.infoWindows.push({
                     isOpen: 'true',
                     details: currentCity.name
