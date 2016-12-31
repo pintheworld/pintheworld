@@ -43,3 +43,13 @@
     </sebm-google-map>
 
 </div>
+<div class="player-marker-color">
+	<div class="player-side">
+		<p>Player: </p>
+		<p *ngFor="let n of playerMarker; let i = index" [innerHTML]="n.name"></p>
+	</div>
+	<div class="color-side">
+		<p>Marker: </p>
+		<p *ngFor="let c of playerMarker; let i = index" [innerHTML]="c.color"></p>
+	</div>
+</div>

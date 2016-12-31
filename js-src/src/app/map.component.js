@@ -7,6 +7,9 @@ import {Component, Inject} from '@angular/core';
 import mapTemplate from './map.component.html';
 
 import '../../public/css/styles.css';
+import pin from '../../public/img/pin.png';
+import yellowM from '../../public/img/yellow_MarkerC.png';
+import blueM from '../../public/img/blue_MarkerC.png';
 import mapStyling from './map.component.css';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {GameService} from './services/game.service';
@@ -48,6 +51,8 @@ let MapComponent = Component({
                 this.currentScore = 0;
                 this.game = null;
                 this.player = null;
+				this.playerMarker = [];
+				this.markerColor = ["Red", "Yellow", "Blue", "Purple"];
                 this.router = router;
                 this.route = activatedroute;
 
@@ -76,17 +81,17 @@ let MapComponent = Component({
                 if (r == 1) {
                     self.cityMarkers.push({
                         lat: currentCity.lat, lng: currentCity.long,
-                        img: '../../public/img/pin.png'
+                        img: pin
                     });
                 } else if (r == 4) {
                     self.cityMarkers.push({
                         lat: currentCity.lat, lng: currentCity.long,
-                        img: '../../public/img/yellow_MarkerC.png'
+                        img: yellowM
                     });
                 } else {
                     self.cityMarkers.push({
                         lat: currentCity.lat, lng: currentCity.long,
-                        img: '../../public/img/blue_MarkerC.png'
+                        img: blueM
                     });
                 }
                 self.infoWindows.push({
@@ -111,6 +116,11 @@ let MapComponent = Component({
                     self.player = player;
                     self.gameService.getGame(game_id).subscribe(function (game) {
                         self.initGame(self, game);
+						// show player's name and color name
+						for (var i = 0; i < game.players.length; i++){
+							self.playerMarker.push({name: game.players[i].name, id: game.players[i].id, color: self.markerColor[0]});
+							self.markerColor.shift();
+						}
                     });
                 });
         },

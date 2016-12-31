@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <h4 class="col-lg-4">Single Player</h4>
+        <h4 class="col-lg-4">Create a Player</h4>
     </div>
     <div class="row">
         <div class="col-sm-6">
@@ -9,7 +9,11 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <button type="button" class="btn btn-primary" (click)="createplayer()">Start</button>
+            <button type="button" class="btn btn-primary" (click)="createplayer()">Confirm your name</button>
         </div>
     </div>
+	<div class="row">
+		<div class="col-sm-4">My name: </div>
+		<div class="col-sm-6" *ngIf="thisPlayer!=null">{{thisPlayer.name}}</div>
+	</div>
 </div>
