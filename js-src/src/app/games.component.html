@@ -2,13 +2,24 @@
     <div class="row">
         <h4 class="col-lg-4">Games: </h4>
     </div>
+	
+	<div class="row">
+        <div class="col-sm-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="player name..." [(ngModel)]="myPlayerName">
+            </div>
+        </div>
+		<div class="col-sm-2">
+            <button type="button" class="btn btn-primary" (click)="createRoom()">Create new game</button>
+    </div>
+    </div>
     <div class="row">
         <div *ngFor="let game of games">
-            <a href="#" (click)="join(game.id)">join</a> {{ game.id }}
+            <a href="#" (click)="join(game.id)">Join</a> {{ game.id }}
         </div>
     </div>
 
     <div class="row">
-        <button type="button" class="btn btn-primary" (click)="update()">Search for Games</button>
+        <button type="button" class="btn btn-primary" (click)="update()">Join a Game</button>
     </div>
 </div>

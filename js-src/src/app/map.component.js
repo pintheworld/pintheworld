@@ -38,7 +38,7 @@ let MapComponent = Component({
                 this.cityMarkers = [];//Cities' marker (different from player guess markers - markers)
                 this.infoWindows = [];
 				this.playerMarkers = [];//Other players' markers after each round
-				this.playerInfo = [];//Other players' names
+				this.playerMarker = [];//Used to store name and marker color of each player
                 this.styleOfMap = [];
 				this.pinColors = ["FFFF00", "FFA500", "008000", "0000FF"];//colors used for markers: yellow, orange, green, blue
 				this.colorNames = ["Yellow", "Orange", "Green", "Blue"];
@@ -97,6 +97,11 @@ let MapComponent = Component({
                     self.player = player;
                     self.gameService.getGame(game_id).subscribe(function (game) {
                         self.initGame(self, game);
+						// show player's name and color name
+ 						for (var i = 0; i < game.players.length; i++){
+ 							self.playerMarker.push({name: game.players[i].name, color: self.colorNames[0]});
+ 							self.colorNames.shift();
+ 						}
                     });
                 });
         },

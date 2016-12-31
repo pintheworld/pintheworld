@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {GameService} from './services/game.service';
 import {PlayerService} from './services/player.service';
 import gamesTemplate from './games.component.html';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 
 let GamesComponent = Component({
     selector: 'games-component',
@@ -11,13 +11,30 @@ let GamesComponent = Component({
 })
 
     .Class({
-        constructor: [GameService, PlayerService, Router, function (gameService, playerService, router) {
+        constructor: [GameService, PlayerService, Router, ActivatedRoute,
+					  function (gameService, playerService, router, activatedRoute) {
             this.gameService = gameService;
             this.playerService = playerService;
             this.router = router;
-            var games = []
+			this.route = activatedRoute;
+			this.player = null;
+            var games = [];
         }],
 
+		createRoom: function () {
+            var self = this;
+			if(this.myPlayerName) {
+				this.playerService.createPlayer(this.myPlayerName).subscribe(
+					function (player) {
+						self.gameService.createGame(player.id).subscribe(function (game) {
+							console.log("game id: " + game.id + " player id: " + player.id);
+							self.router.navigate(['/room', game.id, player.id]);
+						});
+                });
+			} else {
+			alert("Please enter your player name first :)");
+			}
+        },
         update: function () {
             var self = this;
             this.gameService.getWaitingGames().subscribe(
@@ -28,14 +45,17 @@ let GamesComponent = Component({
         },
         join: function (game_id) {
             var self = this;
-            this.playerService.createPlayer("asdf").subscribe(
-                function (player) {
-                    // TODO player should be created some where else i.e. come from player component
-                    self.gameService.join(player.id, game_id).subscribe(function () {
-                        console.log("joining " + game_id + " as player " + player.id);
-                        self.router.navigate(['/map', game_id, player.id]);
-                    });
-                });
+			if(this.myPlayerName) {
+				this.playerService.createPlayer(this.myPlayerName).subscribe(
+					function (player) {
+						self.gameService.join(player.id, game_id).subscribe(function () {
+						self.router.navigate(['/room', game_id, player.id]);
+				});
+					}
+				);
+			} else {
+				alert("Please enter your player name first :)");
+			}
         }
 
     });
