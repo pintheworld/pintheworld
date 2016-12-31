@@ -14,7 +14,6 @@ import {PlayerService} from './services/player.service';
 import {GuessService} from './services/guess.service';
 import {ChannelService} from './services/channel.service';
 
-
 import {GOOGLE_MAPS_DIRECTIVES, GOOGLE_MAPS_PROVIDERS} from 'angular2-google-maps/esm/core';
 
 let MapComponent = Component({
@@ -116,12 +115,12 @@ let MapComponent = Component({
                     },
                     'onmessage': function (msg) {
                         console.log('received message: ' + msg.data);
-						var m = msg.data.replace(/'/g,'\"');
+						/*var m = msg.data.replace(/'/g,'\"');
 						self.messages.push(JSON.parse(m));
 						for(var j = 0; j < self.messages.length; j++){
 							console.log('player id: '+self.messages[j].player);
 						    console.log('long: '+self.messages[j].long);
-						}
+						}*/
                     },
                     'onerror': function () {
                     },
@@ -141,50 +140,47 @@ let MapComponent = Component({
 			self.playerInfo = [];
             self.currentRound = 0;
             self.currentScore = 0;
-            //self.startCountdown(0);//Initialize Round timer
+            self.startCountdown(0);//Initialize Round timer
         },
         guessResponse: function (self, currentCity, guess) {
             if (!this.responseTaken) {//If map is already clicked, dont let it be clicked again
-                //  this.roundTimer = 0;//Set round timer to 0, round ended
                 self.currentScore += guess.score;
-                self.markers.push({lat: currentCity.lat, lng: currentCity.long});
-                if (self.currentRound < self.markers.length) {
-                    this.responseTaken = true;
-					if(2 > 1) {//multiple players: need to wait for other players' guesses, should be noOfPlayers
-						setTimeout(function() {//push other players' markers onto the map
-							while(self.messages.length !== 0) {
-								if(self.messages[0].player !== self.player.id) {
-									var pin2 = self.getPinImage(self, self.messages[0].player);
-									self.playerMarkers.push({lat: self.messages[0].lat, lng: self.messages[0].long, img: pin2});
+				console.log("IN GUESS RESPONSE, player number: "+ self.game.players.length);
+				if(self.game.players.length > 1) {//multiple players: need to wait for other players' guesses
+				//originally plan to call the function each second to see if other player clicks on the map,but doesn't work fine, don't know why
+					setTimeout(function() {//push other players' markers onto the map
+						self.guessService.getAllGuesses(self.game.id).subscribe(function (guesses) {
+							for(var i = 0; i < guesses.length; i++) {
+								if((guesses[i].player.id != self.player.id) && (guesses[i].city.id == currentCity.id)) {
+									var pin2 = self.getPinImage(self, guesses[i].player.id);
+									self.playerMarkers.push({lat: guesses[i].lat, lng: guesses[i].long, img: pin2});
 								}
-								self.messages.shift();
 							}
-							this.roundTimer = 0;
-							self.startCountdown(1);//Initialize Break timer
-							setTimeout(function () {
-								//self.startCountdown(0);//Initialize Round timer
-								self.markers = [];
-								self.cityMarkers = [];
-								self.infoWindows = [];
-								self.playerMarkers = [];
-								self.playerInfo = [];
-								self.currentRound++;
-							}, 3000);
-						}, 5000);//5000 is just for test, it could be the remaining time of round timer OR we may use some other method
-					} else {//single player: directly start next round
-						this.roundTimer = 0;//Set round timer to 0, round ended
-						this.responseTaken = true;
-						self.startCountdown(1);//Initialize Break timer
-						setTimeout(function () {
-							//self.startCountdown(0);//Initialize Round timer
-							self.markers = [];
-							self.cityMarkers = [];
-							self.infoWindows = [];
-							self.playerMarkers = [];
-							self.playerInfo = [];
-							self.currentRound++;
-						}, 3000);
-					}
+						});
+						/*while(self.messages.length !== 0) {
+							if(self.messages[0].player !== self.player.id) {
+								var pin2 = self.getPinImage(self, self.messages[0].player);
+								self.playerMarkers.push({lat: self.messages[0].lat, lng: self.messages[0].long, img: pin2});
+							}
+							self.messages.shift();
+						}*/
+					}, self.roundTimer);
+				} else {
+					this.roundTimer = 0;
+				}
+                self.markers.push({lat: currentCity.lat, lng: currentCity.long}); 
+                if (self.currentRound < self.markers.length) {//counter works wierdly with self.markers.length
+                    this.responseTaken = true;
+					self.startCountdown(1);//Initialize Break timer
+					setTimeout(function () {
+						self.startCountdown(0);//Initialize Round timer
+						self.markers = [];
+						self.cityMarkers = [];
+						self.infoWindows = [];
+						self.playerMarkers = [];
+						//self.messages = [];
+						self.currentRound++;
+					}, 3000);
                 } else {
                     this.gameEnded = true;//Game ended, do not initialize the counter for rounds
                     alert("Total Score: " + self.currentScore);
@@ -194,22 +190,21 @@ let MapComponent = Component({
         },
 		getPinImage: function (self, player_id) {
 			var colorNo = null;//Used to label what color each player in this game use
-			console.log("player number:" +self.game.players.length);
-				if(player_id === self.game.players[0].id)
-				{
-					colorNo = 0;
-				} else if(player_id === self.game.players[1].id) {
-					colorNo = 1;
-				} else if(player_id === self.game.players[2].id) {
-					colorNo = 2;
-				} else if(player_id === self.game.players[3].id) {
-				    colorNo = 3;
-				}
-				var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + self.pinLetters[self.currentRound] + "|" + self.pinColors[colorNo],
-				new google.maps.Size(28, 40),
-				new google.maps.Point(0,0),
-				new google.maps.Point(14, 40));//Generate specific pin image of different letters and colors
-				return pinImage;
+			if(player_id === self.game.players[0].id)
+			{
+				colorNo = 0;
+			} else if(player_id === self.game.players[1].id) {
+				colorNo = 1;
+			} else if(player_id === self.game.players[2].id) {
+				colorNo = 2;
+			} else if(player_id === self.game.players[3].id) {
+			    colorNo = 3;
+			}
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + self.pinLetters[self.currentRound] + "|" + self.pinColors[colorNo],
+			new google.maps.Size(28, 40),
+			new google.maps.Point(0,0),
+			new google.maps.Point(14, 40));//Generate specific pin image of different letters and colors
+			return pinImage;
 		},
         handleCountdown: function (counterType) {
             var self = this;
