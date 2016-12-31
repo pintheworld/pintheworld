@@ -37,10 +37,13 @@ let MapComponent = Component({
                 this.markers = [];
                 this.cityMarkers = [];//Cities' marker (different from player guess markers - markers)
                 this.infoWindows = [];
+				this.playerMarkers = [];//Other players' markers after each round
+				this.playerInfo = [];//Other players' names
                 this.styleOfMap = [];
 				this.pinColors = ["FFFF00", "FFA500", "008000", "0000FF"];//colors used for markers: yellow, orange, green, blue
 				this.colorNames = ["Yellow", "Orange", "Green", "Blue"];
 				this.pinLetters = 'ABCDE';//letters used for each round's marker
+				this.messages = [];//store messages from channel
 
                 // TODO: determine the style of each level and add more styles here
                 this.noLabel = [{"elementType": 'labels', "stylers": [{"visibility": 'off'}]}];
@@ -66,28 +69,12 @@ let MapComponent = Component({
                 //^Ut,Done: TODO: user should only be able to click when he is allowed to
                 //^Ut,Done: (not between rounds, not without or after the game)
 
-                var self = this;
-				var colorNo = null;
-				
-				if(this.player.id === this.game.players[0].id)
-				{
-					colorNo = 0;
-				} else if(this.player.id === this.game.players[1].id) {
-					colorNo = 1;
-				} else if(this.player.id === this.game.players[2].id) {
-					colorNo = 2;
-				} else if(this.player.id === this.game.players[3].id) {
-				    colorNo = 3;
-				}
-				var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + this.pinLetters[this.currentRound] + "|" + this.pinColors[colorNo],
-				new google.maps.Size(28, 40),
-				new google.maps.Point(0,0),
-				new google.maps.Point(14, 40));
-                this.markers.push({lat: e == null ? 200 : e.coords.lat, lng: e == null ? 200 : e.coords.lng, img: pinImage});
+				var self = this;
+				var pin1 = this.getPinImage(self, self.player.id);
+                this.markers.push({lat: e == null ? 200 : e.coords.lat, lng: e == null ? 200 : e.coords.lng, img: pin1});
 				
                 var currentCity = this.game.cities[this.currentRound];
 				self.cityMarkers.push({lat: currentCity.lat, lng: currentCity.long});
-
                 self.infoWindows.push({
                     isOpen: 'true',
                     details: currentCity.name
@@ -104,7 +91,7 @@ let MapComponent = Component({
             var self = this;
             var player_id = this.route.snapshot.params['player_id'];
             var game_id = this.route.snapshot.params['game_id'];
-            this.createChannel(player_id);
+            this.createChannel(self, player_id);
             this.playerService.getPlayer(player_id).subscribe(
                 function (player) {
                     self.player = player;
@@ -113,7 +100,7 @@ let MapComponent = Component({
                     });
                 });
         },
-        createChannel: function (player_id) {
+        createChannel: function (self, player_id) {
             this.channelService.createChannel(player_id).subscribe(function (resp) {
                 console.log("channel_token:");
                 console.log(resp.token);
@@ -124,6 +111,12 @@ let MapComponent = Component({
                     },
                     'onmessage': function (msg) {
                         console.log('received message: ' + msg.data);
+						var m = msg.data.replace(/'/g,'\"');
+						self.messages.push(JSON.parse(m));
+						for(var j = 0; j < self.messages.length; j++){
+							console.log('player id: '+self.messages[j].player);
+						    console.log('long: '+self.messages[j].long);
+						}
                     },
                     'onerror': function () {
                     },
@@ -139,26 +132,54 @@ let MapComponent = Component({
             self.markers = [];
             self.cityMarkers = [];
             self.infoWindows = [];
+			self.playerMarkers = [];
+			self.playerInfo = [];
             self.currentRound = 0;
             self.currentScore = 0;
-            // self.startCountdown(0);//Initialize Round timer
+            //self.startCountdown(0);//Initialize Round timer
         },
         guessResponse: function (self, currentCity, guess) {
             if (!this.responseTaken) {//If map is already clicked, dont let it be clicked again
-                this.roundTimer = 0;//Set round timer to 0, round ended
+                //  this.roundTimer = 0;//Set round timer to 0, round ended
                 self.currentScore += guess.score;
-                // TODO: push different colored markers
                 self.markers.push({lat: currentCity.lat, lng: currentCity.long});
                 if (self.currentRound < self.markers.length) {
                     this.responseTaken = true;
-                    self.startCountdown(1);//Initialize Break timer
-                    setTimeout(function () {
-                        // self.startCountdown(0);//Initialize Round timer
-                        self.markers = [];
-                        self.cityMarkers = [];
-                        self.infoWindows = [];
-                        self.currentRound++;
-                    }, 3000);
+					if(2 > 1) {//multiple players: need to wait for other players' guesses, should be noOfPlayers
+						setTimeout(function() {//push other players' markers onto the map
+							while(self.messages.length !== 0) {
+								if(self.messages[0].player !== self.player.id) {
+									var pin2 = self.getPinImage(self, self.messages[0].player);
+									self.playerMarkers.push({lat: self.messages[0].lat, lng: self.messages[0].long, img: pin2});
+								}
+								self.messages.shift();
+							}
+							this.roundTimer = 0;
+							self.startCountdown(1);//Initialize Break timer
+							setTimeout(function () {
+								//self.startCountdown(0);//Initialize Round timer
+								self.markers = [];
+								self.cityMarkers = [];
+								self.infoWindows = [];
+								self.playerMarkers = [];
+								self.playerInfo = [];
+								self.currentRound++;
+							}, 3000);
+						}, 5000);//5000 is just for test, it could be the remaining time of round timer OR we may use some other method
+					} else {//single player: directly start next round
+						this.roundTimer = 0;//Set round timer to 0, round ended
+						this.responseTaken = true;
+						self.startCountdown(1);//Initialize Break timer
+						setTimeout(function () {
+							//self.startCountdown(0);//Initialize Round timer
+							self.markers = [];
+							self.cityMarkers = [];
+							self.infoWindows = [];
+							self.playerMarkers = [];
+							self.playerInfo = [];
+							self.currentRound++;
+						}, 3000);
+					}
                 } else {
                     this.gameEnded = true;//Game ended, do not initialize the counter for rounds
                     alert("Total Score: " + self.currentScore);
@@ -166,6 +187,25 @@ let MapComponent = Component({
                 }
             }
         },
+		getPinImage: function (self, player_id) {
+			var colorNo = null;//Used to label what color each player in this game use
+			console.log("player number:" +self.game.players.length);
+				if(player_id === self.game.players[0].id)
+				{
+					colorNo = 0;
+				} else if(player_id === self.game.players[1].id) {
+					colorNo = 1;
+				} else if(player_id === self.game.players[2].id) {
+					colorNo = 2;
+				} else if(player_id === self.game.players[3].id) {
+				    colorNo = 3;
+				}
+				var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + self.pinLetters[self.currentRound] + "|" + self.pinColors[colorNo],
+				new google.maps.Size(28, 40),
+				new google.maps.Point(0,0),
+				new google.maps.Point(14, 40));//Generate specific pin image of different letters and colors
+				return pinImage;
+		},
         handleCountdown: function (counterType) {
             var self = this;
             if (counterType == 0) {//Round timer, countdown from 10 during a round

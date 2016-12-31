@@ -35,10 +35,20 @@
                 *ngFor="let cm of cityMarkers; let i = index"
                 [latitude]="cm.lat"
                 [longitude]="cm.lng">
-            <sebm-google-map-info-window id='info_window'
-                                         *ngFor="let info of infoWindows; let i = index"
-                                         [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
-            </sebm-google-map-info-window>
+				<sebm-google-map-info-window id='info_window0'
+											 *ngFor="let info of infoWindows; let i = index"
+											 [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
+				</sebm-google-map-info-window>
+        </sebm-google-map-marker>
+		<sebm-google-map-marker
+                *ngFor="let pm of playerMarkers; let i = index"
+                [latitude]="pm.lat"
+                [longitude]="pm.lng"
+				[iconUrl]="pm.img">
+				<sebm-google-map-info-window id='info_window1'
+											 *ngFor="let info of playerInfo; let i = index"
+											 [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
+				</sebm-google-map-info-window>
         </sebm-google-map-marker>
     </sebm-google-map>
 
