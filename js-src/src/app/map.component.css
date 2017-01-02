@@ -2,7 +2,21 @@
     margin-top: 10px;
     margin: auto;
     height: 550px;
-    width: 100%;
+    width: 80%;
+	float: left;
+}
+.player-marker-color {
+	margin-left: 2em;
+	float: right;
+	width: 10em;
+}
+.player-side {
+	float: left;
+	width: 50%;
+}
+.color-side {
+	float: right;
+	width: 40%;
 }
 .countdown {
     color: darkred;
@@ -16,5 +30,4 @@
 p {
     color: black;
     font-size: 18px;
-    font-weight: 600;
 }

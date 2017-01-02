@@ -12,6 +12,7 @@ import {MapComponent} from './map.component';
 import {HighscoresComponent} from './highscores.component';
 import {PlayerComponent} from './player.component';
 import {GamesComponent} from './games.component';
+import {RoomComponent} from './room.component';
 
 import {AgmCoreModule} from 'angular2-google-maps/esm/core';
 
@@ -22,14 +23,16 @@ let AppModule = NgModule({
         CommonModule,
         NgbModule.forRoot(),
         RouterModule.forRoot([
+			{path: 'room/:game_id/:player_id', component: RoomComponent},
             {path: 'map/:game_id/:player_id', component: MapComponent},
             {path: 'highscores/:id1/:id2', component: HighscoresComponent},
-            {path: '', component: HomeComponent}]),
+            {path: '', component: HomeComponent},
+			{path: ':player_id', component: HomeComponent}]),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAgOrFWDMyp4XFYQRlY1a-cNxKNPz56ZQ4'
         })
     ],
-    declarations: [AppComponent, MapComponent, HomeComponent, HighscoresComponent, PlayerComponent, GamesComponent],
+    declarations: [AppComponent, MapComponent, HomeComponent, HighscoresComponent, PlayerComponent, GamesComponent, RoomComponent],
     bootstrap: [AppComponent],
 }).Class({
     constructor: function () {
