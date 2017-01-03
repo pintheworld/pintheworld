@@ -12,25 +12,26 @@ let GamesComponent = Component({
 
     .Class({
         constructor: [GameService, PlayerService, Router, ActivatedRoute,
-					  function (gameService, playerService, router, activatedRoute) {
-            this.gameService = gameService;
-            this.playerService = playerService;
-            this.router = router;
-			this.route = activatedRoute;
-			this.player = null;
-            var games = [];
-        }],
+            function (gameService, playerService, router, activatedRoute) {
+                this.gameService = gameService;
+                this.playerService = playerService;
+                this.router = router;
+                this.route = activatedRoute;
+                this.player = null;
+                var games = [];
+            }],
 
-		createRoom: function () {
+        createRoom: function () {
             var self = this;
-			if(this.myPlayerName) {
-				this.playerService.createPlayer(this.myPlayerName).subscribe(
-					function (player) {
-						self.gameService.createGame(player.id).subscribe(function (game) {
-							console.log("game id: " + game.id + " player id: " + player.id);
-							self.router.navigate(['/room', game.id, player.id]);
-						});
-                });
+            if (this.myPlayerName) {
+                this.playerService.createPlayer(this.myPlayerName).subscribe(
+                    function (player) {
+                        self.gameService.createGame(player.id).subscribe(function (game) {
+                            console.log("game id: " + game.id + " player id: " + player.id);
+                            self.router.navigate(['/room', game.id, player.id]);
+                        });
+                    });
+            }
         }
     });
 
