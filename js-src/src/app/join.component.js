@@ -1,18 +1,20 @@
 import {Component} from '@angular/core';
 import {GameService} from './services/game.service';
+import {PlayerService} from './services/player.service';
 import joinTemplate from './join.component.html';
 import {Router, ActivatedRoute} from '@angular/router';
 
 let JoinComponent = Component({
     selector: 'join-component',
     template: joinTemplate,
-    viewProviders: [GameService]
+    viewProviders: [GameService, PlayerService]
 })
 
     .Class({
-        constructor: [GameService, Router, ActivatedRoute,
-            function (gameService, router, activatedRoute) {
+        constructor: [GameService, PlayerService, Router, ActivatedRoute,
+            function (gameService, playerService, router, activatedRoute) {
                 this.gameService = gameService;
+                this.playerService = playerService;
                 this.router = router;
                 this.route = activatedRoute;
                 this.games = [];
@@ -29,10 +31,17 @@ let JoinComponent = Component({
         join: function (game_id) {
             var self = this;
             var player_id = this.route.snapshot.params['player_id'];
-            console.log(player_id);
-            this.gameService.join(player_id, game_id).subscribe(function () {
-                self.router.navigate(['/room', game_id, player_id]);
-            });
+            if (typeof player_id === 'undefined') {
+                this.playerService.createPlayer('FIXTHIS').subscribe(function (player) {
+                    console.log(player);
+                    self.gameService.join(player.id, game_id).subscribe(function () {
+                        self.router.navigate(['/room', game_id, player.id]);
+                    });
+                })
+            } else {
+                console.log('YOU SHOUDNT BE HERE FIX ME')
+            }
+
         }
 
     });
