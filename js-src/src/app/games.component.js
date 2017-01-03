@@ -18,7 +18,7 @@ let GamesComponent = Component({
                 this.router = router;
                 this.route = activatedRoute;
                 this.player = null;
-                var games = [];
+                this.games = [];
             }],
 
         createRoom: function () {
@@ -32,6 +32,28 @@ let GamesComponent = Component({
                         });
                     });
             }
+        },
+		getGames: function () {
+            var self = this;
+            this.gameService.getWaitingGames().subscribe(
+                function (games) {
+                    console.log(games);
+                    self.games = games;
+                });
+        },
+        join: function (game_id) {
+            var self = this;
+            if (this.myPlayerName) {
+                this.playerService.createPlayer(this.myPlayerName).subscribe(function (player) {
+                    console.log(player);
+                    self.gameService.join(player.id, game_id).subscribe(function () {
+                        self.router.navigate(['/room', game_id, player.id]);
+                    });
+                })
+            } else {
+                alert("Please enter your player name first :)");
+            }
+
         }
     });
 
