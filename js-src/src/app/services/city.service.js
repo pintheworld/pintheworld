@@ -4,11 +4,7 @@ import {Http} from '@angular/http';
 var CityService = Class({
     constructor: [Http, function (http) {
         this.http = http;
-        //TODO: the base url (everything up to /api/..) should be injected by the module
-        // using GAE
-        // this.baseUrl = "https://pintheworld-146615.appspot.com/api/cities";
-        // using local development
-        this.baseUrl = "http://localhost:8081/api/cities";
+        this.baseUrl = "/api/cities";
     }],
     getCities: function () {
 
