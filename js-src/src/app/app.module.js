@@ -13,6 +13,7 @@ import {HighscoresComponent} from './highscores.component';
 import {PlayerComponent} from './player.component';
 import {GamesComponent} from './games.component';
 import {RoomComponent} from './room.component';
+import {JoinComponent} from './join.component';
 
 import {AgmCoreModule} from 'angular2-google-maps/esm/core';
 
@@ -32,7 +33,16 @@ let AppModule = NgModule({
             apiKey: 'AIzaSyAgOrFWDMyp4XFYQRlY1a-cNxKNPz56ZQ4'
         })
     ],
-    declarations: [AppComponent, MapComponent, HomeComponent, HighscoresComponent, PlayerComponent, GamesComponent, RoomComponent],
+    declarations: [
+        AppComponent,
+        MapComponent,
+        HomeComponent,
+        HighscoresComponent,
+        PlayerComponent,
+        GamesComponent,
+        RoomComponent,
+        JoinComponent
+    ],
     bootstrap: [AppComponent],
 }).Class({
     constructor: function () {

@@ -13,14 +13,6 @@
             <button type="button" class="btn btn-primary" (click)="createRoom()">Create new game</button>
         </div>
     </div>
-	
-    <div class="row">
-        <div *ngFor="let game of games">
-            <a (click)="join(game.id)">Join</a> {{ game.id }}
-        </div>
-    </div>
 
-    <div class="row">
-        <button type="button" class="btn btn-primary" (click)="update()">Search for Games</button>
-    </div>
+    <join-component></join-component>
 </div>
