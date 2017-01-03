@@ -7,6 +7,9 @@ import {Component, Inject} from '@angular/core';
 import mapTemplate from './map.component.html';
 
 import '../../public/css/styles.css';
+import pin from '../../public/img/pin.png';
+import yellowM from '../../public/img/yellow_MarkerC.png';
+import blueM from '../../public/img/blue_MarkerC.png';
 import mapStyling from './map.component.css';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {GameService} from './services/game.service';
