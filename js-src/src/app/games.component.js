@@ -31,33 +31,7 @@ let GamesComponent = Component({
 							self.router.navigate(['/room', game.id, player.id]);
 						});
                 });
-			} else {
-			alert("Please enter your player name first :)");
-			}
-        },
-        update: function () {
-            var self = this;
-            this.gameService.getWaitingGames().subscribe(
-                function (games) {
-                    console.log(games);
-                    self.games = games;
-                });
-        },
-        join: function (game_id) {
-            var self = this;
-			if(this.myPlayerName) {
-				this.playerService.createPlayer(this.myPlayerName).subscribe(
-					function (player) {
-						self.gameService.join(player.id, game_id).subscribe(function () {
-						self.router.navigate(['/room', game_id, player.id]);
-				});
-					}
-				);
-			} else {
-				alert("Please enter your player name first :)");
-			}
         }
-
     });
 
 export {GamesComponent};
