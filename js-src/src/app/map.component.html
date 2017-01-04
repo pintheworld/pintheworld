@@ -1,17 +1,13 @@
 <div class="row" style="height: 43px">
-    <div class="col-sm-2">
+    <div class="col-sm-3">
         <h4><span class="tag tag-default">Score</span> {{currentScore.toFixed(2)}}</h4>
     </div>
-    <div class="col-sm-2 countdown">
-        <p [hidden]="!countDown">Next city in {{breakTimer}}..</p>
-    </div>
-    <div class="col-md-3 city-label">
+    <div class="col-md-6 city-label">
         <h2 *ngIf="currentRound >= 0">{{game.cities[currentRound].name}}</h2>
     </div>
-    <div class="col-sm-2 gametimer">
-        <p [hidden]="!countDown">Remaining Time: {{roundTimer}}</p>
+    <div class="col-sm-3 msg">
+        {{msg}}
     </div>
-
 </div>
 
 <div class="map-wrapper">
@@ -21,7 +17,7 @@
             [zoom]='2'
             [disableDoubleClickZoom]="true"
             [zoomControl]="false"
-            [scrollwheel]="false"
+            [scrollwheel]="true"
             [streetViewControl]="false"
             [styles]="styleOfMap"
             (mapClick)="mapClicked($event)">
@@ -29,37 +25,32 @@
                 *ngFor="let m of markers; let i = index"
                 [latitude]="m.lat"
                 [longitude]="m.lng"
-				[iconUrl]="m.img">
+                [iconUrl]="m.img">
         </sebm-google-map-marker>
         <sebm-google-map-marker
                 *ngFor="let cm of cityMarkers; let i = index"
                 [latitude]="cm.lat"
                 [longitude]="cm.lng">
-				<sebm-google-map-info-window id='info_window0'
-											 *ngFor="let info of infoWindows; let i = index"
-											 [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
-				</sebm-google-map-info-window>
+            <sebm-google-map-info-window id='info_window0'
+                                         *ngFor="let info of infoWindows; let i = index"
+                                         [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
+            </sebm-google-map-info-window>
         </sebm-google-map-marker>
-		<sebm-google-map-marker
+        <sebm-google-map-marker
                 *ngFor="let pm of playerMarkers; let i = index"
                 [latitude]="pm.lat"
                 [longitude]="pm.lng"
-				[iconUrl]="pm.img">
-				<sebm-google-map-info-window id='info_window1'
-											 *ngFor="let info of playerInfo; let i = index"
-											 [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
-				</sebm-google-map-info-window>
+                [iconUrl]="pm.img">
+            <sebm-google-map-info-window id='info_window1'
+                                         *ngFor="let info of playerInfo; let i = index"
+                                         [isOpen]="info.isOpen" #window><p [innerHTML]="info.details"></p>
+            </sebm-google-map-info-window>
         </sebm-google-map-marker>
     </sebm-google-map>
-	
+
 </div>
-<div class="player-marker-color">
-	<div class="player-side">
-		<p>Player: </p>
-		<p *ngFor="let n of playerMarker; let i = index" [innerHTML]="n.name"></p>
-	</div>
-	<div class="color-side">
-		<p>Marker: </p>
-		<p *ngFor="let c of playerMarker; let i = index" [innerHTML]="c.color"></p>
-	</div>
+<div class="players-legend">
+    Players: <span *ngFor="let n of playerMarker; let i = index" style="margin-right: 15px;"><img
+        class="player-icon"
+        src="https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=|{{n.color}}">{{n.name}}</span>
 </div>

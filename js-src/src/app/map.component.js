@@ -34,18 +34,16 @@ let MapComponent = Component({
                 this.guessService = guessService;
                 this.channelService = channelService;
 
-                this.error = '';
                 this.cities = [];
                 this.markers = [];
                 this.cityMarkers = [];//Cities' marker (different from player guess markers - markers)
                 this.infoWindows = [];
-				this.playerMarkers = [];//Other players' markers after each round
-				this.playerMarker = [];//Used to store name and marker color of each player
+                this.playerMarkers = [];//Other players' markers after each round
+                this.playerMarker = [];//Used to store name and marker color of each player
                 this.styleOfMap = [];
-				this.pinColors = ["FFFF00", "FFA500", "008000", "0000FF"];//colors used for markers: yellow, orange, green, blue
-				this.colorNames = ["Yellow", "Orange", "Green", "Blue"];
-				this.pinLetters = 'ABCDE';//letters used for each round's marker
-				this.messages = [];//store messages from channel
+                this.pinColors = ["008000", "0000FF", "FFFF00", "FFA500"]; //colors used for markers: yellow, orange, green, blue
+                this.pinLetters = '12345';
+                this.msg = '';
 
                 // TODO: determine the style of each level and add more styles here
                 this.noLabel = [{"elementType": 'labels', "stylers": [{"visibility": 'off'}]}];
@@ -54,6 +52,7 @@ let MapComponent = Component({
 
                 this.currentRound = -1;
                 this.currentScore = 0;
+                this.guessesReceived = 0;
                 this.game = null;
                 this.player = null;
                 this.router = router;
@@ -64,24 +63,23 @@ let MapComponent = Component({
                 this.responseTaken = false;//Used this variable to not let user click more than once between rounds, that messes around timer and markers
                 this.gameEnded = false;//Used this variable to see if the game ended, e.g: move to highscore page and stop initiating timers
 
-                this.newGame();
+                this.startGame();
             }],
         mapClicked: function (e) {
             if (!this.responseTaken) {
-                //^Ut,Done: TODO: user should only be able to click when he is allowed to
-                //^Ut,Done: (not between rounds, not without or after the game)
+                this.responseTaken = true;
+                this.msg = 'waiting for other players...';
+                clearInterval(this.rndTimer);
 
-				var self = this;
-				var pin1 = this.getPinImage(self, self.player.id);
-                this.markers.push({lat: e == null ? 200 : e.coords.lat, lng: e == null ? 200 : e.coords.lng, img: pin1});
-				
-                var currentCity = this.game.cities[this.currentRound];
-				self.cityMarkers.push({lat: currentCity.lat, lng: currentCity.long});
-                self.infoWindows.push({
-                    isOpen: 'true',
-                    details: currentCity.name
+                var pin1 = this.getPinImage(this, this.player.id);
+                this.markers.push({
+                    lat: e == null ? 200 : e.coords.lat,
+                    lng: e == null ? 200 : e.coords.lng,
+                    img: pin1
                 });
 
+                var currentCity = this.game.cities[this.currentRound];
+                var self = this;
                 this.guessService
                     .submitGuess(this.game.id, this.player.id, currentCity.id, e == null ? 200 : e.coords.lat, e == null ? 200 : e.coords.lng, this.roundTimer)
                     .subscribe(function (guess) {
@@ -89,21 +87,21 @@ let MapComponent = Component({
                     });
             }
         },
-        newGame: function () {
+        startGame: function () {
             var self = this;
             var player_id = this.route.snapshot.params['player_id'];
             var game_id = this.route.snapshot.params['game_id'];
-            this.createChannel(self, player_id);
+            this.createChannel(this, player_id);
             this.playerService.getPlayer(player_id).subscribe(
                 function (player) {
                     self.player = player;
                     self.gameService.getGame(game_id).subscribe(function (game) {
                         self.initGame(self, game);
-						// show player's name and color name
- 						for (var i = 0; i < game.players.length; i++){
- 							self.playerMarker.push({name: game.players[i].name, color: self.colorNames[0]});
- 							self.colorNames.shift();
- 						}
+
+                        // show player's name and color name
+                        for (var i = 0; i < game.players.length; i++) {
+                            self.playerMarker.push({name: game.players[i].name, color: self.pinColors[i]});
+                        }
                     });
                 });
         },
@@ -117,20 +115,40 @@ let MapComponent = Component({
                         console.log('opened channel');
                     },
                     'onmessage': function (msg) {
-                        console.log('received message: ' + msg.data);
-						/*var m = msg.data.replace(/'/g,'\"');
-						self.messages.push(JSON.parse(m));
-						for(var j = 0; j < self.messages.length; j++){
-							console.log('player id: '+self.messages[j].player);
-						    console.log('long: '+self.messages[j].long);
-						}*/
+                        self.guessesReceived += 1;
+                        if (self.guessesReceived == self.game.players.length) {
+                            self.guessesReceived = 0;
+
+                            var currentCity = self.game.cities[self.currentRound];
+                            self.cityMarkers.push({lat: currentCity.lat, lng: currentCity.long});
+                            self.infoWindows.push({
+                                isOpen: 'true',
+                                details: currentCity.name
+                            });
+
+                            if (self.currentRound <= self.markers.length) {
+                                self.startCountdown(1);//Initialize Break timer
+                            } else {
+                                //Game ended, navigate to highscore page
+                                this.gameEnded = true;
+                                self.router.navigate(['/highscores', self.game.id, self.player.id])
+                            }
+                            self.guessService.getAllGuesses(self.game.id).subscribe(function (guesses) {
+                                for (var i = 0; i < guesses.length; i++) {
+                                    if ((guesses[i].player.id != self.player.id) && (guesses[i].city.id == currentCity.id)) {
+                                        var pin2 = self.getPinImage(self, guesses[i].player.id);
+                                        self.playerMarkers.push({lat: guesses[i].lat, lng: guesses[i].long, img: pin2});
+                                    }
+                                }
+                            });
+                        }
                     },
                     'onerror': function () {
                     },
                     'onclose': function () {
                     }
                 };
-                var socket = channel.open(handler);
+                channel.open(handler);
             });
         },
         initGame: function (self, game) {
@@ -139,105 +157,65 @@ let MapComponent = Component({
             self.markers = [];
             self.cityMarkers = [];
             self.infoWindows = [];
-			self.playerMarkers = [];
-			self.playerInfo = [];
+            self.playerMarkers = [];
+            self.playerInfo = [];
             self.currentRound = 0;
             self.currentScore = 0;
+            self.guessesReceived = 0;
+            self.msg = '';
             self.startCountdown(0);//Initialize Round timer
         },
         guessResponse: function (self, currentCity, guess) {
-            if (!this.responseTaken) {//If map is already clicked, dont let it be clicked again
-                self.currentScore += guess.score;
-				console.log("IN GUESS RESPONSE, player number: "+ self.game.players.length);
-				if(self.game.players.length > 1) {//multiple players: need to wait for other players' guesses
-				//originally plan to call the function each second to see if other player clicks on the map,but doesn't work fine, don't know why
-					setTimeout(function() {//push other players' markers onto the map
-						self.guessService.getAllGuesses(self.game.id).subscribe(function (guesses) {
-							for(var i = 0; i < guesses.length; i++) {
-								if((guesses[i].player.id != self.player.id) && (guesses[i].city.id == currentCity.id)) {
-									var pin2 = self.getPinImage(self, guesses[i].player.id);
-									self.playerMarkers.push({lat: guesses[i].lat, lng: guesses[i].long, img: pin2});
-								}
-							}
-						});
-						/*while(self.messages.length !== 0) {
-							if(self.messages[0].player !== self.player.id) {
-								var pin2 = self.getPinImage(self, self.messages[0].player);
-								self.playerMarkers.push({lat: self.messages[0].lat, lng: self.messages[0].long, img: pin2});
-							}
-							self.messages.shift();
-						}*/
-					}, self.roundTimer);
-				} else {
-					this.roundTimer = 0;
-				}
-                self.markers.push({lat: currentCity.lat, lng: currentCity.long}); 
-                if (self.currentRound < self.markers.length) {//counter works wierdly with self.markers.length
-                    this.responseTaken = true;
-					self.startCountdown(1);//Initialize Break timer
-					setTimeout(function () {
-						self.startCountdown(0);//Initialize Round timer
-						self.markers = [];
-						self.cityMarkers = [];
-						self.infoWindows = [];
-						self.playerMarkers = [];
-						//self.messages = [];
-						self.currentRound++;
-					}, 3000);
-                } else {
-                    this.gameEnded = true;//Game ended, do not initialize the counter for rounds
-                    alert("Total Score: " + self.currentScore);
-                    self.router.navigate(['/highscores', self.game.id, self.player.id])//Move to highscores when the game ends
-                }
-            }
+            self.currentScore += guess.score;
         },
-		getPinImage: function (self, player_id) {
-			var colorNo = null;//Used to label what color each player in this game use
-			if(player_id === self.game.players[0].id)
-			{
-				colorNo = 0;
-			} else if(player_id === self.game.players[1].id) {
-				colorNo = 1;
-			} else if(player_id === self.game.players[2].id) {
-				colorNo = 2;
-			} else if(player_id === self.game.players[3].id) {
-			    colorNo = 3;
-			}
-			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + self.pinLetters[self.currentRound] + "|" + self.pinColors[colorNo],
-			new google.maps.Size(28, 40),
-			new google.maps.Point(0,0),
-			new google.maps.Point(14, 40));//Generate specific pin image of different letters and colors
-			return pinImage;
-		},
+        getPinImage: function (self, player_id) {
+            var colorNo = self.game.players.findIndex(function (x) {
+                return x.id === player_id;
+            });
+            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + self.pinLetters[self.currentRound] + "|" + self.pinColors[colorNo],
+                new google.maps.Size(28, 40),
+                new google.maps.Point(0, 0),
+                new google.maps.Point(14, 40));//Generate specific pin image of different letters and colors
+            return pinImage;
+        },
         handleCountdown: function (counterType) {
             var self = this;
-            if (counterType == 0) {//Round timer, countdown from 10 during a round
+            if (counterType === 0) {//Round timer, countdown from 10 during a round
                 if (this.roundTimer === 0 && !this.gameEnded) {
                     self.mapClicked(null);
-                    clearInterval(self.rndTimer);
                 } else {
+                    this.msg = this.roundTimer + ' sec left';
                     this.roundTimer--;
                 }
             }
-            if (counterType == 1) {//Break timer, breaks between games countdown from 3
+            if (counterType === 1) {//Break timer, breaks between games countdown from 3
                 if (this.breakTimer === 0) {
                     clearInterval(self.brTimer);
                     this.responseTaken = false;
+
+                    self.startCountdown(0);//Initialize Round timer
+                    this.markers = [];
+                    this.cityMarkers = [];
+                    this.infoWindows = [];
+                    this.playerMarkers = [];
+                    this.currentRound++;
                 } else {
+                    this.msg = 'next city in ' + this.breakTimer;
                     this.breakTimer--;
                 }
             }
         },
         startCountdown: function (counterType) {
             var self = this;
-            self.countDown = 5;
-            if (counterType == 0) {//Round timer, countdown from 10 during a round
-                this.roundTimer = 10;
+            if (counterType == 0) {
+                //Round timer, countdown from 30 during a round
+                this.roundTimer = 30;
                 self.rndTimer = setInterval(function () {
                     self.handleCountdown(counterType);
                 }, 1000)
             }
-            if (counterType == 1 && !this.gameEnded) {//Break timer, breaks between games countdown from 3 if it is between rounds
+            if (counterType == 1 && !this.gameEnded) {
+                // Break timer, breaks between games countdown from 3 if it is between rounds
                 this.breakTimer = 3;
                 self.brTimer = setInterval(function () {
                     self.handleCountdown(counterType);

@@ -1,33 +1,32 @@
 .map-wrapper {
     margin-top: 10px;
     margin: auto;
-    height: 550px;
-    width: 80%;
-	float: left;
+    width: 100%;
 }
-.player-marker-color {
-	margin-left: 2em;
-	float: right;
-	width: 10em;
+
+.players-legend {
+    margin-top: 10px;
 }
-.player-side {
-	float: left;
-	width: 50%;
+
+.city-label {
+    text-align: center;
 }
-.color-side {
-	float: right;
-	width: 40%;
+
+.msg {
+    text-align: right;
 }
-.countdown {
-    color: darkred;
-}
+
 .sebm-google-map-container {
-    position: absolute;
-    padding-left: 20px;
-    height: 550px;
-    width: 900px;
+    height: 500px;
+    width: 100%;
 }
+
 p {
     color: black;
     font-size: 18px;
+}
+
+.player-icon {
+    height: 18px;
+    margin-right: 5px;
 }
