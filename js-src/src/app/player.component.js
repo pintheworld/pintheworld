@@ -27,12 +27,12 @@ let PlayerComponent = Component({
                     console.log("player_id:");
                     console.log(self.player.id);
 					// TODO: asynchronize now. cannot show player's name when player create a name at the first time
-					// but can show when more names created
-					self.playerService.getPlayer(self.player.id).subscribe(
-						function (p) {
-							self.thisPlayer = p;
-						});
-					self.router.navigate(['', self.player.id]);
+ 					// but can show when more names created
+ 					self.playerService.getPlayer(self.player.id).subscribe(
+ 						function (p) {
+ 							self.thisPlayer = p;
+ 						});
+ 					self.router.navigate(['', self.player.id]);
                 });
         }
     });

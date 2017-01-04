@@ -1,12 +1,10 @@
 <div>
+    <h4>Games: </h4>
+
     <div class="row">
-        <h4 class="col-lg-4">Games: </h4>
-    </div>
-	
-	<div class="row">
         <div class="col-sm-6">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="name..." [(ngModel)]="myPlayerName">
+                <input type="text" class="form-control" placeholder="player name..." [(ngModel)]="myPlayerName">
             </div>
         </div>
         <div class="col-sm-2">
@@ -14,5 +12,17 @@
         </div>
     </div>
 
-    <join-component></join-component>
+    <!--<join-component></join-component>-->
+	<div class="row">
+		<div class="col-sm-2">
+			<button type="button" class="btn btn-primary" (click)="getGames()">Search for Games</button>
+		</div>
+	</div>
+		<div *ngFor="let game of games" class="row">
+			<span class="col-sm-3">Game created by: {{game.players[0].name}}</span>
+			<span class="col-sm-3">Number of players: {{game.players.length}}</span>
+			<div class="col-sm-2">
+				<button type="button" (click)="join(game.id)" class="btn btn-primary">Join</button>
+			</div>
+		</div>
 </div>
