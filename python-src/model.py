@@ -9,6 +9,7 @@ class City(ndb.Model):
     name = ndb.StringProperty()
     long = ndb.FloatProperty()
     lat = ndb.FloatProperty()
+    difficulty = ndb.IntegerProperty()  # 0 = easy, 1 = hard
 
 
 # linked to game via ancestor/parent
@@ -27,7 +28,6 @@ class Guess(ndb.Model):
 
 
 class Game(ndb.Model):
-    noOfPlayers = ndb.IntegerProperty()
     players = ndb.KeyProperty(kind=Player, repeated=True)
     cities = ndb.KeyProperty(kind=City, repeated=True)
     state = ndb.StringProperty()

@@ -2,11 +2,25 @@
 	"variables": [],
 	"info": {
 		"name": "Pin the World",
-		"_postman_id": "62d528d9-6c97-b949-17b2-1454deecb463",
+		"_postman_id": "1533e037-a315-1818-c413-679abde3cf2a",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "get all players",
+			"request": {
+				"url": "{{url}}/api/players",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
 		{
 			"name": "create player",
 			"event": [
@@ -41,23 +55,15 @@
 			"response": []
 		},
 		{
-			"name": "get all players",
-			"request": {
-				"url": "{{url}}/api/players",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "delete all players",
 			"request": {
 				"url": "{{url}}/api/players",
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -95,9 +101,55 @@
 			"response": []
 		},
 		{
+			"name": "create game (hard)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"created_game\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/games",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"player_id\": \"{{created_player}}\",\n\t\"difficulty\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "get all games",
 			"request": {
 				"url": "{{url}}/api/games",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get wating games",
+			"request": {
+				"url": "{{url}}/api/games?state=waitingForPlayers",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -125,7 +177,41 @@
 				"url": "{{url}}/api/games/{{created_game}}",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update game state",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/games/{{created_game}}",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"running\"\n}"
+				},
 				"description": ""
 			},
 			"response": []
@@ -136,7 +222,10 @@
 				"url": "{{url}}/api/games",
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -159,7 +248,10 @@
 				"url": "{{url}}/api/cities",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -170,7 +262,10 @@
 				"url": "{{url}}/api/cities",
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -201,7 +296,10 @@
 				"url": "{{url}}/api/games/{{created_game}}/guesses",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": ""
 			},
 			"response": []
@@ -209,10 +307,19 @@
 		{
 			"name": "get highscores",
 			"request": {
-				"url": "{{url}}/api/highscores",
-				"method": "GET",
-				"header": [],
-				"body": {},
+				"url": "{{url}}/api/channel",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"channel_id\": \"some_id\"\n}"
+				},
 				"description": ""
 			},
 			"response": []

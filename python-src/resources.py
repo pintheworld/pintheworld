@@ -39,7 +39,8 @@ class GamesResource(Resource):
         game = Game()
         request_data = request.get_json()
         game.players = [ndb.Key(urlsafe=request_data['player_id'])]
-        game.cities = Util.get_cities(int(request_data.get('number_of_cities', 3)))
+        game.cities = Util.get_cities(int(request_data.get('number_of_cities', 3)),
+                                      int(request_data.get('difficulty', 0)))
         game.state = GameState.waitingForPlayers
         game.put()
         return Util.to_json(game), 201
@@ -59,6 +60,7 @@ class CityResource(Resource):
         city.name = request_data['name']
         city.long = request_data['long']
         city.lat = request_data['lat']
+        city.difficulty = request_data.get('difficulty', 0)
         city.put()
         return {"id": city.key.id()}, 201
 
@@ -161,8 +163,8 @@ class ChannelResource(Resource):
 
 class Util:
     @staticmethod
-    def get_cities(num):
-        return random.sample(City.query().fetch(keys_only=True), num)
+    def get_cities(num, difficulty):
+        return random.sample(City.query(City.difficulty == difficulty).fetch(keys_only=True), num)
 
     # based on https://stackoverflow.com/a/25871759/1136534
     @staticmethod
