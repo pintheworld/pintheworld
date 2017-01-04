@@ -131,7 +131,7 @@ let MapComponent = Component({
                                         self.playerMarkers.push({lat: guesses[i].lat, lng: guesses[i].long, img: pin2});
                                     }
                                 }
-								if (self.currentRound < 2) {//Here we have got 3 rounds each game
+								if (self.currentRound < (self.game.cities.length - 1)) {//first few rounds
 									self.startCountdown(1);//Initialize Break timer
 								} else {
 									//Game ended(last round), navigate to highscore page
