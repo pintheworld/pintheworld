@@ -23,12 +23,10 @@ let GamesComponent = Component({
 
 		createRoom: function () {
             var self = this;
-            this.playerService.createPlayer(this.myPlayerName).subscribe(
-                function (player) {
-                    self.gameService.createGame(player.id).subscribe(function (game) {
-						console.log("game id: " + game.id + " player id: " + player.id);
-                        self.router.navigate(['/room', game.id, player.id]);
-                    });
+            var player_id = this.route.snapshot.params['player_id'];
+                    self.gameService.createGame(player_id).subscribe(function (game) {
+						console.log("game id: " + game.id + " player id: " + player_id);
+                        self.router.navigate(['/room', game.id, player_id]);
                 });
 
         }

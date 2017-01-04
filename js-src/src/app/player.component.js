@@ -32,7 +32,7 @@ let PlayerComponent = Component({
 						function (p) {
 							self.thisPlayer = p;
 						});
-					self.router.navigate(['', self.player.id]);
+					self.router.navigate(['/game', self.player.id]);
                 });
         }
     });

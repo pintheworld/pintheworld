@@ -1,18 +1,18 @@
 <div>
     <div class="row">
-        <h4 class="col-lg-4">Games: </h4>
-    </div>
-	
-	<div class="row">
-        <div class="col-sm-6">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="name..." [(ngModel)]="myPlayerName">
-            </div>
-        </div>
+        <h4 class="col-lg-4" style="text-align:right">Options: </h4>
         <div class="col-sm-2">
-            <button type="button" class="btn btn-primary" (click)="createRoom()">Create new game</button>
+            <button type="button" class="btn btn-primary" (click)="createRoom()">Create new room</button>
+        </div>
+        <div class="col-sm-6">
+            <join-component></join-component>
         </div>
     </div>
+<!--
+	<div class="row">
 
-    <join-component></join-component>
+
+    </div> -->
+
+
 </div>
