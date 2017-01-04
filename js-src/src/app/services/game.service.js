@@ -27,6 +27,13 @@ var GameService = Class({
             }
         )
     },
+    startGame: function (game_id) {
+        return this.http.post(this.baseUrl + "/" + game_id, {'state': 'running'}).map(
+            function (res) {
+                return res.json()
+            }
+        )
+    },
     getGame: function (game_id) {
         return this.http.get(this.baseUrl + "/" + game_id).map(
             function (res) {

@@ -1,18 +1,14 @@
 <div>
     <div class="row">
-        <h4 class="col-lg-4">My room: </h4>
+        <h4>Wait for other players...</h4>
+        or start game now to start a single player game
     </div>
-	<div class="row">
-		<h5 class="row-sm">Players: </h5>
-		<div class="row-sm" *ngFor="let player of players; let i of index">
-			<p [innerHTML]="player.name"></p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-2 countdown">
-			Waiting time: <p [innerHTML]="timer"></p> seconds
-    	</div>
-	</div>
+    <div class="row">
+        <h5>Players: </h5>
+        <ul *ngFor="let player of players; let i of index">
+            <li [innerHTML]="player.name"></li>
+        </ul>
+    </div>
     <div class="row">
         <button type="button" class="btn btn-primary" (click)="start()">Start game</button>
     </div>
