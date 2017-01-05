@@ -31,6 +31,7 @@ class Game(ndb.Model):
     players = ndb.KeyProperty(kind=Player, repeated=True)
     cities = ndb.KeyProperty(kind=City, repeated=True)
     state = ndb.StringProperty()
+    diff = ndb.IntegerProperty()
 
 
 class GameState():
