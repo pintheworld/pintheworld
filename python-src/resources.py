@@ -30,7 +30,9 @@ class GamesResource(Resource):
     def get(self):
         args = request.args
         if args.get('state'):
-            if int(args.get('diff')):
+            state = args.get('state')
+            if args.get('diff'):
+                diff = int(args.get('diff'))
                 query = Game.query(Game.state == state, Game.diff == diff)
             else:
                 query = Game.query(Game.state == state)
