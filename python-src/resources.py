@@ -29,8 +29,13 @@ class GameResource(Resource):
 class GamesResource(Resource):
     def get(self):
         args = request.args
-        if 'state' in args:
-            query = Game.query(Game.state == args['state'])
+        state = args.get('state')
+        diff = int(args.get('diff'))
+        if state:
+            if diff:
+                query = Game.query(Game.state == state, Game.diff == diff)
+            else:
+                query = Game.query(Game.state == state, Game.diff == 1)
         else:
             query = Game.query()
         return Util.to_json(query.fetch())
