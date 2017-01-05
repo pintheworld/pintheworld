@@ -26,9 +26,7 @@ let HighscoresComponent = Component({
 			var self = this;
 			var game_id = this.route.snapshot.params['id1'];
             if (typeof game_id === 'undefined') {
-                console.log(game_id);
                 this.isSpecial = false;
-                console.log(this.isSpecial);
             } else {
                 this.highscoreService.getGameScores(game_id).subscribe (
     				function (scores) {
@@ -36,7 +34,6 @@ let HighscoresComponent = Component({
     				}
     			);
                 this.isSpecial = true;
-                console.log(this.isSpecial);
             }
 
 		},
