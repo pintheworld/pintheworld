@@ -131,7 +131,8 @@ let MapComponent = Component({
                             } else {
                                 //Game ended, navigate to highscore page
                                 this.gameEnded = true;
-                                self.router.navigate(['/highscores', self.game.id, self.player.id])
+								// TODO: game.diff or send by route
+                                self.router.navigate(['/highscores', self.game.id, self.player.id, self.game.diff])
                             }
                             self.guessService.getAllGuesses(self.game.id).subscribe(function (guesses) {
                                 for (var i = 0; i < guesses.length; i++) {

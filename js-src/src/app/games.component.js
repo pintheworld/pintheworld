@@ -19,27 +19,48 @@ let GamesComponent = Component({
                 this.route = activatedRoute;
                 this.player = null;
                 this.games = [];
+				this.difficulty = null;
             }],
-
+		easy: function() {
+			this.difficulty = 1;
+			console.log(this.difficulty);
+		},
+		difficult: function() {
+			this.difficulty = 2;
+			console.log(this.difficulty);
+		},
         createRoom: function () {
             var self = this;
             if (this.myPlayerName) {
                 this.playerService.createPlayer(this.myPlayerName).subscribe(
                     function (player) {
-                        self.gameService.createGame(player.id).subscribe(function (game) {
-                            console.log("game id: " + game.id + " player id: " + player.id);
-                            self.router.navigate(['/room', game.id, player.id]);
-                        });
+						console.log("self.difficulty: " + self.difficulty);
+						if (!self.difficulty) {
+							self.difficulty = 1;
+						}
+						self.gameService.createGame(player.id, self.difficulty).subscribe(function (game) {
+							console.log("game id: " + game.id + " player id: " + player.id);
+							self.router.navigate(['/room', game.id, player.id]);
+						});
                     });
             }
         },
 		getGames: function () {
             var self = this;
-            this.gameService.getWaitingGames().subscribe(
-                function (games) {
-                    console.log(games);
-                    self.games = games;
-                });
+			if (this.difficulty == 1 || this.difficulty == null) {
+				this.gameService.getWaitingGames(1).subscribe(
+					function (games) {
+						console.log(games);
+						self.games = games;
+					});
+			}
+            else {
+				this.gameService.getWaitingGames(2).subscribe(
+					function (games) {
+						console.log(games);
+						self.games = games;
+					});
+			}
         },
         join: function (game_id) {
             var self = this;
@@ -53,7 +74,6 @@ let GamesComponent = Component({
             } else {
                 alert("Please enter your player name first :)");
             }
-
         }
     });
 
