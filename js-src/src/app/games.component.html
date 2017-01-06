@@ -1,6 +1,26 @@
 <div>
+	<form>
+		<div class="form-group">
+			<legend>Game mode: </legend>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="radio" class="form-check-input" name="option" [(ngModel)]="myDifficulty"
+						   [value]="1">
+					Easy
+				</label>
+			</div>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="radio" class="form-check-input" name="option" [(ngModel)]="myDifficulty"
+						   [value]="2">
+					Difficult
+				</label>
+			</div>
+		</div>
+	</form>
+</div>
+<div>
     <h4>Games: </h4>
-
     <div class="row">
         <div class="col-sm-6">
             <div class="input-group">
@@ -11,7 +31,6 @@
             <button type="button" class="btn btn-primary" (click)="createRoom()">Create new game</button>
         </div>
     </div>
-
 	<div class="row">
 		<div class="col-sm-2">
 			<button type="button" class="btn btn-primary" (click)="getGames()">Search for Games</button>
@@ -20,6 +39,8 @@
 		<div *ngFor="let game of games" class="row">
 			<span class="col-sm-3">Game created by: {{game.players[0].name}}</span>
 			<span class="col-sm-3">Number of players: {{game.players.length}}</span>
+			<span class="col-sm-3" *ngIf="game.diff==1">Difficulty: Easy</span>
+			<span class="col-sm-3" *ngIf="game.diff==2">Difficulty: Difficult</span>
 			<div class="col-sm-2">
 				<button type="button" (click)="join(game.id)" class="btn btn-primary">Join</button>
 			</div>

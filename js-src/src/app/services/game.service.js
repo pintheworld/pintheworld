@@ -13,8 +13,8 @@ var GameService = Class({
             }
         )
     },
-    getWaitingGames: function () {
-        return this.http.get(this.baseUrl + '?state=waitingForPlayers').map(
+    getWaitingGames: function (diff) {
+        return this.http.get(this.baseUrl + '?state=waitingForPlayers' + '&diff=' + diff).map(
             function (res) {
                 return res.json()
             }
@@ -41,8 +41,8 @@ var GameService = Class({
             }
         )
     },
-    createGame: function (player_id) {
-        return this.http.post(this.baseUrl, {player_id}).map(
+    createGame: function (player_id, difficulty) {
+        return this.http.post(this.baseUrl, {player_id, difficulty}).map(
             function (res) {
                 return res.json()
             }

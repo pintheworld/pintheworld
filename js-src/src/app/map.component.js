@@ -123,7 +123,6 @@ let MapComponent = Component({
                                 isOpen: 'true',
                                 details: currentCity.name
                             });
-							
                             self.guessService.getAllGuesses(self.game.id).subscribe(function (guesses) {
                                 for (var i = 0; i < guesses.length; i++) {
                                     if ((guesses[i].player.id != self.player.id) && (guesses[i].city.id == currentCity.id)) {
@@ -137,7 +136,7 @@ let MapComponent = Component({
 									//Game ended(last round), navigate to highscore page
 									this.gameEnded = true;
 									setTimeout(function () {
-										self.router.navigate(['/highscores', self.game.id, self.player.id]);
+										self.router.navigate(['/highscores', self.game.id, self.player.id, self.game.diff])
 									},2000);
 								}
                             });
@@ -153,7 +152,10 @@ let MapComponent = Component({
         },
         initGame: function (self, game) {
             self.game = game;
-            self.styleOfMap = self.noLabelAndBorder;
+		if(game.diff == "1")//easy: no label but have border
+				self.styleOfMap = self.noLabel;
+			else if(game.diff == "2")//difficult: no label or border
+				self.styleOfMap = self.noLabelAndBorder;
             self.markers = [];
             self.cityMarkers = [];
             self.infoWindows = [];
