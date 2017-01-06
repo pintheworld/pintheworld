@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin'); // added by the team
 var helpers = require('./helpers');
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.js', 'html', 'css']
+        extensions: ['', '.js', 'html', 'css'] // deleted .ts and added html and css
     },
 
     module: {
@@ -23,7 +23,7 @@ module.exports = {
                 query: {
                     presets: ['es2015']
                 }
-            },
+            }, // modified from loading ts file to js file
             {
                 test: /\.html$/,
                 loader: 'html'
@@ -56,6 +56,6 @@ module.exports = {
 
         new CopyWebpackPlugin([
             {from: 'public', to: 'public/'}
-        ])
+        ]) // added by the team
     ]
 };
