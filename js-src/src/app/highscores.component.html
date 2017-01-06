@@ -1,8 +1,8 @@
 <main>
-	<h2>Highscores Component</h2>
+<div [style.display]="isSpecial ? 'block' : 'none'">
 	<button type="button" class="btn btn-primary" id="newGame" (click)="startNewGame()">Start Game Again</button>
 	<br/><br/>
-	<div>
+	<div >
 		<h3>Scores For The Game:</h3><br/>
 		<ul class="list-group">
 		<li class="list-group-item" *ngFor="let gamescore of gamescores">
@@ -11,6 +11,7 @@
 		</li>
 		</ul>
 	</div>
+</div>
 	<br/>
 	<div>
 		<h3>Top 10 Highscores</h3><br/>
