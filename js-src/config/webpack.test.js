@@ -1,3 +1,4 @@
+// modified .ts test loader to .js as the project using javascript for frontend
 var helpers = require('./helpers');
 
 module.exports = {
