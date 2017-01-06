@@ -19,26 +19,17 @@ let GamesComponent = Component({
                 this.route = activatedRoute;
                 this.player = null;
                 this.games = [];
-				this.difficulty = null;
+				this.myDifficulty = null;
             }],
-		easy: function() {
-			this.difficulty = 1;
-			console.log(this.difficulty);
-		},
-		difficult: function() {
-			this.difficulty = 2;
-			console.log(this.difficulty);
-		},
         createRoom: function () {
             var self = this;
             if (this.myPlayerName) {
                 this.playerService.createPlayer(this.myPlayerName).subscribe(
                     function (player) {
-						console.log("self.difficulty: " + self.difficulty);
-						if (!self.difficulty) {
-							self.difficulty = 1;
+						if (!self.myDifficulty) {
+							self.myDifficulty = 1;
 						}
-						self.gameService.createGame(player.id, self.difficulty).subscribe(function (game) {
+						self.gameService.createGame(player.id, self.myDifficulty).subscribe(function (game) {
 							console.log("game id: " + game.id + " player id: " + player.id);
 							self.router.navigate(['/room', game.id, player.id]);
 						});
@@ -47,17 +38,15 @@ let GamesComponent = Component({
         },
 		getGames: function () {
             var self = this;
-			if (this.difficulty == 1 || this.difficulty == null) {
+			if (this.myDifficulty == 1 || this.myDifficulty == null) {
 				this.gameService.getWaitingGames(1).subscribe(
 					function (games) {
-						console.log(games);
 						self.games = games;
 					});
 			}
             else {
 				this.gameService.getWaitingGames(2).subscribe(
 					function (games) {
-						console.log(games);
 						self.games = games;
 					});
 			}
@@ -66,7 +55,6 @@ let GamesComponent = Component({
             var self = this;
             if (this.myPlayerName) {
                 this.playerService.createPlayer(this.myPlayerName).subscribe(function (player) {
-                    console.log(player);
                     self.gameService.join(player.id, game_id).subscribe(function () {
                         self.router.navigate(['/room', game_id, player.id]);
                     });
