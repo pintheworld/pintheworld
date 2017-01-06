@@ -181,7 +181,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Salzburg\",\n\t\"lat\": 47.8095,\n\t\"long\": 13.0550,\n\t\"difficulty\": 1\n}"
+					"raw": "{\n\t\"name\": \"Salzburg\",\n\t\"lat\": 47.8095,\n\t\"long\": 13.0550,\n\t\"difficulty\": 2\n}"
 				},
 				"description": ""
 			},
@@ -201,7 +201,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Trondheim\",\n\t\"lat\": 51.509865,\n\t\"long\": -0.118092,\n\t\"difficulty\": 1\n}"
+					"raw": "{\n\t\"name\": \"Trondheim\",\n\t\"lat\": 51.509865,\n\t\"long\": -0.118092,\n\t\"difficulty\": 2\n}"
 				},
 				"description": ""
 			},
@@ -221,7 +221,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Tucson\",\n\t\"lat\": 32.2217,\n\t\"long\": -110.9265,\n\t\"difficulty\": 1\n}"
+					"raw": "{\n\t\"name\": \"Tucson\",\n\t\"lat\": 32.2217,\n\t\"long\": -110.9265,\n\t\"difficulty\": 2\n}"
 				},
 				"description": ""
 			},

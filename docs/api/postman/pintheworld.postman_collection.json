@@ -126,7 +126,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"player_id\": \"{{created_player}}\",\n\t\"difficulty\": 1\n}"
+					"raw": "{\n\t\"player_id\": \"{{created_player}}\",\n\t\"difficulty\": 2\n}"
 				},
 				"description": ""
 			},
