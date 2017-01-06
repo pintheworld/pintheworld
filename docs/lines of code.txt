@@ -1,0 +1,54 @@
+SourceA/python:
+	- appengine_config.py	7
+	- main.py		25
+	- model.py		27
+	- resources.py		152
+	- scoring.py		20
+SourceA/javascript:
+	- channel.service.js		16
+	- city.service.js		30
+	- game.service.js		58
+	- guess.service.js		26
+	- highscore.service.js		23
+	- player.service.js		37
+	- app.component.js		13
+	- app.module.js 		51
+	- games.component.js		67
+	- highscores.component.js	57
+	- home.component.js		11
+	- map.component.js		202
+	- player.component.js		33
+	- room.component.js		46
+SourceA/misc:
+	- app.yaml			14
+	- index.yaml			6
+	- requirements.txt		6
+	- styles.css			3
+	- app.component.html		21
+	- games.component.html		48
+	- highscores.component.css	37
+	- highscores.component.html	25
+	- home.component.html		3
+	- map.component.html		54
+	- map.component.css		26
+	- player.component.html		19
+	- room.component.html		15
+	- index.html			12
+	- .eslintrc.json		29
+
+Lines in SourceA: 1219
+
+SourceB/python:
+SourceB/javascript:
+	- webpack.dev.js		2
+	- vendor.js			2
+	- webpack.common.js		10
+	- webpack.test.js		5
+	- main.js			4
+SourceB/misc:
+	- package.json			11
+
+Lines in SourceB: 80
+
+
+Total lines written by team: 1299
