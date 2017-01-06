@@ -5,12 +5,9 @@
 import {Component, Inject} from '@angular/core';
 
 import mapTemplate from './map.component.html';
-
 import '../../public/css/styles.css';
-import pin from '../../public/img/pin.png';
-import yellowM from '../../public/img/yellow_MarkerC.png';
-import blueM from '../../public/img/blue_MarkerC.png';
 import mapStyling from './map.component.css';
+
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {GameService} from './services/game.service';
 import {PlayerService} from './services/player.service';
@@ -33,6 +30,8 @@ let MapComponent = Component({
                 this.playerService = playerService;
                 this.guessService = guessService;
                 this.channelService = channelService;
+                this.router = router;
+                this.route = activatedroute;
 
                 this.cities = [];
                 this.markers = [];
@@ -55,8 +54,6 @@ let MapComponent = Component({
                 this.guessesReceived = 0;
                 this.game = null;
                 this.player = null;
-                this.router = router;
-                this.route = activatedroute;
 
                 this.roundTimer = 10;//Timer in the round
                 this.breakTimer = 3;//Breaks between rounds
@@ -68,7 +65,9 @@ let MapComponent = Component({
         mapClicked: function (e) {
             if (!this.responseTaken) {
                 this.responseTaken = true;
-                this.msg = 'waiting for other players...';
+				var self = this;
+				if(self.game.players.length > 1)//only for multiple players
+					this.msg = 'waiting for other players...';
                 clearInterval(this.rndTimer);
 
                 var pin1 = this.getPinImage(this, this.player.id);
@@ -79,11 +78,10 @@ let MapComponent = Component({
                 });
 
                 var currentCity = this.game.cities[this.currentRound];
-                var self = this;
                 this.guessService
                     .submitGuess(this.game.id, this.player.id, currentCity.id, e == null ? 200 : e.coords.lat, e == null ? 200 : e.coords.lng, this.roundTimer)
                     .subscribe(function (guess) {
-                        self.guessResponse(self, currentCity, guess);
+						self.currentScore += guess.score;
                     });
             }
         },
@@ -125,14 +123,7 @@ let MapComponent = Component({
                                 isOpen: 'true',
                                 details: currentCity.name
                             });
-
-                            if (self.currentRound <= self.markers.length) {
-                                self.startCountdown(1);//Initialize Break timer
-                            } else {
-                                //Game ended, navigate to highscore page
-                                this.gameEnded = true;
-                                self.router.navigate(['/highscores', self.game.id, self.player.id])
-                            }
+							
                             self.guessService.getAllGuesses(self.game.id).subscribe(function (guesses) {
                                 for (var i = 0; i < guesses.length; i++) {
                                     if ((guesses[i].player.id != self.player.id) && (guesses[i].city.id == currentCity.id)) {
@@ -140,6 +131,15 @@ let MapComponent = Component({
                                         self.playerMarkers.push({lat: guesses[i].lat, lng: guesses[i].long, img: pin2});
                                     }
                                 }
+								if (self.currentRound < (self.game.cities.length - 1)) {//first few rounds
+									self.startCountdown(1);//Initialize Break timer
+								} else {
+									//Game ended(last round), navigate to highscore page
+									this.gameEnded = true;
+									setTimeout(function () {
+										self.router.navigate(['/highscores', self.game.id, self.player.id]);
+									},2000);
+								}
                             });
                         }
                     },
@@ -165,9 +165,6 @@ let MapComponent = Component({
             self.msg = '';
             self.startCountdown(0);//Initialize Round timer
         },
-        guessResponse: function (self, currentCity, guess) {
-            self.currentScore += guess.score;
-        },
         getPinImage: function (self, player_id) {
             var colorNo = self.game.players.findIndex(function (x) {
                 return x.id === player_id;
@@ -180,7 +177,7 @@ let MapComponent = Component({
         },
         handleCountdown: function (counterType) {
             var self = this;
-            if (counterType === 0) {//Round timer, countdown from 10 during a round
+            if (counterType === 0) {//Round timer, countdown from 30 during a round
                 if (this.roundTimer === 0 && !this.gameEnded) {
                     self.mapClicked(null);
                 } else {

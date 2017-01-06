@@ -31,7 +31,9 @@ let GamesComponent = Component({
                             self.router.navigate(['/room', game.id, player.id]);
                         });
                     });
-            }
+            } else {
+				alert("Please enter your player name first :)");
+			}
         },
 		getGames: function () {
             var self = this;
