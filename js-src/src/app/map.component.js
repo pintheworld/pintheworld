@@ -154,7 +154,10 @@ let MapComponent = Component({
         },
         initGame: function (self, game) {
             self.game = game;
-            self.styleOfMap = self.noLabelAndBorder;
+		if(game.diff == "1")//easy: no label but have border
+				self.styleOfMap = self.noLabel;
+			else if(game.diff == "2")//difficult: no label or border
+				self.styleOfMap = self.noLabelAndBorder;
             self.markers = [];
             self.cityMarkers = [];
             self.infoWindows = [];
