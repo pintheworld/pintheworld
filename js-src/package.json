@@ -1,8 +1,3 @@
-/*
-* added dev-build and eslint in scripts to run the project in command prompt using these scripts
-* modified name and url of this project
-* added bootstrap, angular google map, eslint and other dependencies.
-*/
 {
   "name": "PintheWorld",
   "version": "0.0.1",

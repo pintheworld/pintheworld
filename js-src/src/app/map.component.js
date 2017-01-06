@@ -136,7 +136,8 @@ let MapComponent = Component({
 									//Game ended(last round), navigate to highscore page
 									this.gameEnded = true;
 									setTimeout(function () {
-										self.router.navigate(['/highscores', self.game.id, self.player.id, self.game.diff])
+										self.router.navigate(['/highscores', self.game.id, self.player.id, self.game.diff]);
+										socket.close();
 									},2000);
 								}
                             });
@@ -145,9 +146,10 @@ let MapComponent = Component({
                     'onerror': function () {
                     },
                     'onclose': function () {
+						console.log("channel closed");
                     }
                 };
-                channel.open(handler);
+                var socket = channel.open(handler);
             });
         },
         initGame: function (self, game) {
