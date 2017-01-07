@@ -42,7 +42,7 @@ let MapComponent = Component({
                 this.playerMarkers = [];//Other players' markers after each round
                 this.playerMarker = [];//Used to store name and marker color of each player
                 this.styleOfMap = [];
-                this.pinColors = ['008000', '0000FF', 'FFFF00', 'FFA500']; //colors used for markers: yellow, orange, green, blue
+                this.pinColors = ["0000FF", "008000", "B21E1E", "CEC510","B51E8F"]; //colors used for markers:
                 this.pinLetters = '12345';
                 this.msg = '';
 

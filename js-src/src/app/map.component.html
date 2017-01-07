@@ -1,9 +1,9 @@
 <div class="row" style="height: 43px">
     <div class="col-sm-3">
-        <h4><span class="tag tag-default">Score</span> {{currentScore.toFixed(2)}}</h4>
+        <h4><span class="badge">Score</span> {{currentScore.toFixed(2)}}</h4>
     </div>
     <div class="col-md-6 city-label">
-        <h2 *ngIf="currentRound >= 0">{{game.cities[currentRound].name}}</h2>
+        <h2 *ngIf="currentRound >= 0">Pin <span class="gameType"> {{game.cities[currentRound].name}}</span></h2>
     </div>
     <div class="col-sm-3 msg">
         {{msg}}

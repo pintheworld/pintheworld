@@ -1,15 +1,24 @@
 <div>
+	<br>
     <div class="row">
         <h4>Wait for other players...</h4>
-        or start game now to start a single player game
+		<ul>
+			<li>For <span class="gameType">single player</span>, press <span class="gameTag">Start game</span> without anyone entering the room !</li><br>
+			<li>For <span class="gameType">multi player</span>, wait for other players then <span class="gameTag">Start game</span> whenever you want !</li>
+		</ul>
     </div>
+	<br>
     <div class="row">
-        <h5>Players: </h5>
-        <ul *ngFor="let player of players; let i of index">
-            <li [innerHTML]="player.name"></li>
+        <h4>Players: </h4>
+		<br>
+        <ul *ngFor="let player of players; let i= index">
+            <!-- <li> <span ng-style="{'color':'red' }">Player {{i}}</span> : {{player.name}} </li> -->
+			<!-- <li> <p style="color:{{playerColors[i]}}</code>">Player {{i}}</p> : {{player.name}} </li>-->
+			<li> Player {{i+1}} : {{player.name}} </li>
         </ul>
     </div>
     <div class="row">
+		<br>
         <button type="button" class="btn btn-primary" (click)="start()">Start game</button>
     </div>
 </div>

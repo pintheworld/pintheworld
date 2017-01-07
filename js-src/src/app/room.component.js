@@ -12,6 +12,7 @@ let RoomComponent = Component({
     .Class({
         constructor: [GameService, PlayerService, Router, ActivatedRoute,
             function (gameService, playerService, router, activatedRoute) {
+				this.playerColors = ["#0000FF", "#008000", "#B21E1E", "#CEC510","#B51E8F"]; //colors used for markers:
                 this.gameService = gameService;
                 this.playerService = playerService;
                 this.router = router;
