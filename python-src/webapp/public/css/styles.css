@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Abel');
+body {
+    color: #333;
+}
+.mainBackground{
+		  background: blue; /* For browsers that do not support gradients */
+		  background: -webkit-linear-gradient(left,rgba(255,0,0,0),rgba(146, 187, 252,1)); /*Safari 5.1-6*/
+		  background: -o-linear-gradient(right,rgba(255,0,0,0),rgba(146, 187, 252,1)); /*Opera 11.1-12*/
+		  background: -moz-linear-gradient(right,rgba(255,0,0,0),rgba(146, 187, 252,1)); /*Fx 3.6-15*/
+		  background: linear-gradient(to right, rgba(255,0,0,0), rgba(146, 187, 252,1)); /*Standard*/
+	}
+html *
+{
+   font-family: Abel !important;
+}
+.gameTag{
+	color: #1e3666;
+	font-weight: bold;
+}
+.gameType{
+	color: #9e0b0b;
+	font-weight: bold;
+}
+.noOfPlayers{
+	font-weight: bold;
+}

@@ -1,28 +1,46 @@
-<div>
-    <h4>Games: </h4>
+<div class='container'>
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="player name..." [(ngModel)]="myPlayerName">
-            </div>
-        </div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-primary" (click)="createRoom()">Create new game</button>
-        </div>
-    </div>
-
-    <!--<join-component></join-component>-->
+	<div class="container">
+	<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet'  type='text/css'>
+	<br>
+	<h4>Instructions:</h4>
+	<ul>
+		<li>Write down your player name</li>
+		<li>For <span class="gameType">single player</span>, press <span class="gameTag">Create new game</span> then immediately start game</li><br>
+		<li>For <span class="gameType">multi player</span>, either create a game with <span class="gameTag">Create new game</span> then wait for players then </li>
+		<p style="margin-left: 6.32em">or search for an active game with <span class="gameTag">Search for games</span> then <span class="gameTag">Join</span></p>
+		<li>When the game starts, pin the location on map you think is closest to the target city</li>
+		<li>After 3 rounds, you will be redirected to <span class="noOfPlayers">Highscores</span> page to see how well you did !</li>
+	</ul>
+	</div>
+	
+	<br>
+	<h4>Enter Player Name: </h4>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="input-group" style="width:330px">
+				<input type="text" class="form-control input-lg" placeholder="Player name goes here" [(ngModel)]="myPlayerName">
+			</div>
+		</div>
+		
+	</div><br>
+	<!--<join-component></join-component>-->
 	<div class="row">
 		<div class="col-sm-2">
 			<button type="button" class="btn btn-primary" (click)="getGames()">Search for Games</button>
 		</div>
-	</div>
-		<div *ngFor="let game of games" class="row">
-			<span class="col-sm-3">Game created by: {{game.players[0].name}}</span>
-			<span class="col-sm-3">Number of players: {{game.players.length}}</span>
-			<div class="col-sm-2">
-				<button type="button" (click)="join(game.id)" class="btn btn-primary">Join</button>
-			</div>
+		<div class="col-sm-2">
+			<button type="button" class="btn btn-primary" (click)="createRoom()">Create new game</button>
 		</div>
+	</div>
+	<br>
+	<div *ngFor="let game of games" class="row">
+		<span class="col-sm-3">Game created by: <span class="noOfPlayers">{{game.players[0].name}}</span></span>
+		<span class="col-sm-3">Number of players: <span class="noOfPlayers">{{game.players.length}}</span></span>
+		<div class="col-sm-2">
+			<button type="button" (click)="join(game.id)" class="btn btn-primary">Join</button>
+		</div>
+	</div>
 </div>
+
+
