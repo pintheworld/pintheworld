@@ -1,5 +1,6 @@
 .idea/
 python-src/lib/
+python-src/webapp/
 
 *.pyc
 js-src/node_modules/
