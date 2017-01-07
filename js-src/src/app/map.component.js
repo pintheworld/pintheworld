@@ -2,13 +2,13 @@
  We'll add all the code artifacts to this one global object.
  Most application files export one thing by adding that thing to the app namespace. Our app.component.js file exports the AppComponent.
  */
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 
 import mapTemplate from './map.component.html';
 import '../../public/css/styles.css';
 import mapStyling from './map.component.css';
 
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {GameService} from './services/game.service';
 import {PlayerService} from './services/player.service';
 import {GuessService} from './services/guess.service';
@@ -47,9 +47,9 @@ let MapComponent = Component({
                 this.msg = '';
 
                 // TODO: determine the style of each level and add more styles here
-                this.noLabel = [{"elementType": 'labels', "stylers": [{"visibility": 'off'}]}];
-                this.noLabelAndBorder = [{"elementType": "geometry.stroke", "stylers": [{"visibility": "off"}]},
-                    {"elementType": "labels", "stylers": [{"visibility": "off"}]}];
+                this.noLabel = [{'elementType': 'labels', 'stylers': [{'visibility': 'off'}]}];
+                this.noLabelAndBorder = [{'elementType': 'geometry.stroke', 'stylers': [{'visibility': 'off'}]},
+                    {'elementType': 'labels', 'stylers': [{'visibility': 'off'}]}];
 
                 this.currentRound = -1;
                 this.currentScore = 0;
@@ -110,7 +110,8 @@ let MapComponent = Component({
             this.msgTimer = setInterval(function () {
                 self.messageService.getMessages(player_id, self.game.id).subscribe(function (data) {
                     for (var i = 0; i < data.length; i++) {
-                        console.warn(data[i]);
+                        // Uncomment for testing purposes
+                        // console.warn(data[i]);
                         self.handleIncomingMessage(self, data[i]);
                     }
                 });
@@ -168,9 +169,9 @@ let MapComponent = Component({
         },
         initGame: function (self, game) {
             self.game = game;
-            if (game.diff == "1")//easy: no label but have border
+            if (game.diff == '1')//easy: no label but have border
                 self.styleOfMap = self.noLabel;
-            else if (game.diff == "2")//difficult: no label or border
+            else if (game.diff == '2')//difficult: no label or border
                 self.styleOfMap = self.noLabelAndBorder;
             self.markers = [];
             self.cityMarkers = [];
@@ -187,7 +188,7 @@ let MapComponent = Component({
             var colorNo = self.game.players.findIndex(function (x) {
                 return x.id === player_id;
             });
-            var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + self.pinLetters[self.currentRound] + "|" + self.pinColors[colorNo],
+            var pinImage = new google.maps.MarkerImage('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + self.pinLetters[self.currentRound] + '|' + self.pinColors[colorNo],
                 new google.maps.Size(28, 40),
                 new google.maps.Point(0, 0),
                 new google.maps.Point(14, 40));//Generate specific pin image of different letters and colors
@@ -227,14 +228,14 @@ let MapComponent = Component({
                 this.roundTimer = 30;
                 self.rndTimer = setInterval(function () {
                     self.handleCountdown(counterType);
-                }, 1000)
+                }, 1000);
             }
             if (counterType == 1 && !this.gameEnded) {
                 // Break timer, breaks between games countdown from 3 if it is between rounds
                 this.breakTimer = 3;
                 self.brTimer = setInterval(function () {
                     self.handleCountdown(counterType);
-                }, 1000)
+                }, 1000);
             }
         }
     });
