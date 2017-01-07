@@ -9,7 +9,6 @@ let PlayerComponent = Component({
     template: playerTemplate,
     viewProviders: [GameService, PlayerService]
 })
-
     .Class({
         constructor: [GameService, PlayerService, Router, function (gameService, playerService, router) {
             this.gameService = gameService;
@@ -24,15 +23,16 @@ let PlayerComponent = Component({
             this.playerService.createPlayer(this.myPlayerName).subscribe(
                 function (player) {
                     self.player = player;
-                    console.log("player_id:");
-                    console.log(self.player.id);
-					// TODO: asynchronize now. cannot show player's name when player create a name at the first time
- 					// but can show when more names created
- 					self.playerService.getPlayer(self.player.id).subscribe(
- 						function (p) {
- 							self.thisPlayer = p;
- 						});
- 					self.router.navigate(['', self.player.id]);
+                    // Uncomment for testing purposes
+                    // console.log("player_id:");
+                    // console.log(self.player.id);
+                    // TODO: asynchronize now. cannot show player's name when player create a name at the first time
+                    // but can show when more names created
+                    self.playerService.getPlayer(self.player.id).subscribe(
+                        function (p) {
+                            self.thisPlayer = p;
+                        });
+                    self.router.navigate(['', self.player.id]);
                 });
         }
     });
