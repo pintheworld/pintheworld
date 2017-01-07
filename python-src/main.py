@@ -22,6 +22,8 @@ api.add_resource(GameScoreResource, '/highscores/<game_id>')
 
 api.add_resource(ChannelResource, '/channel')
 
+api.add_resource(MessageResource, '/messages/<player_id>/<game_id>')
+
 
 @app.after_request
 def after_request(response):

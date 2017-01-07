@@ -54,6 +54,7 @@ class GamesResource(Resource):
     def delete(self):
         ndb.delete_multi(Game.query().fetch(keys_only=True))
         ndb.delete_multi(Guess.query().fetch(keys_only=True))
+        ndb.delete_multi(Highscore.query().fetch(keys_only=True))
 
 
 class CityResource(Resource):
@@ -118,7 +119,14 @@ class GuessResource(Resource):
         guess.put()
 
         for player in game.players:
-            channel.send_message(player.urlsafe(), str(Util.to_json(guess, False, False)))
+            # token = Util.get_token(player.urlsafe())
+            # print("sending message to" + token)
+            msg = Messages()
+            msg.player = player
+            msg.game = game_key
+            msg.msg = str(Util.to_json(guess, False, False))
+            msg.put()
+            # channel.send_message(token, str(Util.to_json(guess, False, False)))
 
         # TODO this is not stable yet - we have to make sure only one guess per city/player pair can be submitted
         guess_query = Guess.query(Guess.player == player_key, ancestor=game_key)
@@ -163,8 +171,18 @@ class GameScoreResource(Resource):
 class ChannelResource(Resource):
     def post(self):
         request_data = request.get_json()
-        token = channel.create_channel(request_data['channel_id'])
+        player_token = Util.get_token(request_data['channel_id'])
+        token = channel.create_channel(player_token)
         return {'token': token}, 201
+
+
+class MessageResource(Resource):
+    def get(self, player_id, game_id):
+        player_key = ndb.Key(urlsafe=player_id)
+        game_key = ndb.Key(urlsafe=game_id)
+        fetched = Messages.query(Messages.player == player_key, Messages.game == game_key).fetch()
+        ndb.delete_multi([x.key for x in fetched])
+        return Util.to_json(fetched)
 
 
 class Util:
@@ -195,3 +213,7 @@ class Util:
                 dct['id'] = obj.key.urlsafe()
             return Util.to_json(dct, resolve_keys)
         return obj
+
+    @staticmethod
+    def get_token(token):
+        return str(token.__hash__())[0:5]
