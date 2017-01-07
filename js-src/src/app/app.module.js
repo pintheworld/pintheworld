@@ -45,8 +45,8 @@ let AppModule = NgModule({
     bootstrap: [AppComponent],
 }).Class({
     constructor: function () {
-        var $script = require("scriptjs");
-        $script("/_ah/channel/jsapi");
+        var $script = require('scriptjs');
+        $script('/_ah/channel/jsapi');
     }
 });
 
