@@ -1,11 +1,10 @@
-<div class='container'>
-
+<div>
 	<div class="container">
-	<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet'  type='text/css'>
 	<br>
 	<h4>Instructions:</h4>
 	<ul>
 		<li>Write down your player name</li>
+		<li>Select the difficulty</li>
 		<li>For <span class="gameType">single player</span>, press <span class="gameTag">Create new game</span> then immediately start game</li><br>
 		<li>For <span class="gameType">multi player</span>, either create a game with <span class="gameTag">Create new game</span> then wait for players then </li>
 		<p style="margin-left: 6.32em">or search for an active game with <span class="gameTag">Search for games</span> then <span class="gameTag">Join</span></p>
@@ -13,18 +12,35 @@
 		<li>After 3 rounds, you will be redirected to <span class="noOfPlayers">Highscores</span> page to see how well you did !</li>
 	</ul>
 	</div>
-	
-	<br>
-	<h4>Enter Player Name: </h4>
-	<div class="row">
-		<div class="col-sm-6">
-			<div class="input-group" style="width:330px">
-				<input type="text" class="form-control input-lg" placeholder="Player name goes here" [(ngModel)]="myPlayerName">
+	<form>
+		<div class="form-group">
+			<legend>Game mode: </legend>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="radio" class="form-check-input" name="option" [(ngModel)]="myDifficulty"[value]="1">
+					Easy
+				</label>
+			</div>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="radio" class="form-check-input" name="option" [(ngModel)]="myDifficulty"
+						   [value]="2">
+					Difficult
+				</label>
 			</div>
 		</div>
-		
-	</div><br>
-	<!--<join-component></join-component>-->
+	</form>
+</div>
+<div>
+    <h4>Games: </h4>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="input-group" style="width:330px">
+                <input type="text" class="form-control" placeholder="player name..." [(ngModel)]="myPlayerName">
+            </div>
+        </div>
+    </div>
+	<br>
 	<div class="row">
 		<div class="col-sm-2">
 			<button type="button" class="btn btn-primary" (click)="getGames()">Search for Games</button>
@@ -33,14 +49,13 @@
 			<button type="button" class="btn btn-primary" (click)="createRoom()">Create new game</button>
 		</div>
 	</div>
-	<br>
 	<div *ngFor="let game of games" class="row">
-		<span class="col-sm-3">Game created by: <span class="noOfPlayers">{{game.players[0].name}}</span></span>
-		<span class="col-sm-3">Number of players: <span class="noOfPlayers">{{game.players.length}}</span></span>
+		<span class="col-sm-3">Game created by: {{game.players[0].name}}</span>
+		<span class="col-sm-3">Number of players: {{game.players.length}}</span>
+		<span class="col-sm-3" *ngIf="game.diff==1">Difficulty: Easy</span>
+		<span class="col-sm-3" *ngIf="game.diff==2">Difficulty: Difficult</span>
 		<div class="col-sm-2">
 			<button type="button" (click)="join(game.id)" class="btn btn-primary">Join</button>
 		</div>
 	</div>
 </div>
-
-
