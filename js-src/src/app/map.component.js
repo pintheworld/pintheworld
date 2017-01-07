@@ -114,7 +114,7 @@ let MapComponent = Component({
                         self.handleIncomingMessage(self, data[i]);
                     }
                 });
-            }, 2000);
+            }, 500);
             // this.channelService.createChannel(player_id).subscribe(function (resp) {
             //     console.log("channel_token:");
             //     console.log(resp.token);
