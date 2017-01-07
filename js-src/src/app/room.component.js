@@ -45,6 +45,8 @@ let RoomComponent = Component({
             context.gameService.getGame(context.game_id).subscribe(function (game) {
                 context.game = game;
                 context.players = context.game.players;
+				if(game.state == "running")
+					context.router.navigate(['/map', game.id, context.player_id]);
             });
         }
     });

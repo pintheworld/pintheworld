@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "Pin the World - Cities",
-		"_postman_id": "fdd81241-99a7-4fc5-5fb5-1414ed7d6d1e",
+		"_postman_id": "72a6c6f0-48c2-602b-ecf1-62ff5ae43990",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -162,6 +162,66 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"Bankok\",\n\t\"lat\": 13.7563,\n\t\"long\": 100.5018\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Salzburg (hard)",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Salzburg\",\n\t\"lat\": 47.8095,\n\t\"long\": 13.0550,\n\t\"difficulty\": 2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Trondheim (hard)",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Trondheim\",\n\t\"lat\": 51.509865,\n\t\"long\": -0.118092,\n\t\"difficulty\": 2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Tuscon (hard)",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Tucson\",\n\t\"lat\": 32.2217,\n\t\"long\": -110.9265,\n\t\"difficulty\": 2\n}"
 				},
 				"description": ""
 			},

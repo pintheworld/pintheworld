@@ -52,7 +52,8 @@ let HighscoresComponent = Component({
 		startNewGame: function () {
 			var self = this;
 			var player_id = this.route.snapshot.params['id2'];
-			this.gameService.createGame(player_id).subscribe(function (game) {
+			var difficulty = parseInt(this.route.snapshot.params['id3']);
+			this.gameService.createGame(player_id, difficulty).subscribe(function (game) {
 				self.router.navigate(['/room', game.id, player_id]);
 			});
 		}

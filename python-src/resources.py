@@ -29,8 +29,13 @@ class GameResource(Resource):
 class GamesResource(Resource):
     def get(self):
         args = request.args
-        if 'state' in args:
-            query = Game.query(Game.state == args['state'])
+        if args.get('state'):
+            state = args.get('state')
+            if args.get('diff'):
+                diff = int(args.get('diff'))
+                query = Game.query(Game.state == state, Game.diff == diff)
+            else:
+                query = Game.query(Game.state == state)
         else:
             query = Game.query()
         return Util.to_json(query.fetch())
@@ -39,7 +44,9 @@ class GamesResource(Resource):
         game = Game()
         request_data = request.get_json()
         game.players = [ndb.Key(urlsafe=request_data['player_id'])]
-        game.cities = Util.get_cities(int(request_data.get('number_of_cities', 3)))
+        game.diff = request_data.get('difficulty', 1)
+        game.cities = Util.get_cities(int(request_data.get('number_of_cities', 3)),
+                                      int(request_data.get('difficulty', 1)))
         game.state = GameState.waitingForPlayers
         game.put()
         return Util.to_json(game), 201
@@ -47,6 +54,7 @@ class GamesResource(Resource):
     def delete(self):
         ndb.delete_multi(Game.query().fetch(keys_only=True))
         ndb.delete_multi(Guess.query().fetch(keys_only=True))
+        ndb.delete_multi(Highscore.query().fetch(keys_only=True))
 
 
 class CityResource(Resource):
@@ -59,6 +67,7 @@ class CityResource(Resource):
         city.name = request_data['name']
         city.long = request_data['long']
         city.lat = request_data['lat']
+        city.difficulty = request_data.get('difficulty', 1)
         city.put()
         return {"id": city.key.id()}, 201
 
@@ -110,7 +119,14 @@ class GuessResource(Resource):
         guess.put()
 
         for player in game.players:
-            channel.send_message(player.urlsafe(), str(Util.to_json(guess, False, False)))
+            # token = Util.get_token(player.urlsafe())
+            # print("sending message to" + token)
+            msg = Messages()
+            msg.player = player
+            msg.game = game_key
+            msg.msg = str(Util.to_json(guess, False, False))
+            msg.put()
+            # channel.send_message(token, str(Util.to_json(guess, False, False)))
 
         # TODO this is not stable yet - we have to make sure only one guess per city/player pair can be submitted
         guess_query = Guess.query(Guess.player == player_key, ancestor=game_key)
@@ -155,14 +171,24 @@ class GameScoreResource(Resource):
 class ChannelResource(Resource):
     def post(self):
         request_data = request.get_json()
-        token = channel.create_channel(request_data['channel_id'])
+        player_token = Util.get_token(request_data['channel_id'])
+        token = channel.create_channel(player_token)
         return {'token': token}, 201
+
+
+class MessageResource(Resource):
+    def get(self, player_id, game_id):
+        player_key = ndb.Key(urlsafe=player_id)
+        game_key = ndb.Key(urlsafe=game_id)
+        fetched = Messages.query(Messages.player == player_key, Messages.game == game_key).fetch()
+        ndb.delete_multi([x.key for x in fetched])
+        return Util.to_json(fetched)
 
 
 class Util:
     @staticmethod
-    def get_cities(num):
-        return random.sample(City.query().fetch(keys_only=True), num)
+    def get_cities(num, difficulty):
+        return random.sample(City.query(City.difficulty == difficulty).fetch(keys_only=True), num)
 
     # based on https://stackoverflow.com/a/25871759/1136534
     @staticmethod
@@ -187,3 +213,7 @@ class Util:
                 dct['id'] = obj.key.urlsafe()
             return Util.to_json(dct, resolve_keys)
         return obj
+
+    @staticmethod
+    def get_token(token):
+        return str(token.__hash__())[0:5]

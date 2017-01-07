@@ -6,7 +6,7 @@
 2. `cd` into `js-src/`
 3. Run `npm install` (this might take a while the first time)
 4. Run `npm start` (this will start the local webpack server)
-5. Navigate to `localhost:8080` in your favorite browser
+5. Navigate to `localhost:8081` in your favorite browser
 
 ## How to get the backend up and running
 
@@ -23,4 +23,13 @@ For this to work, the game has to be deployed on the python server, as it will b
 In js-src, run `npm run dev-build`, this will create the sources to /python-src/webapp and keep it up to date as with the dev server
 run the python server as usual, calling http://localhost:8081/ will then be the url of the frontend AND the backend (with /api/)
 
-If `npm run dev-build` fails, try removing the python-src/webapp dir, and run the command again (This should be fixed with PR 85).
+## Files that were modified by the team
+In SourceB/javascript:
+	webpack.dev.js - 2 lines were modified, 10% in this file
+	vendor.js - 2 lines were modified, 22% in this file
+	webpack.common.js - 10 lines were modified, 18% in this file
+	webpack.test.js - 5 lines were modified, 14% in this file
+	main.js - 4 lines were modified, 44% in this file
+In SourceB/misc:
+	package.json - 11 lines modified, 17% in this file
+	

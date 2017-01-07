@@ -19,33 +19,44 @@ let GamesComponent = Component({
                 this.route = activatedRoute;
                 this.player = null;
                 this.games = [];
+				this.myDifficulty = null;
             }],
-
         createRoom: function () {
             var self = this;
             if (this.myPlayerName) {
                 this.playerService.createPlayer(this.myPlayerName).subscribe(
                     function (player) {
-                        self.gameService.createGame(player.id).subscribe(function (game) {
-                            console.log("game id: " + game.id + " player id: " + player.id);
-                            self.router.navigate(['/room', game.id, player.id]);
-                        });
+						if (!self.myDifficulty) {
+							self.myDifficulty = 1;
+						}
+						self.gameService.createGame(player.id, self.myDifficulty).subscribe(function (game) {
+							console.log("game id: " + game.id + " player id: " + player.id);
+							self.router.navigate(['/room', game.id, player.id]);
+						});
                     });
-            }
+            } else {
+				alert("Please enter your player name first :)");
+			}
         },
 		getGames: function () {
             var self = this;
-            this.gameService.getWaitingGames().subscribe(
-                function (games) {
-                    console.log(games);
-                    self.games = games;
-                });
+			if (this.myDifficulty == 1 || this.myDifficulty == null) {
+				this.gameService.getWaitingGames(1).subscribe(
+					function (games) {
+						self.games = games;
+					});
+			}
+            else {
+				this.gameService.getWaitingGames(2).subscribe(
+					function (games) {
+						self.games = games;
+					});
+			}
         },
         join: function (game_id) {
             var self = this;
             if (this.myPlayerName) {
                 this.playerService.createPlayer(this.myPlayerName).subscribe(function (player) {
-                    console.log(player);
                     self.gameService.join(player.id, game_id).subscribe(function () {
                         self.router.navigate(['/room', game_id, player.id]);
                     });
@@ -53,7 +64,6 @@ let GamesComponent = Component({
             } else {
                 alert("Please enter your player name first :)");
             }
-
         }
     });
 
