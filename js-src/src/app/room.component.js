@@ -2,14 +2,13 @@ import {Component} from '@angular/core';
 import {GameService} from './services/game.service';
 import {PlayerService} from './services/player.service';
 import roomTemplate from './room.component.html';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 let RoomComponent = Component({
     selector: 'room-component',
     template: roomTemplate,
     viewProviders: [GameService, PlayerService]
 })
-
     .Class({
         constructor: [GameService, PlayerService, Router, ActivatedRoute,
             function (gameService, playerService, router, activatedRoute) {
@@ -44,8 +43,8 @@ let RoomComponent = Component({
             context.gameService.getGame(context.game_id).subscribe(function (game) {
                 context.game = game;
                 context.players = context.game.players;
-				if(game.state == "running")
-					context.router.navigate(['/map', game.id, context.player_id]);
+                if(game.state == 'running')
+                    context.router.navigate(['/map', game.id, context.player_id]);
             });
         }
     });
