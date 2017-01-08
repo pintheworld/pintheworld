@@ -7,7 +7,8 @@ threadsafe: yes
 handlers:
 - url: /api/.*
   script: main.app
-
+  
+# lines below added by the team
 - url: (.*)/
   static_files: webapp\1/index.html
   upload: webapp

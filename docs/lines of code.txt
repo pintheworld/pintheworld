@@ -1,10 +1,9 @@
 SourceA/python:
-	- appengine_config.py	7
 	- main.py		26
 	- model.py		31
 	- resources.py		168
 	- scoring.py		20
-252
+245
 SourceA/javascript:
 	- channel.service.js		16
 	- city.service.js		30
@@ -23,8 +22,6 @@ SourceA/javascript:
 	- room.component.js		47
 678
 SourceA/misc:
-	- app.yaml			14
-	- index.yaml			6
 	- requirements.txt		6
 	- styles.css			26
 	- app.component.html		19
@@ -39,9 +36,9 @@ SourceA/misc:
 	- room.component.html		22
 	- index.html			12
 	- .eslintrc.json		29
-385
+365
 
-Lines in SourceA: 1315
+Lines in SourceA: 1288
 
 SourceB/python:
 SourceB/javascript:
@@ -52,8 +49,9 @@ SourceB/javascript:
 	- main.js			4
 SourceB/misc:
 	- package.json			11
+	- app.yaml			7
 
-Lines in SourceB: 34
+Lines in SourceB: 41
 
 
-Total lines written by team: 1349
+Total lines written by team: 1329
