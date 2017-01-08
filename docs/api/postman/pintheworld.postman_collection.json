@@ -257,6 +257,20 @@
 			"response": []
 		},
 		{
+			"name": "get cities",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "delete all cities",
 			"request": {
 				"url": "{{url}}/api/cities",
@@ -319,6 +333,63 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"channel_id\": \"some_id\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "make a guess",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": "postman.setEnvironmentVariable(\"game\", \"5629499534213120\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/games/{{game}}/guesses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\": \"4644337115725824\",\n\t\"long\": 2,\n\t\"lat\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get guesses of game",
+			"request": {
+				"url": "{{url}}/api/games/{{game}}/guesses",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete all guesses",
+			"request": {
+				"url": "{{url}}/api/cities",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
 				},
 				"description": ""
 			},
