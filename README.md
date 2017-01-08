@@ -38,7 +38,7 @@ Source: https://angular.io/docs/ts/latest/guide/webpack.html (Angular version ~2
 
 ### Source C Files
 - see package.json for all other sourceC files and specific versions of used npm packages
-- flask library version used (installed via pip requirements.txt) is 0.11.1
+- flask library version used (installed via pip requirements.txt) is 0.11.1, flask-restfull 0.3.5
 - files in the sourceC/javascript files are from https://angular.io/docs/ts/latest/guide/webpack.html (Angular version ~2.1.0, webpack version: ^1.13.0)
 
 	
