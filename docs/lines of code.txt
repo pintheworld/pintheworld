@@ -1,10 +1,9 @@
 SourceA/python:
-	- appengine_config.py	7
 	- main.py		26
 	- model.py		31
 	- resources.py		168
 	- scoring.py		20
-252
+245
 SourceA/javascript:
 	- channel.service.js		16
 	- city.service.js		30
@@ -39,7 +38,7 @@ SourceA/misc:
 	- .eslintrc.json		29
 365
 
-Lines in SourceA: 1295
+Lines in SourceA: 1288
 
 SourceB/python:
 SourceB/javascript:
@@ -55,4 +54,4 @@ SourceB/misc:
 Lines in SourceB: 41
 
 
-Total lines written by team: 1336
+Total lines written by team: 1329
