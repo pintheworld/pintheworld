@@ -1,8 +1,8 @@
 <main>
 	<br>
 	<div class="container">
-		<nav class="navbar navbar">
-			<span class="ptwHeader">Pin the World <img src="/public/img/pin.png" height="32"></span>
+		<nav class="navbar">
+			<h1 class="navbar-brand ptwHeader">Pin the World <img src="/public/img/pin.png" height="32"></h1>
 			<ul class="nav navbar-nav">
 				<li class="nav-item" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
 					<a class="nav-link"><span class="ptwMenuItem">Home</span></a>
@@ -13,7 +13,7 @@
 			</ul>
 		</nav>
 	</div>
-	<div class="container">
+	<div class="container" style="margin-bottom: 30px">
 		<router-outlet></router-outlet>
 	</div>
 </main>
