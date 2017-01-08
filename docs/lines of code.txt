@@ -24,7 +24,6 @@ SourceA/javascript:
 678
 SourceA/misc:
 	- app.yaml			14
-	- index.yaml			6
 	- requirements.txt		6
 	- styles.css			26
 	- app.component.html		19
@@ -39,9 +38,9 @@ SourceA/misc:
 	- room.component.html		22
 	- index.html			12
 	- .eslintrc.json		29
-385
+379
 
-Lines in SourceA: 1315
+Lines in SourceA: 1309
 
 SourceB/python:
 SourceB/javascript:
@@ -56,4 +55,4 @@ SourceB/misc:
 Lines in SourceB: 34
 
 
-Total lines written by team: 1349
+Total lines written by team: 1343
