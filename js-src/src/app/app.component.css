@@ -1,0 +1,13 @@
+.ptwHeader{
+	font-weight: bold;
+	font-size: 40px;
+	color: #1f2e44;
+}
+.ptwMenuItem{
+	font-weight: bold;
+	font-size: 22px;
+	cursor: pointer;
+}
+.navbar-nav{
+	margin-top: 13px;
+}

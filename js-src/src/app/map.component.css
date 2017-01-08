@@ -2,6 +2,8 @@
     margin-top: 10px;
     margin: auto;
     width: 100%;
+	border-style:solid;
+	border-width:1px;
 }
 
 .players-legend {
@@ -29,4 +31,19 @@ p {
 .player-icon {
     height: 18px;
     margin-right: 5px;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #1f2e44;
+  border-radius: 10px;
 }

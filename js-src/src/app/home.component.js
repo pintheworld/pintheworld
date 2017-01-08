@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import homeTemplate from './home.component.html'
+import homeTemplate from './home.component.html';
 
 
 let HomeComponent = Component({

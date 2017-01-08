@@ -5,8 +5,8 @@
 1. Make sure you have `npm` installed
 2. `cd` into `js-src/`
 3. Run `npm install` (this might take a while the first time)
-4. Run `npm start` (this will start the local webpack server)
-5. Navigate to `localhost:8081` in your favorite browser
+4. Run `npm run dev-build` (this will build the js files into /python-src/webapp and keep it up to date )
+5. Start up the backend and navigate to the local GAE server instance
 
 ## How to get the backend up and running
 
@@ -17,11 +17,7 @@
 5. import postman collections from ./doc/postman/ into postman and set up a `url` environment variable (should probably be http://localhost:8080)
 6. run the "Pin the World - Cities" collection to create some cities
 7. run the "Pin the World - Test All" collection (all tests should succeed)
-
-## Multi-player
-For this to work, the game has to be deployed on the python server, as it will be in production.
-In js-src, run `npm run dev-build`, this will create the sources to /python-src/webapp and keep it up to date as with the dev server
-run the python server as usual, calling http://localhost:8081/ will then be the url of the frontend AND the backend (with /api/)
+8. open a browser and navigate to the local GAE server to open the frontend (http://localhost:8080)
 
 ## Files that were modified by the team
 In SourceB/javascript:

@@ -34,7 +34,13 @@ class Game(ndb.Model):
     diff = ndb.IntegerProperty()
 
 
-class GameState():
+class Messages(ndb.Model):
+    player = ndb.KeyProperty(kind=Player)
+    game = ndb.KeyProperty(kind=Game)
+    msg = ndb.StringProperty()
+
+
+class GameState:
     waitingForPlayers = 'waitingForPlayers'
     running = 'running'
     done = 'done'

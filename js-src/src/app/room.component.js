@@ -2,17 +2,17 @@ import {Component} from '@angular/core';
 import {GameService} from './services/game.service';
 import {PlayerService} from './services/player.service';
 import roomTemplate from './room.component.html';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 let RoomComponent = Component({
     selector: 'room-component',
     template: roomTemplate,
     viewProviders: [GameService, PlayerService]
 })
-
     .Class({
         constructor: [GameService, PlayerService, Router, ActivatedRoute,
             function (gameService, playerService, router, activatedRoute) {
+				this.playerColors = ["#0000FF", "#008000", "#B21E1E", "#CEC510","#B51E8F"]; //colors used for markers:
                 this.gameService = gameService;
                 this.playerService = playerService;
                 this.router = router;
@@ -44,8 +44,8 @@ let RoomComponent = Component({
             context.gameService.getGame(context.game_id).subscribe(function (game) {
                 context.game = game;
                 context.players = context.game.players;
-				if(game.state == "running")
-					context.router.navigate(['/map', game.id, context.player_id]);
+                if(game.state == 'running')
+                    context.router.navigate(['/map', game.id, context.player_id]);
             });
         }
     });

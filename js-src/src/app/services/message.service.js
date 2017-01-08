@@ -1,18 +1,18 @@
 import {Class} from '@angular/core';
 import {Http} from '@angular/http';
 
-var ChannelService = Class({
+var MessageService = Class({
     constructor: [Http, function (http) {
         this.http = http;
-        this.baseUrl = '/api/channel';
+        this.baseUrl = '/api/messages';
     }],
-    createChannel: function (channel_id) {
-        return this.http.post(this.baseUrl, {channel_id}).map(
+    getMessages: function (player_id, game_id) {
+        return this.http.get(this.baseUrl + '/' + player_id + '/' + game_id).map(
             function (res) {
                 return res.json();
             }
         );
-    },
+    }
 });
 
-export {ChannelService};
+export {MessageService};
