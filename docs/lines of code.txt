@@ -23,7 +23,6 @@ SourceA/javascript:
 	- room.component.js		47
 678
 SourceA/misc:
-	- app.yaml			14
 	- requirements.txt		6
 	- styles.css			26
 	- app.component.html		19
@@ -38,9 +37,9 @@ SourceA/misc:
 	- room.component.html		22
 	- index.html			12
 	- .eslintrc.json		29
-379
+365
 
-Lines in SourceA: 1309
+Lines in SourceA: 1295
 
 SourceB/python:
 SourceB/javascript:
@@ -51,8 +50,9 @@ SourceB/javascript:
 	- main.js			4
 SourceB/misc:
 	- package.json			11
+	- app.yaml			7
 
-Lines in SourceB: 34
+Lines in SourceB: 41
 
 
-Total lines written by team: 1343
+Total lines written by team: 1336

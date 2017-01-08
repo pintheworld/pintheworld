@@ -28,4 +28,4 @@ In SourceB/javascript:
 	main.js - 4 lines were modified, 44% in this file
 In SourceB/misc:
 	package.json - 11 lines modified, 17% in this file
-	
+	app.yaml - 7 lines modified, 50% in this file
