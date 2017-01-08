@@ -4,6 +4,7 @@ SourceA/python:
 	- model.py		31
 	- resources.py		168
 	- scoring.py		20
+252
 SourceA/javascript:
 	- channel.service.js		16
 	- city.service.js		30
@@ -14,30 +15,33 @@ SourceA/javascript:
 	- player.service.js		37
 	- app.component.js		13
 	- app.module.js 		49
-	- games.component.js		67
+	- games.component.js		66
 	- highscores.component.js	57
 	- home.component.js		11
-	- map.component.js		199
-	- player.component.js		33
-	- room.component.js		46
+	- map.component.js		198
+	- player.component.js		31
+	- room.component.js		47
+678
 SourceA/misc:
 	- app.yaml			14
 	- index.yaml			6
 	- requirements.txt		6
-	- styles.css			3
-	- app.component.html		21
-	- games.component.html		48
+	- styles.css			26
+	- app.component.html		19
+	- app.component.css		13
+	- games.component.html		58
 	- highscores.component.css	37
 	- highscores.component.html	25
 	- home.component.html		3
 	- map.component.html		54
-	- map.component.css		26
+	- map.component.css		42
 	- player.component.html		19
-	- room.component.html		15
+	- room.component.html		22
 	- index.html			12
 	- .eslintrc.json		29
+385
 
-Lines in SourceA: 1251
+Lines in SourceA: 1315
 
 SourceB/python:
 SourceB/javascript:
@@ -52,4 +56,4 @@ SourceB/misc:
 Lines in SourceB: 34
 
 
-Total lines written by team: 1285
+Total lines written by team: 1349
